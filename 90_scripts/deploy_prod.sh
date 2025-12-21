@@ -9,7 +9,7 @@ set -Eeuo pipefail
 ENV="prod"
 TERRAFORM_DIR="10_terraform/envs/prod"
 ANSIBLE_DIR="20_ansible"
-ANSIBLE_PLAYBOOK="site.yml"
+ANSIBLE_PLAYBOOK="playbooks/homelab.yml"
 ANSIBLE_INVENTORY="inventories/prod"
 
 SCRIPT_NAME="$(basename "$0")"
