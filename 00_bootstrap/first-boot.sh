@@ -57,10 +57,10 @@ BTRFS_MNT="/mnt/pve"
 
 SLOG_DISK="/dev/disk/by-id/ata-CT120BX500SSD1_2036E40EFFF9"
 
-IAC_TEMPLATE_ID=9001
-IAC_TEMPLATE_NAME="tmpl-ubuntu-22-iac"
+IAC_TEMPLATE_ID=90001
+IAC_TEMPLATE_NAME="prod-ubuntu-22"
 IAC_STORAGE="local-btrfs"
-IAC_BRIDGE="vmbr1"
+IAC_BRIDGE="vmbr0"
 
 CLOUD_IMG_URL="https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
 CLOUD_IMG_PATH="/var/lib/vz/template/iso/jammy-server-cloudimg-amd64.img"
