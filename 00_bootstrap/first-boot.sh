@@ -203,7 +203,7 @@ dir: local-btrfs
 
 dir: iso-btrfs
         path /mnt/pve/iso
-        content iso
+        content iso,images,import,backup,vztmpl
 
 dir: scratch-local
         path /mnt/pve/scratch-local
