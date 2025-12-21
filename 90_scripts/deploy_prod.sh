@@ -62,7 +62,7 @@ else
 fi
 
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
-if [[ "$CURRENT_BRANCH" != "main" ]]; then
+if [[ "$CURRENT_BRANCH" != "master" ]]; then
   die "Refusing to deploy prod from branch '$CURRENT_BRANCH'"
 fi
 
