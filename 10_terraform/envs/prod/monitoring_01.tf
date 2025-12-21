@@ -24,9 +24,8 @@ resource "proxmox_virtual_environment_vm" "monitoring_01" {
   }
 
   disk {
-    datastore_id = "local-btrfs"
-    size         = 20
     interface    = "scsi0"
+    size         = 20
   }
 
   network_device {
