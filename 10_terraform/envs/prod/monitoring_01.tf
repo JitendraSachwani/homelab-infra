@@ -3,8 +3,14 @@ resource "proxmox_virtual_environment_vm" "monitoring_01" {
   name   = "prod-monitoring-01"
   node_name = "pve"
 
-  clone {
-    vm_id = 9001
+  initialization {
+    datastore_id = "local-btrfs"
+
+    ip_config {
+      ipv4 {
+        address = "dhcp"
+      }
+    }
   }
 
   tags = [
@@ -24,6 +30,8 @@ resource "proxmox_virtual_environment_vm" "monitoring_01" {
   }
 
   disk {
+    import_from  = proxmox_virtual_environment_download_file.latest_ubuntu_22_jammy_qcow2_img.id
+    datastore_id = "local-btrfs"
     interface    = "scsi0"
     size         = 20
   }
@@ -36,11 +44,13 @@ resource "proxmox_virtual_environment_vm" "monitoring_01" {
     type = "l26"
   }
 
-  initialization {
-    ip_config {
-      ipv4 {
-        address = "dhcp"
-      }
-    }
-  }
+}
+
+resource "proxmox_virtual_environment_download_file" "latest_ubuntu_22_jammy_qcow2_img" {
+  content_type = "import"
+  datastore_id = "iso-btrfs"
+  node_name    = "pve"
+  url = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.img"
+  # need to rename the file to *.qcow2 to indicate the actual file format for import
+  file_name = "jammy-server-cloudimg-amd64.qcow2"
 }
