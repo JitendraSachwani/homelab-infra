@@ -3,6 +3,10 @@ resource "proxmox_virtual_environment_vm" "monitoring_01" {
   name   = "prod-monitoring-01"
   node_name = "pve"
 
+  clone {
+    vm_id = 9001
+  }
+
   tags = [
     "env-prod",
     "managed_by-terraform",
