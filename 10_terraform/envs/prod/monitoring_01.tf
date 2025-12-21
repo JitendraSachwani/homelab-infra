@@ -4,11 +4,11 @@ resource "proxmox_virtual_environment_vm" "monitoring_01" {
   node_name = "pve"
 
   tags = [
-    "env:prod",
-    "managed_by:terraform",
-    "role:monitoring",
-    "template:ubuntu-22",
-    "template_version:1"
+    "env-prod",
+    "managed_by-terraform",
+    "role-monitoring",
+    "template-ubuntu22",
+    "template_version-v1"
   ]
 
   cpu {
