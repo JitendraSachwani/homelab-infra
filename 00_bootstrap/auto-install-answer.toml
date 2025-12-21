@@ -1,0 +1,49 @@
+# =======================================
+#  Proxmox VE 9 Automated Install (ODROID)
+# =======================================
+
+[global]
+country = "in"
+fqdn = "pve.local"
+mailto = "admin@localserver.stream"
+keyboard = "en-us"
+timezone = "Asia/Kolkata"
+root-password-hashed = "$y$j9T$QZPKYgkMqiVP9uPzAW/EU/$qmfYfcHT8kSw8Xs4SlSc9/AdodUDR926/N/mPLrvv05"
+root-ssh-keys = [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDYkMRx4ynSGF9pCQvJgbk+Ff4i9xI72I5WNAm5I7y49GajmIwUQ5YGwLsq4BWf27aCV7gktZT90dtxVV8uI16jQkaAxZoxOcX4dsYEa/25nlabkBm6vvDRW+m46D6S4L5RSI5LRIZiRhggSiFmhX50SC+h1TajNcxfZj9qTsm/7iho1/AV80aelOH5iE1u68VIk1NWr4mZ4cxF+k8UlXFzVNkYE28ulFdbjEv2xHyQTAgbUDgqRkMoTHA5sowpossk54pyGcU94GxCRPORAsZSLQqar2HoLeG3yRs3q8rzX9RrDv8+lf+9y2+LNCbDN31r3W/yH8iJJ1rVpkoSLnX+IOORWMPE3fji7KpSmyLElPeJQAOVRP4n2ZzWae6HIiKLg14O1YTq7C/uC7XlKSXtSFoHWGpfwskb6ZGu8dlzZ5+WRkwxJXQD+QeyJBXgy0r/zN2yix+BmGTpK/+oWe4tcx0b7NzBY1Sg7FF465oKyTExb9HkZLYHlmKPtKWisO0= sachw@DESKTOP-5JGQPLC"
+]
+
+# ---------- Network ----------
+# vmbr0 = Management bridge (192.168.1.2)
+# vmbr1 = NAS bridge (192.168.1.3)
+
+[network]
+source = "from-answer"
+cidr = "192.168.1.2/24"
+dns = "192.168.1.1"
+gateway = "192.168.1.1"
+filter.ID_NET_NAME_MAC = "*001e0645d048"
+
+[network.interface-name-pinning]
+enabled = true
+
+[network.interface-name-pinning.mapping]
+"00:1E:06:45:D0:48" = "mgmt"
+"00:1E:06:45:D0:49" = "nas"
+
+# ---------- Storage ----------
+
+[disk-setup]
+
+filesystem = "btrfs"
+btrfs.raid = "raid1"
+# btrfs.compress = ""
+filter.ID_MODEL = "CT1000BX500SSD1"
+
+# disk1 = "/dev/disk/by-id/ata-CT1000BX500SSD1_2038E4B1A80D"
+# disk2 = "/dev/disk/by-id/ata-CT1000BX500SSD1_2038E4B1B200"
+
+# ---------- First Boot Script ----------
+
+[first-boot]
+source = "from-iso"
