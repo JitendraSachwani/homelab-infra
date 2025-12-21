@@ -5,9 +5,7 @@ resource "proxmox_virtual_environment_vm" "monitoring_01" {
   tags = concat(
     local.common_tags,
     [
-      "role-monitoring",
-      "template-ubuntu22",
-      "template_version-v1"
+      "role-monitoring"
     ]
   )
 
