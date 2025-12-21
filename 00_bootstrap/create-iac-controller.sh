@@ -5,7 +5,7 @@ set -Eeuo pipefail
 # CONFIG
 # ============================================================
 
-VM_ID=9100
+VM_ID=10001
 VM_NAME="iac-controller"
 
 TEMPLATE_ID=9001
@@ -21,6 +21,8 @@ CLOUDINIT_FILE="${SNIPPETS_DIR}/iac-user-data.yaml"
 SSH_PUB_KEY="ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDYkMRx4ynSGF9pCQvJgbk+Ff4i9xI72I5WNAm5I7y49GajmIwUQ5YGwLsq4BWf27aCV7gktZT90dtxVV8uI16jQkaAxZoxOcX4dsYEa/25nlabkBm6vvDRW+m46D6S4L5RSI5LRIZiRhggSiFmhX50SC+h1TajNcxfZj9qTsm/7iho1/AV80aelOH5iE1u68VIk1NWr4mZ4cxF+k8UlXFzVNkYE28ulFdbjEv2xHyQTAgbUDgqRkMoTHA5sowpossk54pyGcU94GxCRPORAsZSLQqar2HoLeG3yRs3q8rzX9RrDv8+lf+9y2+LNCbDN31r3W/yH8iJJ1rVpkoSLnX+IOORWMPE3fji7KpSmyLElPeJQAOVRP4n2ZzWae6HIiKLg14O1YTq7C/uC7XlKSXtSFoHWGpfwskb6ZGu8dlzZ5+WRkwxJXQD+QeyJBXgy0r/zN2yix+BmGTpK/+oWe4tcx0b7NzBY1Sg7FF465oKyTExb9HkZLYHlmKPtKWisO0= sachw@DESKTOP-5JGQPLC"
 
 TERRAFORM_VERSION="1.14.3"
+
+INFRA_REPO="git@github.com:JitendraSachwani/homelab-infra.git"
 
 # ============================================================
 # HELPERS
@@ -78,20 +80,33 @@ ssh_pwauth: false
 package_update: true
 package_upgrade: false
 
+packages:
+  - ca-certificates
+  - curl
+  - git
+  - jq
+  - unzip
+  - qemu-guest-agent
+
 apt:
   preserve_sources_list: false
   primary:
     - arches: [default]
       uri: http://archive.ubuntu.com/ubuntu
 
+write_files:
+  - path: /etc/profile.d/iac-aliases.sh
+    permissions: "0644"
+    content: |
+      alias deploy_prod='cd /opt/homelab-infra && git pull && ./90_scripts/deploy-prod.sh'
+
 runcmd:
   - set -eux
   - apt-get update
-  - apt-get install -y curl unzip qemu-guest-agent
   - systemctl enable --now qemu-guest-agent
-
+  
   # -----------------------------
-  # Terraform install (official)
+  # Terraform install
   # -----------------------------
   - |
     curl -fsSL \
@@ -102,15 +117,30 @@ runcmd:
     ln -sf /usr/local/bin/terraform /usr/bin/terraform
     terraform version
 
+  # -----------------------------
+  # Ansible install
+  # -----------------------------
   - add-apt-repository -y universe
   - apt-get update
   - apt-get install -y ansible
-
   # hard verification (fail cloud-init if broken)
   - ansible --version
 
+  # -----------------------------
+  # Infra Repo Setup
+  # -----------------------------
+  - mkdir -p /opt/homelab-infra
+  - chown iac:iac /opt/homelab-infra
+  - sudo -u iac bash -lc '
+      if [ ! -d /opt/homelab-infra/.git ]; then
+        git clone ${INFRA_REPO} /opt/homelab-infra
+      fi
+    '
+  - chmod +x /opt/homelab-infra/90_scripts/*.sh || true
+
 final_message: |
-  IaC Controller ready (Ansible installed).
+  IaC Controller ready!
+  Use: 'deploy_prod' for any future deployments.
 EOF
 
 # ============================================================
