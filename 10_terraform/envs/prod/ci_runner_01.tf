@@ -1,13 +1,12 @@
-resource "proxmox_virtual_environment_vm" "monitoring_01" {
-  vm_id  = 30001
-  name   = "prod-monitoring-01"
-  
+resource "proxmox_virtual_environment_vm" "ci_runner_01" {
+  vm_id     = 10002
+  name      = "prod-ci-runner-01"
+
   tags = concat(
     local.common_tags,
     [
-      "role-monitoring",
-      "template-ubuntu22",
-      "template_version-v1"
+      "role-ci",
+      "ci-runner"
     ]
   )
 
@@ -26,7 +25,7 @@ resource "proxmox_virtual_environment_vm" "monitoring_01" {
   }
 
   memory {
-    dedicated = local.default_memory_mb
+    dedicated = 4096
   }
 
   disk {
