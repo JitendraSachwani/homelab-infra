@@ -5,8 +5,7 @@ resource "proxmox_virtual_environment_vm" "ci_runner_01" {
   tags = concat(
     local.common_tags,
     [
-      "role-ci",
-      "ci-runner"
+      "role-ci"
     ]
   )
 
