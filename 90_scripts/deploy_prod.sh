@@ -10,9 +10,15 @@ ENV="prod"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 TERRAFORM_DIR="$REPO_ROOT/10_terraform/envs/prod"
+
 ANSIBLE_DIR="$REPO_ROOT/20_ansible"
 ANSIBLE_PLAYBOOK="playbooks/homelab.yml"
 ANSIBLE_INVENTORY="inventories/prod"
+
+KEYS_DIR="$REPO_ROOT/keys"
+ADMIN_KEY_PUB="$KEYS_DIR/admin_ssh_key.pub"
+IAC_KEY="$KEYS_DIR/iac_ssh_key"
+IAC_KEY_PUB="$KEYS_DIR/iac_ssh_key.pub"
 
 SCRIPT_NAME="$(basename "$0")"
 
@@ -41,6 +47,23 @@ fi
 # ============================================================
 # PRE-FLIGHT CHECKS
 # ============================================================
+
+log "Ensuring SSH keys exist"
+
+[[ -f "$ADMIN_KEY_PUB" ]] || die "Missing admin SSH public key: $ADMIN_KEY_PUB"
+
+if [[ ! -f "$IAC_KEY" ]]; then
+  log "Generating IaC SSH key"
+  ssh-keygen \
+    -t ed25519 \
+    -f "$IAC_KEY" \
+    -C "iac-controller" \
+    -N ""
+else
+  log "IaC SSH key already exists"
+fi
+
+chmod 600 "$IAC_KEY"
 
 
 [[ -d "$TERRAFORM_DIR" ]] || die "Terraform prod directory missing"

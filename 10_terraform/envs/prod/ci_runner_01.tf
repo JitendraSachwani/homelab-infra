@@ -15,7 +15,8 @@ users:
     groups: [sudo]
     shell: /bin/bash
     ssh_authorized_keys:
-      - ${var.ssh_public_key}
+      - ${local.admin_ssh_public_key}
+      - ${local.iac_ssh_public_key}
     sudo: ALL=(ALL) NOPASSWD:ALL
 
 package_update: true
