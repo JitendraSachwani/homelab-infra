@@ -66,13 +66,13 @@ if [[ "$CURRENT_BRANCH" != "master" ]]; then
   die "Refusing to deploy prod from branch '$CURRENT_BRANCH'"
 fi
 
-# ------------------------------------------------------------
-# Human confirmation
-# ------------------------------------------------------------
+# ============================================================
+# HUMAN CONFIRMATION
+# ============================================================
 
 if [[ "$AUTO_MODE" -eq 0 ]]; then
   echo
-  echo "⚠️  You are about to DEPLOY TO PROD"
+  echo "⚠️  YOU ARE DEPLOYING TO PROD"
   echo "Environment : $ENV"
   echo "Branch      : $CURRENT_BRANCH"
   echo "Terraform   : $TERRAFORM_DIR"
@@ -82,7 +82,6 @@ if [[ "$AUTO_MODE" -eq 0 ]]; then
 else
   log "Auto mode enabled (no confirmation)"
 fi
-
 
 # ============================================================
 # TERRAFORM
@@ -95,11 +94,17 @@ pushd "$TERRAFORM_DIR" >/dev/null
 log "terraform init"
 terraform init -input=false
 
+log "terraform validate"
+terraform validate
+
+log "Cleaning old plan"
+rm -f tfplan
+
 log "terraform plan"
 terraform plan -out=tfplan
 
 log "terraform apply"
-terraform apply -input=false tfplan
+terraform apply -input=false -lock-timeout=300s tfplan
 
 popd >/dev/null
 

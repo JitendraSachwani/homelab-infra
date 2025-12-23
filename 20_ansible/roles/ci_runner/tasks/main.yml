@@ -1,0 +1,57 @@
+- name: Install base packages
+  apt:
+    name:
+      - curl
+      - tar
+      - git
+      - ca-certificates
+    update_cache: yes
+
+- name: Create runner user
+  user:
+    name: "{{ ci_runner_user }}"
+    system: yes
+    shell: /bin/bash
+    create_home: yes
+
+- name: Create runner directory
+  file:
+    path: "{{ ci_runner_dir }}"
+    state: directory
+    owner: "{{ ci_runner_user }}"
+    group: "{{ ci_runner_user }}"
+
+- name: Download GitHub runner
+  become_user: "{{ ci_runner_user }}"
+  get_url:
+    url: "https://github.com/actions/runner/releases/download/v{{ ci_runner_version }}/actions-runner-linux-x64-{{ ci_runner_version }}.tar.gz"
+    dest: "/tmp/actions-runner.tar.gz"
+
+- name: Extract runner
+  become_user: "{{ ci_runner_user }}"
+  unarchive:
+    src: "/tmp/actions-runner.tar.gz"
+    dest: "{{ ci_runner_dir }}"
+    remote_src: yes
+
+# ---- Registration (token passed at runtime) ----
+
+- name: Register runner
+  become_user: "{{ ci_runner_user }}"
+  command: >
+    {{ ci_runner_dir }}/config.sh
+    --url {{ ci_runner_repo_url }}
+    --token {{ ci_runner_token }}
+    --name {{ ci_runner_name }}
+    --labels {{ ci_runner_labels | join(',') }}
+    --unattended
+  args:
+    creates: "{{ ci_runner_dir }}/.runner"
+
+- name: Install runner service
+  command: "{{ ci_runner_dir }}/svc.sh install"
+  args:
+    creates: /etc/systemd/system/actions.runner.*
+
+- name: Start runner service
+  command: "{{ ci_runner_dir }}/svc.sh start"

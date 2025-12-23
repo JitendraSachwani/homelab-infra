@@ -1,0 +1,27 @@
+---
+- name: Build hosts file entries
+  set_fact:
+    hosts_entries: >-
+      {{
+        groups['all']
+        | map('extract', hostvars)
+        | selectattr('ansible_default_ipv4', 'defined')
+        | map(attribute='inventory_hostname')
+        | zip(
+            groups['all']
+            | map('extract', hostvars)
+            | selectattr('ansible_default_ipv4', 'defined')
+            | map(attribute='ansible_default_ipv4.address')
+          )
+        | list
+      }}
+
+- name: Ensure homelab hosts block exists
+  become: true
+  blockinfile:
+    path: /etc/hosts
+    marker: "# {mark} HOMELAB MANAGED HOSTS"
+    block: |
+      {% for name, ip in hosts_entries %}
+      {{ ip }} {{ name }}
+      {% endfor %}

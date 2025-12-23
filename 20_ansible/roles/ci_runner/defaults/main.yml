@@ -1,0 +1,12 @@
+ci_runner_user: ci-runner
+ci_runner_dir: /opt/actions-runner
+ci_runner_version: "2.330.0"
+
+ci_runner_labels:
+  - self-hosted
+  - linux
+  - prod
+  - ci
+
+ci_runner_name: "{{ inventory_hostname }}"
+ci_runner_repo_url: "https://github.com/JitendrwaSachwani/homelab-infra"
