@@ -81,5 +81,5 @@ resource "proxmox_virtual_environment_vm" "ci_runner_01" {
 }
 
 output "ci_runner_01_ipv4" {
-  value = proxmox_virtual_environment_vm.ci_runner_01.network_interface[0].ipv4_addresses[0]
+  value = proxmox_virtual_environment_vm.ci_runner_01.ipv4_addresses[1][0]
 }
