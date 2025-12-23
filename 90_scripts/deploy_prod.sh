@@ -107,7 +107,7 @@ log "terraform apply"
 terraform apply -input=false -lock-timeout=300s tfplan
 
 log "Generating Ansible inventory from Terraform outputs"
-./scripts/generate_inventory.sh
+./90_scripts/generate_inventory.sh
 
 popd >/dev/null
 
