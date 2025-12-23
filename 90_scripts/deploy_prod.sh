@@ -10,6 +10,7 @@ ENV="prod"
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
 TERRAFORM_DIR="$REPO_ROOT/10_terraform/envs/prod"
+TF_VARS_FILE="$TERRAFORM_DIR/ssh_keys.auto.tfvars"
 
 ANSIBLE_DIR="$REPO_ROOT/20_ansible"
 ANSIBLE_PLAYBOOK="playbooks/homelab.yml"
@@ -19,6 +20,7 @@ KEYS_DIR="$REPO_ROOT/keys"
 ADMIN_KEY_PUB="$KEYS_DIR/admin_ssh_key.pub"
 IAC_KEY="$KEYS_DIR/iac_ssh_key"
 IAC_KEY_PUB="$KEYS_DIR/iac_ssh_key.pub"
+
 
 SCRIPT_NAME="$(basename "$0")"
 
@@ -55,24 +57,29 @@ log "Ensuring SSH keys exist"
 if [[ ! -f "$IAC_KEY" ]]; then
   log "Generating IaC SSH key"
   ssh-keygen \
-    -t ed25519 \
-    -f "$IAC_KEY" \
-    -C "iac-controller" \
-    -N ""
+  -t ed25519 \
+  -f "$IAC_KEY" \
+  -C "iac-controller" \
+  -N ""
 else
   log "IaC SSH key already exists"
 fi
 
 chmod 600 "$IAC_KEY"
 
-
 [[ -d "$TERRAFORM_DIR" ]] || die "Terraform prod directory missing"
-[[ -d "$ANSIBLE_DIR" ]] || die "Ansible directory missing"
-
 command -v terraform >/dev/null || die "terraform not found"
+
+log "Writing Terraform SSH key variables"
+cat > "$TF_VARS_FILE" <<EOF
+admin_ssh_public_key = "$(cat "$ADMIN_KEY_PUB")"
+iac_ssh_public_key   = "$(cat "$IAC_KEY_PUB")"
+EOF
+
+
+[[ -d "$ANSIBLE_DIR" ]] || die "Ansible directory missing"
 command -v ansible-playbook >/dev/null || die "ansible-playbook not found"
 
-log "Strating Prod deployment via IaC controller"
 
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   die "Not inside a git repository"
@@ -107,6 +114,8 @@ if [[ "$AUTO_MODE" -eq 0 ]]; then
 else
   log "Auto mode enabled (no confirmation)"
 fi
+
+log "Strating Prod deployment via IaC controller"
 
 # ============================================================
 # TERRAFORM
@@ -145,8 +154,8 @@ log "Terraform apply completed successfully"
 log "Running Ansible (prod)"
 
 ansible-playbook \
-  -i "$ANSIBLE_DIR/$ANSIBLE_INVENTORY" \
-  "$ANSIBLE_DIR/$ANSIBLE_PLAYBOOK"
+-i "$ANSIBLE_DIR/$ANSIBLE_INVENTORY" \
+"$ANSIBLE_DIR/$ANSIBLE_PLAYBOOK"
 
 log "Ansible completed successfully"
 

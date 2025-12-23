@@ -1,12 +1,11 @@
 # Terraform
-# Terraform
 **/.terraform/
 **/.terraform.lock.hcl
 **/tfplan
 **/tfplan.*
 **/*.tfstate
 **/*.tfstate.*
-
+**/*.tfvars
 
 # Ansible
 *.retry

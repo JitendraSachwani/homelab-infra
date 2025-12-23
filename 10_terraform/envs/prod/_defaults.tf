@@ -16,7 +16,4 @@ locals {
     "managed_by-terraform"
   ]
 
-  admin_ssh_public_key = trimspace(file("${path.root}/../keys/admin_ssh_key.pub"))
-  iac_ssh_public_key   = trimspace(file("${path.root}/../keys/iac_ssh_key.pub"))
-
 }
