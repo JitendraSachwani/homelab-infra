@@ -10,6 +10,9 @@
 
 # Ansible
 *.retry
+20_ansible/inventories/prod/*
+20_ansible/inventories/prod/.gitkeep
+
 
 # Secrets
 secrets/*
