@@ -1,30 +1,35 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-ENV="prod"
-ANSIBLE_DIR="20_ansible"
+# Resolve repo root (no matter where script is called from)
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 
-OUT_DIR="../$ANSIBLE_DIR/inventories/$ENV"
-OUT_FILE="$OUT_DIR/hosts.yml"
+TF_DIR="$REPO_ROOT/10_terraform/envs/prod"
+INV_DIR="$REPO_ROOT/20_ansible/inventories/prod"
+INV_FILE="$INV_DIR/hosts.yml"
 
-mkdir -p "$OUT_DIR"
+mkdir -p "$INV_DIR"
 
-terraform output -json ansible_hosts | jq -r '
+terraform -chdir="$TF_DIR" output -json ansible_hosts | jq -r '
 {
   all: {
     vars: {
       ansible_user: "iac",
       ansible_become: true
     },
-    children: {
-      ci_runners: {
-        hosts: (.ci_runners | to_entries | map({
-          (.key): { ansible_host: .value }
-        }) | add)
-      }
-    }
+    children: (
+      . | to_entries | map({
+        (.key): {
+          hosts: (
+            .value | to_entries | map({
+              (.key): { ansible_host: .value }
+            }) | add
+          )
+        }
+      }) | add
+    )
   }
 }
-' > "$OUT_FILE"
+' > "$INV_FILE"
 
-echo "[+] Ansible inventory written to $OUT_FILE"
+echo "[+] Ansible inventory written to $INV_FILE"
