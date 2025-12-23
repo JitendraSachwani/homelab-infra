@@ -7,8 +7,10 @@ set -Eeuo pipefail
 # ============================================================
 
 ENV="prod"
-TERRAFORM_DIR="10_terraform/envs/prod"
-ANSIBLE_DIR="20_ansible"
+REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+TERRAFORM_DIR="$REPO_ROOT/10_terraform/envs/prod"
+ANSIBLE_DIR="$REPO_ROOT/20_ansible"
 ANSIBLE_PLAYBOOK="playbooks/homelab.yml"
 ANSIBLE_INVENTORY="inventories/prod"
 
@@ -107,7 +109,7 @@ log "terraform apply"
 terraform apply -input=false -lock-timeout=300s tfplan
 
 log "Generating Ansible inventory from Terraform outputs"
-./90_scripts/generate_inventory.sh
+"$REPO_ROOT/90_scripts/generate_inventory.sh"
 
 popd >/dev/null
 
