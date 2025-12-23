@@ -7,10 +7,10 @@
 # ============================================================
 
 # ------------------------------------------------------------
-# IaC Controller
+# IaC Controller (LOCALHOST)
 # ------------------------------------------------------------
 - name: Configure IaC Controller
-  hosts: iac_controller
+  hosts: localhost
   become: true
 
   roles:
@@ -31,60 +31,60 @@
     - github_runner
 
 
-# ------------------------------------------------------------
-# Monitoring Stack
-# ------------------------------------------------------------
-- name: Configure Monitoring Nodes
-  hosts: monitoring
-  become: true
+# # ------------------------------------------------------------
+# # Monitoring Stack
+# # ------------------------------------------------------------
+# - name: Configure Monitoring Nodes
+#   hosts: monitoring
+#   become: true
 
-  roles:
-    - common
-    - monitoring
-
-
-# ------------------------------------------------------------
-# Databases
-# ------------------------------------------------------------
-- name: Configure Database Nodes
-  hosts: databases
-  become: true
-
-  roles:
-    - common
-    - databases
+#   roles:
+#     - common
+#     - monitoring
 
 
-# ------------------------------------------------------------
-# Media Stack
-# ------------------------------------------------------------
-- name: Configure Media Nodes
-  hosts: media
-  become: true
+# # ------------------------------------------------------------
+# # Databases
+# # ------------------------------------------------------------
+# - name: Configure Database Nodes
+#   hosts: databases
+#   become: true
 
-  roles:
-    - common
-    - media
-
-
-# ------------------------------------------------------------
-# Docs / Wikis
-# ------------------------------------------------------------
-- name: Configure Documentation Nodes
-  hosts: docs
-  become: true
-
-  roles:
-    - common
-    - docs
+#   roles:
+#     - common
+#     - databases
 
 
-# ------------------------------------------------------------
-# Misc / Experimental
-# ------------------------------------------------------------
-- name: Configure Misc Nodes
-  hosts: misc
-  become: true
+# # ------------------------------------------------------------
+# # Media Stack
+# # ------------------------------------------------------------
+# - name: Configure Media Nodes
+#   hosts: media
+#   become: true
 
-  roles:
-    - common
+#   roles:
+#     - common
+#     - media
+
+
+# # ------------------------------------------------------------
+# # Docs / Wikis
+# # ------------------------------------------------------------
+# - name: Configure Documentation Nodes
+#   hosts: docs
+#   become: true
+
+#   roles:
+#     - common
+#     - docs
+
+
+# # ------------------------------------------------------------
+# # Misc / Experimental
+# # ------------------------------------------------------------
+# - name: Configure Misc Nodes
+#   hosts: misc
+#   become: true
+
+#   roles:
+#     - common

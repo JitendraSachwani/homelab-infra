@@ -1,0 +1,41 @@
+---
+- name: Install base packages for CI runner
+  apt:
+    name:
+      - curl
+      - tar
+      - git
+      - ca-certificates
+    update_cache: yes
+
+- name: Create CI runner user
+  user:
+    name: "{{ ci_runner_user }}"
+    system: yes
+    shell: /bin/bash
+    create_home: yes
+
+- name: Create CI runner directory
+  file:
+    path: "{{ ci_runner_dir }}"
+    state: directory
+    owner: "{{ ci_runner_user }}"
+    group: "{{ ci_runner_user }}"
+    mode: "0755"
+
+- name: Download GitHub Actions runner
+  become: true
+  become_user: "{{ ci_runner_user }}"
+  get_url:
+    url: "https://github.com/actions/runner/releases/download/v{{ ci_runner_version }}/actions-runner-linux-x64-{{ ci_runner_version }}.tar.gz"
+    dest: "/tmp/actions-runner.tar.gz"
+    mode: "0644"
+
+- name: Extract GitHub Actions runner
+  become: true
+  become_user: "{{ ci_runner_user }}"
+  unarchive:
+    src: "/tmp/actions-runner.tar.gz"
+    dest: "{{ ci_runner_dir }}"
+    remote_src: yes
+    creates: "{{ ci_runner_dir }}/config.sh"

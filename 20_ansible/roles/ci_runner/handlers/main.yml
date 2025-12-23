@@ -1,0 +1,16 @@
+---
+- name: start ci runner
+  command: "{{ ci_runner_dir }}/svc.sh start"
+  ignore_errors: true
+
+- name: stop ci runner
+  command: "{{ ci_runner_dir }}/svc.sh stop"
+  ignore_errors: true
+
+- name: restart ci runner
+  command: "{{ ci_runner_dir }}/svc.sh restart"
+  ignore_errors: true
+
+- name: uninstall ci runner
+  command: "{{ ci_runner_dir }}/svc.sh uninstall"
+  ignore_errors: true

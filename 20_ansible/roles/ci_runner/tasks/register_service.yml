@@ -1,0 +1,29 @@
+---
+- name: Check if runner is already registered
+  stat:
+    path: "{{ ci_runner_dir }}/.runner"
+  register: runner_registration
+
+- name: Register GitHub Actions runner
+  become: true
+  become_user: "{{ ci_runner_user }}"
+  command: >
+    {{ ci_runner_dir }}/config.sh
+    --url {{ ci_runner_repo_url }}
+    --token {{ ci_runner_token }}
+    --name {{ ci_runner_name }}
+    --labels {{ ci_runner_labels | join(',') }}
+    --unattended
+    --replace
+  when: not runner_registration.stat.exists
+  notify: restart ci runner
+
+- name: Install runner systemd service
+  command: "{{ ci_runner_dir }}/svc.sh install"
+  args:
+    creates: /etc/systemd/system/actions.runner.*
+  notify: restart ci runner
+
+- name: Ensure runner service is started
+  command: "{{ ci_runner_dir }}/svc.sh start"
+  notify: start ci runner

@@ -1,0 +1,9 @@
+---
+- name: IaC Controller | Ensure repo directory exists
+  file:
+    path: /opt/homelab-infra
+    state: directory
+    owner: iac
+    group: iac
+    mode: "0755"
+
