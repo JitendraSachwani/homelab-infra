@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 set -Eeuo pipefail
 
-OUT_DIR="../../20_ansible/inventories/prod"
+ENV="prod"
+ANSIBLE_DIR="20_ansible"
+
+OUT_DIR="../$ANSIBLE_DIR/inventories/$ENV"
 OUT_FILE="$OUT_DIR/hosts.yml"
 
 mkdir -p "$OUT_DIR"
