@@ -28,7 +28,7 @@
   roles:
     - common
     - docker
-    - github_runner
+    - ci_runner
 
 
 # # ------------------------------------------------------------
