@@ -14,10 +14,21 @@
     state: directory
     mode: "0755"
 
-- name: Add Docker GPG key
+- name: Download Docker GPG key
   get_url:
     url: "{{ docker_apt_key_url }}"
-    dest: /etc/apt/keyrings/docker.gpg
+    dest: /tmp/docker.gpg
+    mode: "0644"
+
+- name: Dearmor Docker GPG key
+  command: >
+    gpg --dearmor -o /etc/apt/keyrings/docker.gpg /tmp/docker.gpg
+  args:
+    creates: /etc/apt/keyrings/docker.gpg
+
+- name: Set permissions on Docker GPG key
+  file:
+    path: /etc/apt/keyrings/docker.gpg
     mode: "0644"
 
 - name: Add Docker APT repository
