@@ -10,4 +10,4 @@ ci_runner_labels:
   - linux
   - prod
 
-ci_runner_token_file: "{{ playbook_dir }}/../keys/ci_runner_token"
+ci_runner_token_file: "{{ playbook_dir }}/../../keys/ci_runner_token"
