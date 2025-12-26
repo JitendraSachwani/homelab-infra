@@ -15,7 +15,7 @@ resource "proxmox_virtual_environment_file" "meta_data" {
   source_raw {
     file_name = "${var.name}-meta.yaml"
     data = templatefile(
-      "${path.module}/meta-data.tpl",
+      "${path.module}/meta_data.tpl",
       {
         hostname = var.name
       }
