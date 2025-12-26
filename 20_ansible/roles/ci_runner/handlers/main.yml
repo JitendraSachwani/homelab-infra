@@ -1,17 +1,24 @@
 ---
 - name: start ci runner
   become: true
-  command: "{{ ci_runner_dir }}/svc.sh start"
+  command: ./svc.sh start
+  args:
+    chdir: "{{ ci_runner_dir }}"
 
 - name: stop ci runner
   become: true
-  command: "{{ ci_runner_dir }}/svc.sh stop"
+  command: ./svc.sh stop
+  args:
+    chdir: "{{ ci_runner_dir }}"
 
 - name: restart ci runner
   become: true
-  command: "{{ ci_runner_dir }}/svc.sh restart"
-  changed_when: false
+  command: ./svc.sh restart
+  args:
+    chdir: "{{ ci_runner_dir }}"
 
 - name: uninstall ci runner
   become: true
-  command: "{{ ci_runner_dir }}/svc.sh uninstall"
+  command: ./svc.sh uninstall
+  args:
+    chdir: "{{ ci_runner_dir }}"
