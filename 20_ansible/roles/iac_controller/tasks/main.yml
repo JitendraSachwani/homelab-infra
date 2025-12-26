@@ -10,7 +10,7 @@
 - name: Ensure deploy_prod entrypoint exists
   become: true
   file:
-    src: /opt/homelab-infra/scripts/deploy_prod
+    src: /opt/homelab-infra/90_scripts/deploy_prod.sh
     dest: /usr/local/bin/deploy_prod
     state: link
     force: true
