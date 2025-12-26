@@ -1,16 +1,17 @@
 ---
 - name: start ci runner
+  become: true
   command: "{{ ci_runner_dir }}/svc.sh start"
-  ignore_errors: true
 
 - name: stop ci runner
+  become: true
   command: "{{ ci_runner_dir }}/svc.sh stop"
-  ignore_errors: true
 
 - name: restart ci runner
+  become: true
   command: "{{ ci_runner_dir }}/svc.sh restart"
-  ignore_errors: true
+  changed_when: false
 
 - name: uninstall ci runner
+  become: true
   command: "{{ ci_runner_dir }}/svc.sh uninstall"
-  ignore_errors: true

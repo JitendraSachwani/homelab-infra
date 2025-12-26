@@ -6,8 +6,8 @@
 
 - name: Register GitHub Actions runner
   become: true
-  become_user: "{{ ci_runner_user }}"
   command: >
+    runuser -u {{ ci_runner_user }} -- 
     {{ ci_runner_dir }}/config.sh
     --url {{ ci_runner_repo_url }}
     --token {{ ci_runner_token }}
@@ -15,15 +15,20 @@
     --labels {{ ci_runner_labels | join(',') }}
     --unattended
     --replace
+  args:
+    chdir: "{{ ci_runner_dir }}"
   when: not runner_registration.stat.exists
   notify: restart ci runner
+  no_log: true
 
 - name: Install runner systemd service
+  become: true
   command: "{{ ci_runner_dir }}/svc.sh install"
   args:
     creates: /etc/systemd/system/actions.runner.*
   notify: restart ci runner
 
 - name: Ensure runner service is started
+  become: true
   command: "{{ ci_runner_dir }}/svc.sh start"
   notify: start ci runner
