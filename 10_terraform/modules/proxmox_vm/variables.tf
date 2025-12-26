@@ -8,6 +8,11 @@ variable "name" {
   type        = string
 }
 
+variable "import_disk_id" {
+  description = "QCOW2 image file ID"
+  type        = string
+}
+
 variable "node_name" {
   type = string
   default = "pve"
@@ -55,12 +60,6 @@ variable "memory_mb" {
 variable "disk_gb" {
   type    = number
   default = 20
-}
-
-variable "import_disk_id" {
-  description = "QCOW2 image file ID"
-  type        = string
-  default     = null
 }
 
 variable "bridge" {
