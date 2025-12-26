@@ -34,7 +34,7 @@ EOF
 }
 
 resource "proxmox_virtual_environment_vm" "ci_runner_01" {
-  vm_id     = 10002
+  vm_id     = 10101
   name      = "prod-ci-runner-01"
   node_name = local.default_node
 
