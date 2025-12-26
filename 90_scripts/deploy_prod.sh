@@ -7,7 +7,7 @@ set -Eeuo pipefail
 # ============================================================
 
 ENV="prod"
-REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+REPO_ROOT="/opt/homelab-infra"
 
 TERRAFORM_DIR="$REPO_ROOT/10_terraform/envs/prod"
 TF_VARS_FILE="$TERRAFORM_DIR/ssh_keys.auto.tfvars"
@@ -51,6 +51,8 @@ fi
 # ============================================================
 
 log "Ensuring SSH keys exist"
+
+[[ -d "$REPO_ROOT/.git" ]] || die "Repo root not found at $REPO_ROOT"
 
 [[ -f "$ADMIN_KEY_PUB" ]] || die "Missing admin SSH public key: $ADMIN_KEY_PUB"
 
