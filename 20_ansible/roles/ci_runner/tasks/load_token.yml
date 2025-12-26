@@ -3,6 +3,8 @@
   stat:
     path: "{{ ci_runner_token_file }}"
   register: runner_token_file
+  delegate_to: localhost
+  run_once: true
 
 - name: Fail if GitHub runner token is missing
   fail:
@@ -10,12 +12,17 @@
       GitHub runner token not found.
       Create it at {{ ci_runner_token_file }} and re-run deploy.
   when: not runner_token_file.stat.exists
+  delegate_to: localhost
+  run_once: true
 
 - name: Read GitHub runner token
   slurp:
     src: "{{ ci_runner_token_file }}"
   register: runner_token_raw
+  delegate_to: localhost
+  run_once: true
 
 - name: Set runner token fact
   set_fact:
     ci_runner_token: "{{ runner_token_raw.content | b64decode | trim }}"
+  no_log: true
