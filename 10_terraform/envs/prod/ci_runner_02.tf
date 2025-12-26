@@ -1,5 +1,5 @@
 module "ci_runner" {
-  source = "../modules/proxmox_vm"
+  source = "../../modules/proxmox_vm"
 
   name  = "prod-ci-runner-02"
   vm_id = 10102
