@@ -31,7 +31,7 @@
 
 - name: Install runner systemd service
   become: true
-  command: ./svc.sh install
+  command: ./svc.sh install {{ ci_runner_user }}
   args:
     chdir: "{{ ci_runner_dir }}"
     creates: /etc/systemd/system/actions.runner.*
