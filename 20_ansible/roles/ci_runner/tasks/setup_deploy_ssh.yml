@@ -34,8 +34,5 @@
     user: iac
     key: "{{ ci_deploy_pubkey }}"
     state: present
-    key_options: >
-      command="DEPLOY_MODE=auto /usr/local/bin/deploy_prod",
-      no-port-forwarding,
-      no-agent-forwarding,
-      no-X11-forwarding
+    key_options: 'command="DEPLOY_MODE=auto /usr/local/bin/deploy_prod",no-port-forwarding,no-agent-forwarding,no-X11-forwarding'
+
