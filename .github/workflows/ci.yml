@@ -5,6 +5,12 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy"
+        required: true
+        default: prod
 
 jobs:
   validate:
@@ -19,3 +25,22 @@ jobs:
 
       - name: Terraform validate
         run: terraform validate
+
+  deploy:
+    needs: validate
+    if: >
+      (github.event_name == 'push' && github.repository == github.event.repository.full_name)
+      || github.event_name == 'workflow_dispatch'
+
+    runs-on: [self-hosted, linux, prod, ci]
+
+    concurrency:
+      group: homelab-deploy
+      cancel-in-progress: false
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy
+        run: |
+          ./scripts/deploy.sh ${{ github.event.inputs.environment || 'prod' }}
