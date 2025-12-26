@@ -42,7 +42,7 @@ resource "proxmox_virtual_environment_vm" "this" {
     datastore_id = var.datastore_id
     import_from  = local.resolved_import_disk_id
     interface    = "scsi0"
-    size         = "${var.disk_gb}G"
+    size         = ${var.disk_gb}
   }
 
   network_device {
