@@ -1,7 +1,7 @@
 resource "proxmox_virtual_environment_file" "cloud_init_file" {
   content_type = "snippets"
-  datastore_id = local.default_datastore
-  node_name    = local.default_node
+  datastore_id = "local-btrfs"
+  node_name    = "pve"
 
   source_raw {
     file_name = "cloud-init-user-data.yaml"
