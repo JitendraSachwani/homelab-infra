@@ -39,4 +39,4 @@ jobs:
       - name: Trigger prod deploy on IaC controller
         run: |
           ssh -o StrictHostKeyChecking=no \
-              iac@192.168.1.2
+              iac@192.168.1.124
