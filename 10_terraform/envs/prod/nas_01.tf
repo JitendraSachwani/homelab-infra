@@ -6,7 +6,7 @@ module "nas_01" {
   }
 
   name  = "prod-nas-01"
-  vm_id = 10201
+  vm_id = 10301
   tags = ["role-nas"]
   
   cores = 4
