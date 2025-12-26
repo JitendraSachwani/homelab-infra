@@ -15,16 +15,19 @@ variable "iac_ssh_public_key" {
 }
 
 variable "proxmox_endpoint" {
-  type = string
-  default = "https://192.168.1.2:8006/api2/json"
+  description = "Proxmox API endpoint"
+  type        = string
+  default     = "https://192.168.1.2:8006/api2/json"
 }
 
 variable "proxmox_username" {
-  type = string
-  default = "root@pam"
+  description = "Proxmox API username"
+  type        = string
+  default     = "root@pam"
 }
 
 variable "proxmox_password" {
-  type      = string
-  sensitive = true
+  description = "Proxmox API password"
+  type        = string
+  sensitive   = true
 }
