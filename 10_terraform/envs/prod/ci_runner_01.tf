@@ -81,7 +81,7 @@ resource "proxmox_virtual_environment_vm" "ci_runner_01" {
   }
 }
 
-output "ansible_hosts" {
+output "ansible_hosts_1" {
   value = {
     ci_runners = {
       "prod-ci-runner-01" = proxmox_virtual_environment_vm.ci_runner_01.ipv4_addresses[1][0]
