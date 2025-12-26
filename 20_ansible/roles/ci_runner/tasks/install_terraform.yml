@@ -1,4 +1,11 @@
 ---
+- name: Ensure unzip is installed
+  become: true
+  ansible.builtin.apt:
+    name: unzip
+    state: present
+    update_cache: true
+
 - name: Check if Terraform is already installed
   command: terraform version -json
   register: terraform_check
