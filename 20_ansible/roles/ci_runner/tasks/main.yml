@@ -1,4 +1,5 @@
 ---
 - import_tasks: load_token.yml
 - import_tasks: install_runner.yml
+- import_tasks: install_terraform.yml
 - import_tasks: register_service.yml
