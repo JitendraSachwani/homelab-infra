@@ -1,7 +1,11 @@
 output "ansible_hosts" {
   value = {
     ci_runners = {
-      module.ci_runner_02.name = module.ci_runner_02.ipv4_address
+      for m in [
+        module.ci_runner_01,
+        module.ci_runner_02
+      ] :
+      m.name => m.ipv4_address
     }
   }
 }
