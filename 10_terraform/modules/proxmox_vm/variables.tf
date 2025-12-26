@@ -23,14 +23,6 @@ variable "tags" {
   default = []
 }
 
-variable "common_tags" {
-  type    = list(string)
-  default = [
-    "env-prod",
-    "managed_by-terraform"
-  ]
-}
-
 variable "datastore_id" {
   type = string
   default = "local-btrfs"

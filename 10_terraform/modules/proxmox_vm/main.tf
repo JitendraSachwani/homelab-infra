@@ -1,4 +1,9 @@
 locals {
+  common_tags = [
+    "env-prod",
+    "managed_by-terraform"
+  ]
+
   use_dhcp = var.ip_address == null
 }
 
@@ -7,7 +12,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   name      = var.name
   node_name = var.node_name
 
-  tags = var.tags
+  tags = concat(local.common_tags, var.tags)
   stop_on_destroy = true
 
   initialization {
