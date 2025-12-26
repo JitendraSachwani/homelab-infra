@@ -1,10 +1,5 @@
 locals {
   use_dhcp = var.ip_address == null
-
-  resolved_import_disk_id = coalesce(
-    var.import_disk_id,
-    proxmox_virtual_environment_download_file.tmpl_ubuntu_22_jammy_qcow2.id
-  )
 }
 
 resource "proxmox_virtual_environment_vm" "this" {
@@ -40,7 +35,7 @@ resource "proxmox_virtual_environment_vm" "this" {
 
   disk {
     datastore_id = var.datastore_id
-    import_from  = local.resolved_import_disk_id
+    import_from  = local.import_disk_id
     interface    = "scsi0"
     size         = var.disk_gb
   }
