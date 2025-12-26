@@ -21,6 +21,14 @@
   notify: restart ci runner
   no_log: true
 
+- name: Ensure CI runner scripts are owned by runner user
+  become: true
+  file:
+    path: "{{ ci_runner_dir }}"
+    owner: "{{ ci_runner_user }}"
+    group: "{{ ci_runner_user }}"
+    recurse: true
+
 - name: Install runner systemd service
   become: true
   command: ./svc.sh install
