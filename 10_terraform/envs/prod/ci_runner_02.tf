@@ -11,3 +11,11 @@ module "ci_runner" {
 
   tags = concat(local.common_tags, ["role-ci"])
 }
+
+output "ansible_hosts" {
+  value = {
+    ci_runners = {
+      module.ci_runner.name => module.ci_runner.ipv4_address
+    }
+  }
+}
