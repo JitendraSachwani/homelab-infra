@@ -1,0 +1,41 @@
+---
+- name: Ensure .ssh directory exists for CI runner
+  become: true
+  file:
+    path: /home/{{ ci_runner_user }}/.ssh
+    state: directory
+    owner: "{{ ci_runner_user }}"
+    group: "{{ ci_runner_user }}"
+    mode: "0700"
+
+- name: Generate SSH key for CI deploy trigger
+  become: true
+  become_user: "{{ ci_runner_user }}"
+  openssh_keypair:
+    path: /home/{{ ci_runner_user }}/.ssh/iac_deploy
+    type: ed25519
+    comment: "ci-runner deploy key"
+    state: present
+
+- name: Read CI deploy public key
+  become: true
+  slurp:
+    src: /home/{{ ci_runner_user }}/.ssh/iac_deploy.pub
+  register: ci_deploy_pubkey
+
+- name: Set CI deploy public key fact
+  set_fact:
+    ci_deploy_pubkey: "{{ ci_deploy_pubkey.content | b64decode | trim }}"
+
+- name: Authorize CI runner to trigger prod deploy on IaC controller
+  delegate_to: localhost
+  become: true
+  authorized_key:
+    user: iac
+    key: "{{ ci_deploy_pubkey }}"
+    state: present
+    key_options: >
+      command="DEPLOY_MODE=auto /usr/local/bin/deploy_prod",
+      no-port-forwarding,
+      no-agent-forwarding,
+      no-X11-forwarding

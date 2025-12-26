@@ -7,3 +7,12 @@
     group: iac
     mode: "0755"
 
+- name: Ensure deploy_prod entrypoint exists
+  become: true
+  file:
+    src: /opt/homelab-infra/scripts/deploy_prod
+    dest: /usr/local/bin/deploy_prod
+    state: link
+    force: true
+    mode: "0755"
+

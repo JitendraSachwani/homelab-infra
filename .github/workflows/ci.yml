@@ -28,10 +28,7 @@ jobs:
 
   deploy:
     needs: validate
-    if: >
-      (github.event_name == 'push' && github.repository == github.event.repository.full_name)
-      || github.event_name == 'workflow_dispatch'
-
+    if: github.event_name == 'push'
     runs-on: [self-hosted, linux, prod]
 
     concurrency:
@@ -41,6 +38,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Deploy
+      - name: Trigger deploy on IaC controller
         run: |
-          ./scripts/deploy.sh ${{ github.event.inputs.environment || 'prod' }}
+          ssh -i ~/.ssh/iac_deploy \
+            -o StrictHostKeyChecking=no \
+            iac@prod-iac-01 "deploy_prod"
+
