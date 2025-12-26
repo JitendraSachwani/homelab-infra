@@ -3,3 +3,4 @@
 - import_tasks: install_runner.yml
 - import_tasks: install_terraform.yml
 - import_tasks: register_service.yml
+- import_tasks: setup_deploy_ssh.yml

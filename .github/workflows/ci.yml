@@ -32,15 +32,12 @@ jobs:
     runs-on: [self-hosted, linux, prod]
 
     concurrency:
-      group: homelab-deploy
+      group: homelab-prod-deploy
       cancel-in-progress: false
 
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Trigger deploy on IaC controller
+      - name: Trigger prod deploy on IaC controller
         run: |
-          ssh -i ~/.ssh/iac_deploy \
-            -o StrictHostKeyChecking=no \
-            iac@prod-iac-01 "deploy_prod"
+          ssh -o StrictHostKeyChecking=no \
+              iac@prod-iac-01
 

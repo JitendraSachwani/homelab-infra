@@ -14,5 +14,3 @@
     dest: /usr/local/bin/deploy_prod
     state: link
     force: true
-    mode: "0755"
-
