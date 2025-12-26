@@ -1,9 +1,5 @@
 locals {
-  ipv4_config = var.ip_address != null ? {
-    address = var.ip_address
-  } : {
-    address = "dhcp"
-  }
+  use_dhcp = var.ip_address == null
 
   resolved_import_disk_id = coalesce(
     var.import_disk_id,
@@ -24,7 +20,9 @@ resource "proxmox_virtual_environment_vm" "this" {
     user_data_file_id = var.cloud_init_file_id
 
     ip_config {
-      ipv4 = local.ipv4_config
+      ipv4 {
+        address = local.use_dhcp ? "dhcp" : var.ip_address
+      }
     }
   }
 
