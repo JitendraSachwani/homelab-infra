@@ -8,6 +8,11 @@ variable "name" {
   type        = string
 }
 
+variable "cloud_init_file_id" {
+  description = "Cloud-init snippet file ID"
+  type        = string
+}
+
 variable "import_disk_id" {
   description = "QCOW2 image file ID"
   type        = string
@@ -26,11 +31,6 @@ variable "tags" {
 variable "datastore_id" {
   type = string
   default = "local-btrfs"
-}
-
-variable "cloud_init_file_id" {
-  description = "Cloud-init snippet file ID"
-  type        = string
 }
 
 variable "ip_address" {

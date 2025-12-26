@@ -7,6 +7,22 @@ locals {
   use_dhcp = var.ip_address == null
 }
 
+resource "proxmox_virtual_environment_file" "meta_data" {
+  content_type = "snippets"
+  datastore_id = var.datastore_id
+  node_name    = var.node_name
+
+  source_raw {
+    file_name = "${var.name}-meta.yaml"
+    data = templatefile(
+      "${path.module}/meta-data.tpl",
+      {
+        hostname = var.name
+      }
+    )
+  }
+}
+
 resource "proxmox_virtual_environment_vm" "this" {
   vm_id     = var.vm_id
   name      = var.name
@@ -18,6 +34,7 @@ resource "proxmox_virtual_environment_vm" "this" {
   initialization {
     datastore_id      = var.datastore_id
     user_data_file_id = var.cloud_init_file_id
+    meta_data_file_id = proxmox_virtual_environment_file.meta_data.id
 
     ip_config {
       ipv4 {
