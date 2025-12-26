@@ -88,12 +88,17 @@ if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   die "Not inside a git repository"
 fi
 
+
 if [[ "$AUTO_MODE" -eq 0 ]]; then
   if [[ -n "$(git status --porcelain)" ]]; then
     die "Git working tree is dirty. Commit or stash before deploying."
   fi
 else
   log "Auto mode: skipping dirty git check"
+  log "Auto mode: syncing repo with origin"
+  git fetch origin
+  git checkout master
+  git reset --hard origin/master
 fi
 
 CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD)"
