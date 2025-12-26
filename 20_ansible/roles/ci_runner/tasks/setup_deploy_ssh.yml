@@ -10,22 +10,22 @@
 
 - name: Generate SSH key for CI deploy trigger
   become: true
-  become_user: "{{ ci_runner_user }}"
   openssh_keypair:
     path: /home/{{ ci_runner_user }}/.ssh/iac_deploy
     type: ed25519
-    comment: "ci-runner deploy key"
+    owner: "{{ ci_runner_user }}"
+    group: "{{ ci_runner_user }}"
+    mode: "0600"
     state: present
 
 - name: Read CI deploy public key
-  become: true
   slurp:
     src: /home/{{ ci_runner_user }}/.ssh/iac_deploy.pub
-  register: ci_deploy_pubkey
+  register: ci_deploy_pubkey_raw
 
 - name: Set CI deploy public key fact
   set_fact:
-    ci_deploy_pubkey: "{{ ci_deploy_pubkey.content | b64decode | trim }}"
+    ci_deploy_pubkey: "{{ ci_deploy_pubkey_raw.content | b64decode | trim }}"
 
 - name: Authorize CI runner to trigger prod deploy on IaC controller
   delegate_to: localhost
