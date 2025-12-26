@@ -72,5 +72,3 @@ variable "os_type" {
   type    = string
   default = "l26"
 }
-
-
