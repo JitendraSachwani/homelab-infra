@@ -82,6 +82,7 @@ EOF
 [[ -d "$ANSIBLE_DIR" ]] || die "Ansible directory missing"
 command -v ansible-playbook >/dev/null || die "ansible-playbook not found"
 
+cd "$REPO_ROOT" || die "Failed to cd into repo root: $REPO_ROOT"
 
 if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   die "Not inside a git repository"
