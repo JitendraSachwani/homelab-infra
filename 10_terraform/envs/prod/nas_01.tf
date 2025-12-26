@@ -1,13 +1,16 @@
-module "ci_runner_01" {
+module "networking_01" {
   source = "../../modules/proxmox_vm"
 
   providers = {
     proxmox = proxmox
   }
 
-  name  = "prod-ci-runner-01"
-  vm_id = 10101
-  tags = ["role-ci"]
+  name  = "prod-networking-01"
+  vm_id = 10201
+  tags = ["role-networking"]
+  
+  cores = 4
+  memory_mb = 16384
 
   cloud_init_file_id = proxmox_virtual_environment_file.cloud_init_file.id
   import_disk_id = proxmox_virtual_environment_download_file.ubuntu_22_jammy_qcow2.id
