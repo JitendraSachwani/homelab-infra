@@ -1,13 +1,13 @@
-module "networking_01" {
+module "nas_01" {
   source = "../../modules/proxmox_vm"
 
   providers = {
     proxmox = proxmox
   }
 
-  name  = "prod-networking-01"
+  name  = "prod-nas-01"
   vm_id = 10201
-  tags = ["role-networking"]
+  tags = ["role-nas"]
   
   cores = 4
   memory_mb = 16384
