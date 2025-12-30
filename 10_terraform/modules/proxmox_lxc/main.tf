@@ -16,6 +16,9 @@ resource "proxmox_virtual_environment_container" "this" {
   features {
     nesting = true
   }
+  wait_for_ip {
+    ipv4 = true
+  }
 
   initialization {
     hostname = var.name
