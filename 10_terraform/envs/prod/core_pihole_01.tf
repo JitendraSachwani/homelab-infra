@@ -12,7 +12,7 @@ module "pihole_01" {
   ipv4_address = "10.0.1.53/16"
   ipv4_gateway = "10.0.0.1"
 
-  template_file_id = proxmox_virtual_environment_download_file.ubuntu_22_jammy_lxc_img.id
+  template_file_id = "iso-btrfs:vztmpl/debian-12-standard_12.12-1_amd64.tar.zst"
   
   cores = 1
   memory_mb = 512
