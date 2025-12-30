@@ -29,9 +29,15 @@ variable "datastore_id" {
   default = "local-btrfs"
 }
 
-variable "ip_address" {
-  description = "Static IPv4 address (null = DHCP)"
+variable "ipv4_address" {
+  description = "Static IPv4 address (DHCP)"
   type        = string
+  default     = null
+}
+
+variable "ipv4_gateway" {
+  type        = string
+  description = "IPv4 gateway"
   default     = null
 }
 
