@@ -4,7 +4,7 @@ locals {
     "managed_by-terraform"
   ]
 
-  use_dhcp = var.ip_address == null
+  use_dhcp = var.ipv4_address == null
 }
 
 resource "proxmox_virtual_environment_file" "meta_data" {
@@ -26,9 +26,13 @@ resource "proxmox_virtual_environment_file" "meta_data" {
 resource "proxmox_virtual_environment_vm" "this" {
   vm_id     = var.vm_id
   name      = var.name
+  tags = concat(local.common_tags, var.tags)
   node_name = var.node_name
 
-  tags = concat(local.common_tags, var.tags)
+  agent {
+    enabled = true
+  }
+
   stop_on_destroy = true
 
   initialization {
@@ -37,14 +41,21 @@ resource "proxmox_virtual_environment_vm" "this" {
     meta_data_file_id = proxmox_virtual_environment_file.meta_data.id
 
     ip_config {
-      ipv4 {
-        address = local.use_dhcp ? "dhcp" : var.ip_address
+      dynamic "ipv4" {
+        for_each = local.use_dhcp ? [1] : []
+        content {
+          address = "dhcp"
+        }
+      }
+
+      dynamic "ipv4" {
+        for_each = local.use_dhcp ? [] : [1]
+        content {
+          address = var.ipv4_address
+          gateway = var.ipv4_gateway
+        }
       }
     }
-  }
-
-  agent {
-    enabled = true
   }
 
   cpu {
