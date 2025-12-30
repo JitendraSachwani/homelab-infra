@@ -26,9 +26,13 @@ resource "proxmox_virtual_environment_file" "meta_data" {
 resource "proxmox_virtual_environment_vm" "this" {
   vm_id     = var.vm_id
   name      = var.name
+  tags = concat(local.common_tags, var.tags)
   node_name = var.node_name
 
-  tags = concat(local.common_tags, var.tags)
+  agent {
+    enabled = true
+  }
+
   stop_on_destroy = true
 
   initialization {
@@ -41,10 +45,6 @@ resource "proxmox_virtual_environment_vm" "this" {
         address = local.use_dhcp ? "dhcp" : var.ip_address
       }
     }
-  }
-
-  agent {
-    enabled = true
   }
 
   cpu {

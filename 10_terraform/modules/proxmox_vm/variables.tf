@@ -1,5 +1,5 @@
 variable "vm_id" {
-  description = "Proxmox VM ID"
+  description = "Unique VMID for the VM"
   type        = number
 }
 
@@ -8,24 +8,20 @@ variable "name" {
   type        = string
 }
 
-variable "cloud_init_file_id" {
-  description = "Cloud-init snippet file ID"
-  type        = string
-}
-
-variable "import_disk_id" {
-  description = "QCOW2 image file ID"
-  type        = string
+variable "tags" {
+  type    = list(string)
+  default = []
 }
 
 variable "node_name" {
   type = string
+  description = "Proxmox node name"
   default = "pve"
 }
 
-variable "tags" {
-  type    = list(string)
-  default = []
+variable "cloud_init_file_id" {
+  description = "Cloud-init snippet file ID"
+  type        = string
 }
 
 variable "datastore_id" {
@@ -52,6 +48,11 @@ variable "memory_mb" {
 variable "disk_gb" {
   type    = number
   default = 20
+}
+
+variable "import_disk_id" {
+  description = "QCOW2 image file ID"
+  type        = string
 }
 
 variable "bridge" {
