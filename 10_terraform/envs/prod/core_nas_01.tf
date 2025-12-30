@@ -6,7 +6,7 @@ module "nas_01" {
   }
 
   name  = "prod-nas-01"
-  vm_id = 10201
+  vm_id = 10401
   tags = ["role-nas"]
 
   cloud_init_file_id = proxmox_virtual_environment_file.cloud_init_file.id
