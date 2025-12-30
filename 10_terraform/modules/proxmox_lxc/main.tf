@@ -9,7 +9,6 @@ locals {
 
 resource "proxmox_virtual_environment_container" "this" {
   vm_id     = var.vm_id
-  name      = var.name
   tags = concat(local.common_tags, var.tags)
   node_name = var.node_name
   
