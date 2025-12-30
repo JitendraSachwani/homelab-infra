@@ -3,8 +3,6 @@ locals {
     "env-prod",
     "managed_by-terraform"
   ]
-
-  use_dhcp = var.ip_address == null
 }
 
 resource "proxmox_lxc" "this" {
