@@ -40,4 +40,4 @@ jobs:
         run: |
           ssh -i /home/ci-runner/.ssh/iac_deploy \
               -o StrictHostKeyChecking=no \
-              iac@10.0.1.2
+              iac@10.0.0.24
