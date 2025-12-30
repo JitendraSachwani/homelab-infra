@@ -4,7 +4,7 @@ locals {
     "managed_by-terraform"
   ]
 
-  use_dhcp = var.ip_address == null
+  use_dhcp = var.ipv4_address == null
 }
 
 resource "proxmox_virtual_environment_file" "meta_data" {
@@ -41,8 +41,19 @@ resource "proxmox_virtual_environment_vm" "this" {
     meta_data_file_id = proxmox_virtual_environment_file.meta_data.id
 
     ip_config {
-      ipv4 {
-        address = local.use_dhcp ? "dhcp" : var.ip_address
+      dynamic "ipv4" {
+        for_each = local.use_dhcp ? [1] : []
+        content {
+          address = "dhcp"
+        }
+      }
+
+      dynamic "ipv4" {
+        for_each = local.use_dhcp ? [] : [1]
+        content {
+          address = var.ipv4_address
+          gateway = var.ipv4_gateway
+        }
       }
     }
   }

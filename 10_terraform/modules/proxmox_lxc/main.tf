@@ -3,6 +3,8 @@ locals {
     "env-prod",
     "managed_by-terraform"
   ]
+
+  use_dhcp = var.ipv4_address == null
 }
 
 resource "proxmox_lxc" "this" {
@@ -20,9 +22,19 @@ resource "proxmox_lxc" "this" {
     hostname = var.name
 
     ip_config {
-      ipv4 {
-        address = var.ipv4_address
-        gateway = var.ipv4_gateway
+      dynamic "ipv4" {
+        for_each = local.use_dhcp ? [1] : []
+        content {
+          address = "dhcp"
+        }
+      }
+
+      dynamic "ipv4" {
+        for_each = local.use_dhcp ? [] : [1]
+        content {
+          address = var.ipv4_address
+          gateway = var.ipv4_gateway
+        }
       }
     }
   }
