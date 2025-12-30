@@ -7,12 +7,6 @@ locals {
   use_dhcp = var.ipv4_address == null
 }
 
-resource "random_password" "ubuntu_container_password" {
-  length           = 16
-  override_special = "_%@"
-  special          = true
-}
-
 resource "proxmox_virtual_environment_container" "this" {
   vm_id     = var.vm_id
   tags = concat(local.common_tags, var.tags)
@@ -42,11 +36,6 @@ resource "proxmox_virtual_environment_container" "this" {
         }
       }
     }
-
-    user_account {
-      password = random_password.ubuntu_container_password.result
-    }
-
   }
 
   cpu {
