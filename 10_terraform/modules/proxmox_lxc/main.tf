@@ -50,7 +50,7 @@ resource "proxmox_virtual_environment_container" "this" {
 
   disk {
     datastore_id = var.datastore_id
-    size         = var.disk_size
+    size         = var.disk_gb
   }
 
   network_interface {
@@ -59,7 +59,6 @@ resource "proxmox_virtual_environment_container" "this" {
   }
   
   operating_system {
-    template_file_id = var.template_file
-    type = var.os_type
+    template_file_id = var.template_file_id
   }
 }
