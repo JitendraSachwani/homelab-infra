@@ -8,3 +8,11 @@ resource "proxmox_virtual_environment_download_file" "ubuntu_22_jammy_qcow2" {
   # need to rename the file to *.qcow2 to indicate the actual file format for import
   file_name = "ubuntu-22-jammy-cloudimg-amd64.qcow2"
 }
+
+resource "proxmox_virtual_environment_download_file" "ubuntu_22_jammy_lxc_img" {
+  content_type = "vztmpl"
+  datastore_id = "iso-btrfs"
+  node_name    = "pve"
+
+  url          = "https://cloud-images.ubuntu.com/jammy/current/jammy-server-cloudimg-amd64.tar.gz"
+}
