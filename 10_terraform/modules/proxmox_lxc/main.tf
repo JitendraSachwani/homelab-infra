@@ -7,7 +7,7 @@ locals {
   use_dhcp = var.ipv4_address == null
 }
 
-resource "proxmox_lxc" "this" {
+resource "proxmox_virtual_environment_container" "this" {
   vm_id     = var.vm_id
   name      = var.name
   tags = concat(local.common_tags, var.tags)
