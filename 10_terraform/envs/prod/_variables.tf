@@ -17,7 +17,7 @@ variable "iac_ssh_public_key" {
 variable "proxmox_endpoint" {
   description = "Proxmox API endpoint"
   type        = string
-  default     = "https://192.168.1.2:8006/api2/json"
+  default     = "https://10.0.0.3:8006/api2/json"
 }
 
 variable "proxmox_username" {
