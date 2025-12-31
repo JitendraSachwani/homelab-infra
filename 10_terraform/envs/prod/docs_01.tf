@@ -7,7 +7,7 @@ module "docs_01" {
 
   name  = "prod-docs-01"
   vm_id = 40001
-  ansible_role  = "db_docs"
+  ansible_role  = "docs"
 
   cores = 1
   memory_mb = 512

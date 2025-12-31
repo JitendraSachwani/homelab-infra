@@ -22,7 +22,7 @@
 # CI Runners
 # ------------------------------------------------------------
 - name: Configure CI Runners
-  hosts: ci_runners
+  hosts: ci_runner
   become: true
 
   roles:
