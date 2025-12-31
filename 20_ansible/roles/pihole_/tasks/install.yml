@@ -1,0 +1,21 @@
+- name: Ensure required packages are installed
+  apt:
+    name:
+      - curl
+      - ca-certificates
+      - gnupg
+    state: present
+    update_cache: true
+
+- name: Download Pi-hole installer
+  get_url:
+    url: https://install.pi-hole.net
+    dest: /tmp/install-pihole.sh
+    mode: "0755"
+
+- name: Install Pi-hole (non-interactive)
+  command: >
+    bash /tmp/install-pihole.sh
+    --unattended
+  args:
+    creates: "{{ pihole_install_dir }}"

@@ -62,7 +62,7 @@ resource "proxmox_virtual_environment_container" "this" {
   }
 
   network_interface {
-    name   = "veth0"
+    name   = "eth0"
     bridge = var.bridge
   }
   

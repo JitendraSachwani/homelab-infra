@@ -18,8 +18,9 @@
     - iac_controller
 
 
+
 # ------------------------------------------------------------
-# CI Runners
+# Core Stack
 # ------------------------------------------------------------
 - name: Configure CI Runners
   hosts: ci_runner
@@ -30,6 +31,13 @@
     - docker
     - ci_runner
 
+- name: Configure Pi-hole
+  hosts: pihole
+  become: true
+
+  roles:
+    - common
+    - pihole
 
 # # ------------------------------------------------------------
 # # Monitoring Stack
