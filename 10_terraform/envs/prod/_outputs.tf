@@ -2,6 +2,15 @@ locals {
   all_hosts = [
     module.ci_runner_01,
     module.pihole_01,
+    module.nas_01,
+    module.redis_01,
+    module.mongo_01,
+    module.mysql_01,
+    module.postgres_01,
+    module.docs_01,
+    module.media_mgmt_01,
+    module.media_srv_01,
+    module.observability_01,
   ]
 
   ansible_inventory = {
