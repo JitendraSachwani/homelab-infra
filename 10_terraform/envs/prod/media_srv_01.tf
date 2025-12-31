@@ -7,7 +7,7 @@ module "media_srv_01" {
 
   name  = "prod-media-srv-01"
   vm_id = 50001
-  tags = ["role-media"]
+  ansible_role = "media_srv"
   
   cores = 4
   memory_mb = 3072

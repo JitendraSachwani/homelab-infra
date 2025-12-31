@@ -7,7 +7,7 @@ module "pihole_01" {
 
   name  = "prod-pihole-01"
   vm_id = 15301
-  tags = ["role-pihole"]
+  ansible_role  = "pi_hole"
   
   ipv4_address = "10.0.1.53/16"
   ipv4_gateway = "10.0.0.1"

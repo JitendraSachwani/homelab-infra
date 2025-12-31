@@ -1,11 +1,19 @@
-output "ansible_hosts" {
-  value = {
-    ci_runners = {
-      for m in [
-        module.ci_runner_01,
-        module.pihole_01
-      ] :
-      m.name => m.ipv4_address
+locals {
+  all_hosts = [
+    module.ci_runner_01,
+    module.pihole_01,
+  ]
+
+  ansible_inventory = {
+    for role in distinct([for h in local.all_hosts : h.ansible_role]) :
+    role => {
+      for h in local.all_hosts :
+      h.name => h.ipv4_address
+      if h.ansible_role == role
     }
   }
+}
+
+output "ansible_hosts" {
+  value = local.ansible_inventory
 }

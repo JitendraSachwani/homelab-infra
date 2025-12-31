@@ -8,9 +8,9 @@ variable "name" {
   type        = string
 }
 
-variable "tags" {
-  type    = list(string)
-  default = []
+variable "ansible_role" {
+  type        = string
+  description = "Ansible role/group name for inventory generation"
 }
 
 variable "node_name" {

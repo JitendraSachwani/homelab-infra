@@ -7,7 +7,7 @@ module "mongo_01" {
 
   name  = "prod-mongo-01"
   vm_id = 20301
-  tags = ["role-database","role-mongo"]
+  ansible_role  = "db_mongo"
 
   cores = 2
   memory_mb = 2048

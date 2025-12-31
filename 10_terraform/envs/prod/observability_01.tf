@@ -7,7 +7,7 @@ module "observability_01" {
 
   name  = "prod-observability-01"
   vm_id = 30001
-  tags = ["role-observability"]
+  ansible_role = "observability"
   
   cores = 2
   memory_mb = 2048

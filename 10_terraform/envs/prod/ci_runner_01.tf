@@ -7,7 +7,7 @@ module "ci_runner_01" {
 
   name  = "prod-ci-runner-01"
   vm_id = 10301
-  tags = ["role-ci"]
+  ansible_role  = "ci_runner"
 
   cloud_init_file_id = proxmox_virtual_environment_file.cloud_init_file.id
   import_disk_id = proxmox_virtual_environment_download_file.ubuntu_22_jammy_qcow2.id

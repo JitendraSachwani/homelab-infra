@@ -3,6 +3,12 @@ locals {
     "env-prod",
     "managed_by-terraform"
   ]
+  role_tag = "role-${var.ansible_role}"
+
+  tags = concat(
+    local.common_tags,
+    [local.role_tag]
+  )
 
   use_dhcp = var.ipv4_address == null
 }
@@ -26,8 +32,8 @@ resource "proxmox_virtual_environment_file" "meta_data" {
 resource "proxmox_virtual_environment_vm" "this" {
   vm_id     = var.vm_id
   name      = var.name
-  tags = concat(local.common_tags, var.tags)
   node_name = var.node_name
+  tags      = local.tags
 
   agent {
     enabled = true

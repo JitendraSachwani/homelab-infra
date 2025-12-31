@@ -7,7 +7,7 @@ module "mysql_01" {
 
   name  = "prod-mysql-01"
   vm_id = 20101
-  tags = ["role-database","role-mysql"]
+  ansible_role  = "db_mysql"
 
   cores = 2
   memory_mb = 2048

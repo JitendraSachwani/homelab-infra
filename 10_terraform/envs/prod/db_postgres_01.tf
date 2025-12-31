@@ -7,7 +7,7 @@ module "postgres_01" {
 
   name  = "prod-postgres-01"
   vm_id = 20201
-  tags = ["role-database","role-postgres"]
+  ansible_role  = "db_postgres"
 
   cores = 2
   memory_mb = 2048

@@ -7,7 +7,7 @@ module "redis_01" {
 
   name  = "prod-redis-01"
   vm_id = 20001
-  tags = ["role-database","role-redis"]
+  ansible_role  = "db_redis"
 
   cores = 1
   memory_mb = 512

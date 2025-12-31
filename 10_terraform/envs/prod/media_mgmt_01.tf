@@ -7,7 +7,7 @@ module "media_mgmt_01" {
 
   name  = "prod-media-mgmt-01"
   vm_id = 50201
-  tags = ["role-media"]
+  ansible_role  = "media_mgmt"
   
   cores = 2
   memory_mb = 3072
