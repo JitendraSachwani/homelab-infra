@@ -61,5 +61,6 @@ module "databases" {
   memory_mb = each.value.memory_mb
   disk_gb   = each.value.disk_gb
 
-  template_file_id = "iso-btrfs:vztmpl/debian-12-standard_12.12-1_amd64.tar.zst"
+  cloud_init_file_id = proxmox_virtual_environment_file.cloud_init_file.id
+  import_disk_id = proxmox_virtual_environment_download_file.ubuntu_22_jammy_qcow2.id
 }
