@@ -45,8 +45,7 @@ locals {
 module "databases" {
   for_each = local.databases
 
-  source = "../../modules/proxmox_lxc"
-
+  source = "../../modules/proxmox_vm"
   providers = {
     proxmox = proxmox
   }
