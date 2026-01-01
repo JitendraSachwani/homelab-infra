@@ -31,13 +31,40 @@
     - docker
     - ci_runner
 
-- name: Configure Pi-hole
-  hosts: pihole
-  become: true
+# - name: Configure Pi-hole
+#   hosts: pihole
+#   become: true
 
+#   roles:
+#     - common
+#     - pihole
+
+# ------------------------------------------------------------
+# Databases
+# ------------------------------------------------------------
+- name: Configure Redis
+  hosts: db_redis
+  become: true
   roles:
-    - common
-    - pihole
+    - db_redis
+
+- name: Configure MySQL
+  hosts: db_mysql
+  become: true
+  roles:
+    - db_mysql
+
+- name: Configure PostgreSQL
+  hosts: db_postgres
+  become: true
+  roles:
+    - db_postgres
+
+- name: Configure MongoDB
+  hosts: db_mongo
+  become: true
+  roles:
+    - db_mongo
 
 # # ------------------------------------------------------------
 # # Monitoring Stack
@@ -49,18 +76,6 @@
 #   roles:
 #     - common
 #     - monitoring
-
-
-# # ------------------------------------------------------------
-# # Databases
-# # ------------------------------------------------------------
-# - name: Configure Database Nodes
-#   hosts: databases
-#   become: true
-
-#   roles:
-#     - common
-#     - databases
 
 
 # # ------------------------------------------------------------

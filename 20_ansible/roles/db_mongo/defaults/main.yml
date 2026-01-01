@@ -1,0 +1,2 @@
+mongo_version: "6.0"
+mongo_bind_ip: "127.0.0.1"

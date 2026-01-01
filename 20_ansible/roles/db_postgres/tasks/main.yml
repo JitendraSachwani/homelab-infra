@@ -1,0 +1,20 @@
+- name: Install PostgreSQL
+  apt:
+    name:
+      - postgresql
+      - postgresql-contrib
+    state: present
+    update_cache: true
+
+- name: Ensure PostgreSQL is enabled
+  systemd:
+    name: postgresql
+    enabled: true
+    state: started
+
+- name: Configure listen_addresses
+  lineinfile:
+    path: "/etc/postgresql/{{ postgres_version }}/main/postgresql.conf"
+    regexp: "^#?listen_addresses"
+    line: "listen_addresses = '{{ postgres_listen_address }}'"
+  notify: Restart PostgreSQL

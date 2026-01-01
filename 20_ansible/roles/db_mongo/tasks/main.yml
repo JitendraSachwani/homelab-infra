@@ -1,0 +1,28 @@
+- name: Add MongoDB GPG key
+  apt_key:
+    url: https://pgp.mongodb.com/server-{{ mongo_version }}.asc
+    state: present
+
+- name: Add MongoDB repository
+  apt_repository:
+    repo: "deb [ arch=amd64 ] https://repo.mongodb.org/apt/debian bookworm/mongodb-org/{{ mongo_version }} main"
+    state: present
+
+- name: Install MongoDB
+  apt:
+    name: mongodb-org
+    state: present
+    update_cache: true
+
+- name: Configure MongoDB bind IP
+  lineinfile:
+    path: /etc/mongod.conf
+    regexp: "^  bindIp:"
+    line: "  bindIp: {{ mongo_bind_ip }}"
+  notify: Restart MongoDB
+
+- name: Enable MongoDB
+  systemd:
+    name: mongod
+    enabled: true
+    state: started
