@@ -1,84 +1,66 @@
-module "db_redis_01" {
-  source = "../../modules/proxmox_vm"
-  providers = {
-    proxmox = proxmox
+locals {
+  databases = {
+    redis = {
+      name         = "prod-redis-01"
+      vm_id        = 20001
+      role         = "db_redis"
+      ip           = "10.0.2.0/16"
+      cores        = 1
+      memory_mb    = 512
+      disk_gb      = 10
+    }
+
+    mysql = {
+      name         = "prod-mysql-01"
+      vm_id        = 20101
+      role         = "db_mysql"
+      ip           = "10.0.2.1/16"
+      cores        = 2
+      memory_mb    = 2048
+      disk_gb      = 50
+    }
+
+    postgres = {
+      name         = "prod-postgres-01"
+      vm_id        = 20201
+      role         = "db_postgres"
+      ip           = "10.0.2.2/16"
+      cores        = 2
+      memory_mb    = 2048
+      disk_gb      = 50
+    }
+
+    mongo = {
+      name         = "prod-mongo-01"
+      vm_id        = 20301
+      role         = "db_mongo"
+      ip           = "10.0.2.3/16"
+      cores        = 2
+      memory_mb    = 2048
+      disk_gb      = 50
+    }
   }
-
-  name  = "prod-redis-01"
-  vm_id = 20001
-  ansible_role  = "db_redis"
-
-  ipv4_address = "10.0.2.0/16"
-  ipv4_gateway = "10.0.0.1"
-
-  cores = 1
-  memory_mb = 512
-  disk_gb = 20
-
-  cloud_init_file_id = proxmox_virtual_environment_file.cloud_init_file.id
-  import_disk_id = proxmox_virtual_environment_download_file.ubuntu_22_jammy_qcow2.id
 }
 
-module "db_mysql_01" {
-  source = "../../modules/proxmox_vm"
+module "databases" {
+  for_each = local.databases
+
+  source = "../../modules/proxmox_lxc"
 
   providers = {
     proxmox = proxmox
   }
 
-  name  = "prod-mysql-01"
-  vm_id = 20101
-  ansible_role  = "db_mysql"
+  name          = each.value.name
+  vm_id         = each.value.vm_id
+  ansible_role  = each.value.role
 
-  ipv4_address = "10.0.2.1/16"
+  ipv4_address = each.value.ip
   ipv4_gateway = "10.0.0.1"
 
-  cores = 2
-  memory_mb = 2048
-  disk_gb = 50
+  cores      = each.value.cores
+  memory_mb = each.value.memory_mb
+  disk_gb   = each.value.disk_gb
 
-  cloud_init_file_id = proxmox_virtual_environment_file.cloud_init_file.id
-  import_disk_id = proxmox_virtual_environment_download_file.ubuntu_22_jammy_qcow2.id
-}
-
-module "db_postgres_01" {
-  source = "../../modules/proxmox_vm"
-  providers = {
-    proxmox = proxmox
-  }
-
-  name  = "prod-postgres-01"
-  vm_id = 20201
-  ansible_role  = "db_postgres"
-
-  ipv4_address = "10.0.2.2/16"
-  ipv4_gateway = "10.0.0.1"
-
-  cores = 2
-  memory_mb = 2048
-  disk_gb = 50
-
-  cloud_init_file_id = proxmox_virtual_environment_file.cloud_init_file.id
-  import_disk_id = proxmox_virtual_environment_download_file.ubuntu_22_jammy_qcow2.id
-}
-
-module "db_mongo_01" {
-  source = "../../modules/proxmox_vm"
-  providers = {
-    proxmox = proxmox
-  }
-
-  name  = "prod-mongo-01"
-  vm_id = 20301
-  ansible_role  = "db_mongo"
-
-  ipv4_address = "10.0.2.3/16"
-  ipv4_gateway = "10.0.0.1"
-
-  cores = 2
-  memory_mb = 2048
-  disk_gb = 50
-
-  cloud_init_file_id = proxmox_virtual_environment_file.cloud_init_file.id
-  import_disk_id = proxmox_virtual_environment_download_file.ubuntu_22_jammy_qcow2.id
+  template_file_id = "iso-btrfs:vztmpl/debian-12-standard_12.12-1_amd64.tar.zst"
 }
