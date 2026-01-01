@@ -1,28 +1,31 @@
-- name: Fail if not Ubuntu
-  ansible.builtin.fail:
-    msg: "MongoDB role supports Ubuntu only"
-  when: ansible_distribution != "Ubuntu"
-
 - name: Install required packages
   ansible.builtin.apt:
     name:
+      - ca-certificates
       - gnupg
       - curl
     state: present
     update_cache: true
 
-- name: Add MongoDB GPG key
+- name: Download MongoDB ASCII GPG key
   ansible.builtin.get_url:
     url: https://pgp.mongodb.com/server-6.0.asc
-    dest: /usr/share/keyrings/mongodb-server-6.0.gpg
+    dest: /tmp/mongodb-server-6.0.asc
+    mode: "0644"
+
+- name: Dearmor MongoDB GPG key
+  ansible.builtin.command:
+    cmd: gpg --dearmor -o /usr/share/keyrings/mongodb-server-6.0.gpg /tmp/mongodb-server-6.0.asc
+    creates: /usr/share/keyrings/mongodb-server-6.0.gpg
 
 - name: Add MongoDB repository (Ubuntu Jammy)
   ansible.builtin.apt_repository:
     repo: >
       deb [ arch=amd64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ]
       https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse
-    state: present
     filename: mongodb-org-6.0
+    state: present
+    update_cache: false
 
 - name: Update apt cache
   ansible.builtin.apt:
