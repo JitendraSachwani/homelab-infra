@@ -1,7 +1,6 @@
 locals {
   all_hosts = [
     module.ci_runner_01,
-    module.pihole_01,
     module.nas_01,
 
     module.db_redis_01,
