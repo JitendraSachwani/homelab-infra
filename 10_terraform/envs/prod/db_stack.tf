@@ -58,8 +58,9 @@ module "databases" {
   ipv4_gateway = "10.0.0.1"
 
   cores      = each.value.cores
-  memory_mb = each.value.memory_mb
-  disk_gb   = each.value.disk_gb
+  memory_mb  = each.value.memory_mb
+  disk_gb    = each.value.disk_gb
+  os_type    = "host"
 
   cloud_init_file_id = proxmox_virtual_environment_file.cloud_init_file.id
   import_disk_id = proxmox_virtual_environment_download_file.ubuntu_22_jammy_qcow2.id
