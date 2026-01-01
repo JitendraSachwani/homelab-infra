@@ -7,25 +7,30 @@
     state: present
     update_cache: true
 
+- name: Ensure apt keyrings directory exists
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
 - name: Download MongoDB ASCII GPG key
   ansible.builtin.get_url:
     url: https://pgp.mongodb.com/server-6.0.asc
     dest: /tmp/mongodb-server-6.0.asc
     mode: "0644"
 
-- name: Dearmor MongoDB GPG key
+- name: Dearmor MongoDB GPG key to apt keyrings
   ansible.builtin.command:
-    cmd: gpg --dearmor -o /usr/share/keyrings/mongodb-server-6.0.gpg /tmp/mongodb-server-6.0.asc
-    creates: /usr/share/keyrings/mongodb-server-6.0.gpg
+    cmd: gpg --dearmor -o /etc/apt/keyrings/mongodb-server-6.0.gpg /tmp/mongodb-server-6.0.asc
+    creates: /etc/apt/keyrings/mongodb-server-6.0.gpg
 
 - name: Add MongoDB repository (Ubuntu Jammy)
   ansible.builtin.apt_repository:
     repo: >
-      deb [ arch=amd64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ]
+      deb [ arch=amd64 signed-by=/etc/apt/keyrings/mongodb-server-6.0.gpg ]
       https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse
     filename: mongodb-org-6.0
     state: present
-    update_cache: false
 
 - name: Update apt cache
   ansible.builtin.apt:
@@ -35,9 +40,3 @@
   ansible.builtin.apt:
     name: mongodb-org
     state: present
-
-- name: Enable and start MongoDB
-  ansible.builtin.systemd:
-    name: mongod
-    enabled: true
-    state: started
