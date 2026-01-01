@@ -32,6 +32,7 @@ variable "nesting" {
 variable "ipv4_address" {
   description = "Static IPv4 address (DHCP)"
   type        = string
+  default     = null
 }
 
 variable "ipv4_gateway" {
