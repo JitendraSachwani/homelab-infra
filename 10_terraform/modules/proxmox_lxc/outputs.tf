@@ -9,5 +9,5 @@ output "ansible_role" {
 
 output "ipv4_address" {
   description = "Primary IPv4 address of the VM"
-  value       = var.ipv4_address
+  value       = proxmox_virtual_environment_container.this.ipv4["eth0"]
 }
