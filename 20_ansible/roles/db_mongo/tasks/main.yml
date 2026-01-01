@@ -1,28 +1,41 @@
-- name: Add MongoDB GPG key
-  apt_key:
-    url: https://pgp.mongodb.com/server-{{ mongo_version }}.asc
-    state: present
+- name: Fail if not Ubuntu
+  ansible.builtin.fail:
+    msg: "MongoDB role supports Ubuntu only"
+  when: ansible_distribution != "Ubuntu"
 
-- name: Add MongoDB repository
-  apt_repository:
-    repo: "deb [ arch=amd64 ] https://repo.mongodb.org/apt/debian bookworm/mongodb-org/{{ mongo_version }} main"
-    state: present
-
-- name: Install MongoDB
-  apt:
-    name: mongodb-org
+- name: Install required packages
+  ansible.builtin.apt:
+    name:
+      - gnupg
+      - curl
     state: present
     update_cache: true
 
-- name: Configure MongoDB bind IP
-  lineinfile:
-    path: /etc/mongod.conf
-    regexp: "^  bindIp:"
-    line: "  bindIp: {{ mongo_bind_ip }}"
-  notify: Restart MongoDB
+- name: Add MongoDB GPG key
+  ansible.builtin.get_url:
+    url: https://pgp.mongodb.com/server-6.0.asc
+    dest: /usr/share/keyrings/mongodb-server-6.0.gpg
+    mode: "0644"
 
-- name: Enable MongoDB
-  systemd:
+- name: Add MongoDB repository (Ubuntu Jammy)
+  ansible.builtin.apt_repository:
+    repo: >
+      deb [ arch=amd64 signed-by=/usr/share/keyrings/mongodb-server-6.0.gpg ]
+      https://repo.mongodb.org/apt/ubuntu jammy/mongodb-org/6.0 multiverse
+    state: present
+    filename: mongodb-org-6.0
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install MongoDB
+  ansible.builtin.apt:
+    name: mongodb-org
+    state: present
+
+- name: Enable and start MongoDB
+  ansible.builtin.systemd:
     name: mongod
     enabled: true
     state: started
