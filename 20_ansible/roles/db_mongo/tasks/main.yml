@@ -40,3 +40,9 @@
   ansible.builtin.apt:
     name: mongodb-org
     state: present
+
+- name: Enable and start MongoDB
+  ansible.builtin.systemd:
+    name: mongod
+    enabled: true
+    state: started
