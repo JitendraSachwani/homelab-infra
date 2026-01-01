@@ -15,7 +15,6 @@
   ansible.builtin.get_url:
     url: https://pgp.mongodb.com/server-6.0.asc
     dest: /usr/share/keyrings/mongodb-server-6.0.gpg
-    mode: "0644"
 
 - name: Add MongoDB repository (Ubuntu Jammy)
   ansible.builtin.apt_repository:
