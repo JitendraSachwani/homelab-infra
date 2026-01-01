@@ -37,6 +37,7 @@ variable "ipv4_address" {
 variable "ipv4_gateway" {
   type        = string
   description = "IPv4 gateway"
+  default     = null
 }
 
 variable "datastore_id" {
