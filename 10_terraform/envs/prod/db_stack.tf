@@ -55,8 +55,8 @@ module "databases" {
   vm_id         = each.value.vm_id
   ansible_role  = each.value.role
 
-  ipv4_address = each.value.ip
-  ipv4_gateway = "10.0.0.1"
+  # ipv4_address = each.value.ip
+  # ipv4_gateway = "10.0.0.1"
 
   cores      = each.value.cores
   memory_mb = each.value.memory_mb
