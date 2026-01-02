@@ -17,11 +17,16 @@
     state: directory
     mode: "0755"
 
-- name: Download Jellyfin GPG key
+- name: Download Jellyfin GPG key (ASCII)
   ansible.builtin.get_url:
     url: https://repo.jellyfin.org/jellyfin_team.gpg.key
-    dest: /etc/apt/keyrings/jellyfin.gpg
+    dest: /tmp/jellyfin.asc
     mode: "0644"
+
+- name: Dearmor Jellyfin GPG key
+  ansible.builtin.command:
+    cmd: gpg --dearmor -o /etc/apt/keyrings/jellyfin.gpg /tmp/jellyfin.asc
+    creates: /etc/apt/keyrings/jellyfin.gpg
 
 - name: Add Jellyfin repository
   ansible.builtin.apt_repository:
