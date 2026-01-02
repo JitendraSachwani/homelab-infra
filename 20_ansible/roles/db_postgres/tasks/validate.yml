@@ -6,7 +6,7 @@
 
 - name: Verify PostgreSQL responds
   ansible.builtin.command: >
-    psql -h {{ ansible_host }} -U postgres -d postgres -c "SELECT 1;"
+    sudo -u postgres psql -d postgres -c "SELECT 1;"
   register: pg_test
   failed_when: pg_test.rc != 0
   changed_when: false
