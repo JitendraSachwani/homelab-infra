@@ -79,7 +79,7 @@
     name: servarr_app
   vars:
     servarr_name: radarr
-    servarr_binary: Radarr
+    servarr_binary: Radarr/Radarr
     servarr_port: 7878
     servarr_download_url: "http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64"
     servarr_dependencies:
@@ -91,7 +91,7 @@
     name: servarr_app
   vars:
     servarr_name: sonarr
-    servarr_binary: Sonarr
+    servarr_binary: Sonarr/Sonarr
     servarr_port: 8989
     servarr_download_url: "https://services.sonarr.tv/v1/download/main/latest?version=4&os=linux&arch=x64"
     servarr_dependencies:
@@ -103,7 +103,7 @@
     name: servarr_app
   vars:
     servarr_name: lidarr
-    servarr_binary: Lidarr
+    servarr_binary: Lidarr/Lidarr
     servarr_port: 8686
     servarr_download_url: "http://lidarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64"
     servarr_dependencies:
