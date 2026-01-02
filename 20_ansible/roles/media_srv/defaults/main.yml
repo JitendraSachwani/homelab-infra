@@ -5,3 +5,4 @@ tdarr_install_dir: "/opt/tdarr"
 tdarr_node_name: "{{ inventory_hostname }}"
 tdarr_server_ip: "10.0.5.1"
 tdarr_server_port: 8266
+tdarr_upgrade: false

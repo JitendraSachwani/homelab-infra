@@ -1,7 +1,7 @@
 servarr_user_shell: /usr/sbin/nologin
 servarr_install_root: /opt
 servarr_data_root: /var/lib
-servarr_update: false
+servarr_upgrade: false
 
 # Required variables (contract)
 #

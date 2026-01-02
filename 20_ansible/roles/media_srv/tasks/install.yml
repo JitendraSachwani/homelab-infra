@@ -53,21 +53,21 @@
         tdarr_versions.json[tdarr_latest_version].linux_x64.Tdarr_Node
       }}
 
-- name: Set Tdarr server URL
-  ansible.builtin.set_fact:
-    tdarr_server_url: >-
-      {{
-        tdarr_versions.json[tdarr_latest_version].linux_x64.Tdarr_Server
-      }}
+- name: Check if Tdarr Node is already installed
+  ansible.builtin.stat: 
+    path: "{{ tdarr_install_dir }}/Tdarr_Node"
+  register: tdarr_binary_stat
 
 - name: Download Tdarr node
   ansible.builtin.get_url:
     url: "{{ tdarr_node_url }}"
     dest: /tmp/tdarr_node.zip
     mode: "0644"
+  when: tdarr_upgrade or not tdarr_binary_stat.stat.exists
 
 - name: Extract Tdarr node
   ansible.builtin.unarchive:
     src: /tmp/tdarr_node.zip
     dest: "{{ tdarr_install_dir }}"
     remote_src: true
+  when: tdarr_upgrade or not tdarr_binary_stat.stat.exists

@@ -43,17 +43,24 @@
         tdarr_versions.json[tdarr_latest_version].linux_x64.Tdarr_Server
       }}
 
+- name: Check if Tdarr Node is already installed
+  ansible.builtin.stat: 
+    path: "{{ tdarr_install_dir }}/Tdarr_Server"
+  register: tdarr_binary_stat
+
 - name: Download Tdarr server
   ansible.builtin.get_url:
     url: "{{ tdarr_server_url }}"
     dest: "/tmp/tdarr_server.tar.gz"
     mode: "0644"
+  when: tdarr_upgrade or not tdarr_binary_stat.stat.exists
 
 - name: Extract Tdarr server
   ansible.builtin.unarchive:
     src: /tmp/tdarr_server.tar.gz
     dest: "{{ tdarr_install_dir }}"
     remote_src: true
+  when: tdarr_upgrade or not tdarr_binary_stat.stat.exists
 
 - name: Install Prowlarr
   ansible.builtin.include_role:
@@ -102,3 +109,5 @@
     servarr_dependencies:
       - curl
       - sqlite3
+      - libchromaprint-tools
+      - mediainfo

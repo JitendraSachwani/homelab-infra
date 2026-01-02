@@ -23,12 +23,17 @@
     update_cache: false
   when: servarr_dependencies | length > 0
 
+- name: Check if {{ servarr_name }} is already installed
+  ansible.builtin.stat:
+    path: "{{ servarr_install_root }}/{{ servarr_name }}/{{ servarr_binary }}"
+  register: servarr_binary_stat
 
 - name: Download {{ servarr_name }} archive
   ansible.builtin.get_url:
     url: "{{ servarr_download_url }}"
     dest: "/tmp/{{ servarr_name }}.tar.gz"
     mode: "0644"
+  when: servarr_upgrade or not servarr_binary_stat.stat.exists
 
 - name: Extract {{ servarr_name }}
   ansible.builtin.unarchive:
@@ -37,3 +42,4 @@
     remote_src: true
     owner: "{{ servarr_name }}"
     group: "{{ servarr_name }}"
+  when: servarr_upgrade or not servarr_binary_stat.stat.exists
