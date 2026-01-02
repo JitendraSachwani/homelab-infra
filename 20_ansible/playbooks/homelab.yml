@@ -17,15 +17,12 @@
     - common
     - iac_controller
 
-
-
 # ------------------------------------------------------------
 # Core Stack
 # ------------------------------------------------------------
 - name: Configure CI Runners
   hosts: ci_runner
   become: true
-
   roles:
     - common
     - docker
@@ -34,7 +31,6 @@
 # - name: Configure Pi-hole
 #   hosts: pihole
 #   become: true
-
 #   roles:
 #     - common
 #     - pihole
@@ -72,10 +68,19 @@
 # - name: Configure Monitoring Nodes
 #   hosts: monitoring
 #   become: true
-
 #   roles:
 #     - common
 #     - monitoring
+
+# # ------------------------------------------------------------
+# # Docs / Wikis
+# # ------------------------------------------------------------
+# - name: Configure Documentation Nodes
+#   hosts: docs
+#   become: true
+#   roles:
+#     - common
+#     - docs
 
 
 # ------------------------------------------------------------
@@ -93,27 +98,3 @@
   become: true
   roles:
     - media_mgmt
-
-
-
-# # ------------------------------------------------------------
-# # Docs / Wikis
-# # ------------------------------------------------------------
-# - name: Configure Documentation Nodes
-#   hosts: docs
-#   become: true
-
-#   roles:
-#     - common
-#     - docs
-
-
-# # ------------------------------------------------------------
-# # Misc / Experimental
-# # ------------------------------------------------------------
-# - name: Configure Misc Nodes
-#   hosts: misc
-#   become: true
-
-#   roles:
-#     - common

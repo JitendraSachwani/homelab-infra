@@ -11,11 +11,30 @@
       - ca-certificates
     state: present
 
+- name: Ensure apt keyrings directory exists
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Download Jellyfin GPG key
+  ansible.builtin.get_url:
+    url: https://repo.jellyfin.org/jellyfin_team.gpg.key
+    dest: /etc/apt/keyrings/jellyfin.gpg
+    mode: "0644"
+
 - name: Add Jellyfin repository
   ansible.builtin.apt_repository:
-    repo: "deb [arch=amd64] https://repo.jellyfin.org/ubuntu jammy main"
+    repo: >
+      deb [arch=amd64 signed-by=/etc/apt/keyrings/jellyfin.gpg]
+      https://repo.jellyfin.org/ubuntu jammy main
     filename: jellyfin
     state: present
+    update_cache: false
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
 
 - name: Install Jellyfin
   ansible.builtin.apt:
