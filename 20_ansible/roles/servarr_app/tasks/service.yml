@@ -1,0 +1,20 @@
+- name: Install {{ servarr_name }} systemd service
+  ansible.builtin.template:
+    src: servarr.service.j2
+    dest: "/etc/systemd/system/{{ servarr_name }}.service"
+    mode: "0644"
+
+- name: Reload systemd
+  ansible.builtin.systemd:
+    daemon_reload: true
+
+- name: Enable and start {{ servarr_name }}
+  ansible.builtin.systemd:
+    name: "{{ servarr_name }}"
+    enabled: true
+    state: started
+
+- name: Wait for {{ servarr_name }} to respond
+  ansible.builtin.wait_for:
+    port: "{{ servarr_port }}"
+    timeout: 30

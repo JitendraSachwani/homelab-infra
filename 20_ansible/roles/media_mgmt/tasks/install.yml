@@ -55,43 +55,50 @@
     dest: "{{ tdarr_install_dir }}"
     remote_src: true
 
-- name: Add Prowlarr repository
+- name: Install Prowlarr
   ansible.builtin.include_role:
-    name: apt_repo
+    name: servarr_app
   vars:
-    apt_repo_name: prowlarr
-    apt_repo_key_url: https://apt.prowlarr.com/prowlarr.gpg.key
-    apt_repo_repo_line: "https://apt.prowlarr.com/ master main"
+    servarr_name: prowlarr
+    servarr_binary: Prowlarr
+    servarr_port: 9696
+    servarr_download_url: "http://prowlarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64"
+    servarr_dependencies:
+      - curl
+      - sqlite3
 
-- name: Add Sonarr repository
+- name: Install Radarr
   ansible.builtin.include_role:
-    name: apt_repo
+    name: servarr_app
   vars:
-    apt_repo_name: sonarr
-    apt_repo_key_url: https://apt.sonarr.tv/sonarr.gpg.key
-    apt_repo_repo_line: "https://apt.sonarr.tv/ master main"
+    servarr_name: radarr
+    servarr_binary: Radarr
+    servarr_port: 7878
+    servarr_download_url: "http://radarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64"
+    servarr_dependencies:
+      - curl
+      - sqlite3
 
-- name: Add Radarr repository
+- name: Install Sonarr
   ansible.builtin.include_role:
-    name: apt_repo
+    name: servarr_app
   vars:
-    apt_repo_name: radarr
-    apt_repo_key_url: https://apt.radarr.video/radarr.gpg.key
-    apt_repo_repo_line: "https://apt.radarr.video/ master main"
+    servarr_name: sonarr
+    servarr_binary: Sonarr
+    servarr_port: 8989
+    servarr_download_url: "https://services.sonarr.tv/v1/download/main/latest?version=4&os=linux&arch=x64"
+    servarr_dependencies:
+      - curl
+      - sqlite3
 
-- name: Add Lidarr repository
+- name: Install Lidarr
   ansible.builtin.include_role:
-    name: apt_repo
+    name: servarr_app
   vars:
-    apt_repo_name: lidarr
-    apt_repo_key_url: https://apt.lidarr.audio/lidarr.gpg.key
-    apt_repo_repo_line: "https://apt.lidarr.audio/ master main"
-
-- name: Install Arr applications
-  ansible.builtin.apt:
-    name:
-      - prowlarr
-      - sonarr
-      - radarr
-      - lidarr
-    state: present
+    servarr_name: lidarr
+    servarr_binary: Lidarr
+    servarr_port: 8686
+    servarr_download_url: "http://lidarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64"
+    servarr_dependencies:
+      - curl
+      - sqlite3

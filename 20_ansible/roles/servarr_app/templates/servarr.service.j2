@@ -1,0 +1,15 @@
+[Unit]
+Description={{ servarr_name | capitalize }} Service
+After=network.target
+
+[Service]
+User={{ servarr_name }}
+Group={{ servarr_name }}
+Type=simple
+ExecStart={{ servarr_install_root }}/{{ servarr_name }}/{{ servarr_binary }}
+Restart=on-failure
+TimeoutStopSec=20
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,39 @@
+- name: Create {{ servarr_name }} user
+  ansible.builtin.user:
+    name: "{{ servarr_name }}"
+    system: true
+    shell: "{{ servarr_user_shell }}"
+    home: "{{ servarr_data_root }}/{{ servarr_name }}"
+
+- name: Create {{ servarr_name }} directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    owner: "{{ servarr_name }}"
+    group: "{{ servarr_name }}"
+    mode: "0755"
+  loop:
+    - "{{ servarr_install_root }}/{{ servarr_name }}"
+    - "{{ servarr_data_root }}/{{ servarr_name }}"
+
+- name: Install {{ servarr_name }} dependencies
+  ansible.builtin.apt:
+    name: "{{ servarr_dependencies }}"
+    state: present
+    update_cache: false
+  when: servarr_dependencies | length > 0
+
+
+- name: Download {{ servarr_name }} archive
+  ansible.builtin.get_url:
+    url: "{{ servarr_download_url }}"
+    dest: "/tmp/{{ servarr_name }}.tar.gz"
+    mode: "0644"
+
+- name: Extract {{ servarr_name }}
+  ansible.builtin.unarchive:
+    src: "/tmp/{{ servarr_name }}.tar.gz"
+    dest: "{{ servarr_install_root }}/{{ servarr_name }}"
+    remote_src: true
+    owner: "{{ servarr_name }}"
+    group: "{{ servarr_name }}"
