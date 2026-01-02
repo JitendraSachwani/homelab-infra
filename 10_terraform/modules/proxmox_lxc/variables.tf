@@ -14,19 +14,19 @@ variable "ansible_role" {
 }
 
 variable "node_name" {
-  type = string
+  type        = string
   description = "Proxmox node name"
-  default = "pve"
+  default     = "pve"
 }
 
 variable "unprivileged" {
-  type        = bool
-  default     = true
+  type    = bool
+  default = true
 }
 
 variable "nesting" {
-  type        = bool
-  default     = true
+  type    = bool
+  default = true
 }
 
 variable "ipv4_address" {
@@ -42,28 +42,28 @@ variable "ipv4_gateway" {
 }
 
 variable "datastore_id" {
-  type        = string
-  default     = "local-btrfs"
+  type    = string
+  default = "local-btrfs"
 }
 
 variable "cores" {
-  type        = number
-  default     = 1
+  type    = number
+  default = 1
 }
 
 variable "memory_mb" {
-  type        = number
-  default     = 512
+  type    = number
+  default = 512
 }
 
 variable "swap_mb" {
-  type        = number
-  default     = 512
+  type    = number
+  default = 512
 }
 
 variable "disk_gb" {
-  type        = string
-  default     = 10
+  type    = string
+  default = 10
 }
 
 variable "template_file_id" {
@@ -72,7 +72,7 @@ variable "template_file_id" {
 }
 
 variable "bridge" {
-  type        = string
-  default     = "vmbr0"
+  type    = string
+  default = "vmbr0"
 }
 

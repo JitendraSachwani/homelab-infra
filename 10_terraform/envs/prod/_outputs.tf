@@ -2,12 +2,12 @@ locals {
   single_hosts = [
     module.ci_runner_01,
     module.nas_01,
-  
+
     module.docs_01,
-  
+
     module.media_mgmt_01,
     module.media_srv_01,
-  
+
     module.observability_01,
   ]
 

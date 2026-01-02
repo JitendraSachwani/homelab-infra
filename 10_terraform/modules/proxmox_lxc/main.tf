@@ -17,7 +17,7 @@ resource "proxmox_virtual_environment_container" "this" {
   vm_id     = var.vm_id
   node_name = var.node_name
   tags      = local.tags
-  
+
   unprivileged = var.unprivileged
   features {
     nesting = true
@@ -65,7 +65,7 @@ resource "proxmox_virtual_environment_container" "this" {
     name   = "eth0"
     bridge = var.bridge
   }
-  
+
   operating_system {
     template_file_id = var.template_file_id
   }

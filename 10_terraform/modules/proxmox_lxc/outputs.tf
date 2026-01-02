@@ -1,6 +1,6 @@
 output "name" {
   description = "VM Name"
-  value = var.name
+  value       = var.name
 }
 
 output "ansible_role" {

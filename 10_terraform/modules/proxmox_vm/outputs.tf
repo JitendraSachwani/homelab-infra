@@ -1,6 +1,6 @@
 output "name" {
   description = "VM Name"
-  value = var.name
+  value       = var.name
 }
 
 output "ansible_role" {
@@ -9,7 +9,7 @@ output "ansible_role" {
 
 output "ipv4_address" {
   description = "Primary IPv4 address of the VM"
-  value       = try(
+  value = try(
     proxmox_virtual_environment_vm.this.ipv4_addresses[1][0],
     null
   )

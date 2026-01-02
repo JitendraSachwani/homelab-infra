@@ -14,9 +14,9 @@ variable "ansible_role" {
 }
 
 variable "node_name" {
-  type = string
+  type        = string
   description = "Proxmox node name"
-  default = "pve"
+  default     = "pve"
 }
 
 variable "cloud_init_file_id" {
@@ -25,7 +25,7 @@ variable "cloud_init_file_id" {
 }
 
 variable "datastore_id" {
-  type = string
+  type    = string
   default = "local-btrfs"
 }
 
@@ -67,7 +67,7 @@ variable "import_disk_id" {
 }
 
 variable "bridge" {
-  type = string
+  type    = string
   default = "vmbr0"
 }
 

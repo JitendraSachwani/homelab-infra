@@ -5,7 +5,7 @@ resource "proxmox_virtual_environment_file" "cloud_init_file" {
 
   source_raw {
     file_name = "cloud-init-user-data.yaml"
-    data = <<-EOF
+    data      = <<-EOF
 #cloud-config
 timezone: Asia/Kolkata
 manage_etc_hosts: true
