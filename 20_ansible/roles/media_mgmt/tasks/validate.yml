@@ -3,21 +3,3 @@
     port: "{{ tdarr_web_port }}"
     host: "{{ ansible_host }}"
     timeout: 30
-
-- name: Check Prowlarr
-  ansible.builtin.wait_for:
-    port: "{{ prowlarr_port }}"
-    host: "{{ ansible_host }}"
-    timeout: 30
-
-- name: Check Sonarr
-  ansible.builtin.wait_for:
-    port: "{{ sonarr_port }}"
-    host: "{{ ansible_host }}"
-    timeout: 30
-
-- name: Check Radarr
-  ansible.builtin.wait_for:
-    port: "{{ radarr_port }}"
-    host: "{{ ansible_host }}"
-    timeout: 30

@@ -18,6 +18,38 @@
     state: directory
     mode: "0755"
 
+- name: Configure Tdarr Node
+  ansible.builtin.copy:
+    dest: /opt/configs/Tdarr_Node_Config.json
+    owner: root
+    group: root
+    mode: "0644"
+    content: |
+      {
+        "nodeName": "{{ tdarr_node_name }}",
+        "serverURL": "http://{{ tdarr_server_ip }}:{{ tdarr_server_port }}",
+        "serverIP": "{{ tdarr_server_ip }}",
+        "serverPort": "{{ tdarr_server_port }}",
+        "handbrakePath": "",
+        "ffmpegPath": "",
+        "mkvpropeditPath": "",
+        "pathTranslators": [
+          {
+            "server": "",
+            "node": ""
+          }
+        ],
+        "nodeType": "mapped",
+        "unmappedNodeCache": "/opt/unmappedNodeCache",
+        "logLevel": "INFO",
+        "priority": -1,
+        "cronPluginUpdate": "",
+        "apiKey": "",
+        "maxLogSizeMB": 10,
+        "pollInterval": 2000,
+        "startPaused": false
+      }
+
 - name: Create Tdarr node systemd service
   ansible.builtin.copy:
     dest: /etc/systemd/system/tdarr-node.service
