@@ -24,8 +24,8 @@
       [Service]
       Type=simple
       User=root
-      WorkingDirectory={{ tdarr_install_dir }}/Tdarr_Server
-      ExecStart={{ tdarr_install_dir }}/Tdarr_Server/Tdarr_Server
+      WorkingDirectory={{ tdarr_install_dir }}
+      ExecStart={{ tdarr_install_dir }}/Tdarr_Server
       Restart=always
 
       [Install]
