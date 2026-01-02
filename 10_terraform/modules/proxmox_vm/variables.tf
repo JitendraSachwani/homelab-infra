@@ -46,6 +46,11 @@ variable "cores" {
   default = 2
 }
 
+variable "cpu_type" {
+  type    = string
+  default = "x86-64-v2-AES"
+}
+
 variable "memory_mb" {
   type    = number
   default = 2048
