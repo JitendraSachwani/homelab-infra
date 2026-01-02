@@ -58,6 +58,7 @@ module "databases" {
   ipv4_gateway = "10.0.0.1"
 
   cores      = each.value.cores
+  cpu_type   = "host"
   memory_mb  = each.value.memory_mb
   disk_gb    = each.value.disk_gb
 
