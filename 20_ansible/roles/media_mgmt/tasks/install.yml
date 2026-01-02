@@ -8,6 +8,12 @@
       - nfs-common
     state: present
 
+- name: Ensure apt keyrings directory exists
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
 - name: Create Tdarr install directory
   ansible.builtin.file:
     path: "{{ tdarr_install_dir }}"
@@ -49,17 +55,25 @@
     dest: "{{ tdarr_install_dir }}"
     remote_src: true
 
-- name: Add Servarr repository
-  ansible.builtin.apt_repository:
-    repo: "deb https://apt.servarr.com/ stable main"
-    filename: servarr
-    state: present
-
-- name: Add Servarr GPG key
+- name: Download Servarr GPG key
   ansible.builtin.get_url:
     url: https://apt.servarr.com/servarr.gpg.key
-    dest: /etc/apt/keyrings/servarr.gpg
+    dest: /tmp/servarr.asc
     mode: "0644"
+
+- name: Convert Servarr GPG key to binary keyring
+  ansible.builtin.command:
+    cmd: gpg --dearmor -o /etc/apt/keyrings/servarr.gpg /tmp/servarr.asc
+    creates: /etc/apt/keyrings/servarr.gpg
+
+- name: Add the Servarr repository
+  ansible.builtin.apt_repository:
+    repo: >
+      deb [arch=amd64 signed-by=/etc/apt/keyrings/servarr.gpg]
+      https://apt.servarr.com/ stable main
+    filename: jellyfin
+    state: present
+    update_cache: false
 
 - name: Update apt cache
   ansible.builtin.apt:
