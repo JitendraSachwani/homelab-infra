@@ -1,29 +1,4 @@
-- name: Install PostgreSQL
-  apt:
-    name:
-      - postgresql
-      - postgresql-contrib
-    state: present
-    update_cache: true
-
-- name: Ensure PostgreSQL service is running
-  systemd:
-    name: postgresql
-    enabled: true
-    state: started
-
-- name: Detect PostgreSQL version
-  command: psql -V
-  register: postgres_version_cmd
-  changed_when: false
-
-- name: Set PostgreSQL version fact
-  set_fact:
-    postgres_version: "{{ postgres_version_cmd.stdout.split()[2].split('.')[0] }}"
-
-- name: Configure listen_addresses
-  lineinfile:
-    path: "/etc/postgresql/{{ postgres_version }}/main/postgresql.conf"
-    regexp: "^#?listen_addresses"
-    line: "listen_addresses = '127.0.0.1'"
-  notify: Restart PostgreSQL
+- import_tasks: install.yml
+- import_tasks: configure.yml
+- import_tasks: service.yml
+- import_tasks: validate.yml

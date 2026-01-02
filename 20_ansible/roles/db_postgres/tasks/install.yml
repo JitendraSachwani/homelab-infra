@@ -1,0 +1,22 @@
+- name: Install PostgreSQL
+  apt:
+    name:
+      - postgresql
+      - postgresql-contrib
+    state: present
+    update_cache: true
+
+- name: Ensure PostgreSQL service is running
+  systemd:
+    name: postgresql
+    enabled: true
+    state: started
+
+- name: Detect PostgreSQL version
+  command: psql -V
+  register: postgres_version_cmd
+  changed_when: false
+
+- name: Set PostgreSQL version fact
+  set_fact:
+    postgres_version: "{{ postgres_version_cmd.stdout.split()[2].split('.')[0] }}"

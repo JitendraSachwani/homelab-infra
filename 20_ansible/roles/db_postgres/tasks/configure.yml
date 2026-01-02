@@ -1,0 +1,19 @@
+- name: Configure PostgreSQL listen addresses
+  ansible.builtin.lineinfile:
+    path: "/etc/postgresql/{{ postgres_version }}/main/postgresql.conf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  loop:
+    - regexp: "^#?listen_addresses\\s*="
+      line: "listen_addresses = 'localhost,{{ postgres_listen_address }}'"
+  notify: Restart PostgreSQL
+
+- name: Allow LAN access in pg_hba.conf
+  ansible.builtin.lineinfile:
+    path: "/etc/postgresql/{{ postgres_version }}/main/pg_hba.conf"
+    insertafter: EOF
+    line: "host all all {{ postgres_lan_cidr }} scram-sha-256"
+    state: present
+  notify: Restart PostgreSQL
+
