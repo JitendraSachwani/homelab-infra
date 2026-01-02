@@ -1,14 +1,12 @@
-- name: Install NFS client
-  ansible.builtin.apt:
-    name: nfs-common
-    state: present
-
 - name: Install base media dependencies
   ansible.builtin.apt:
     name:
-      - ffmpeg
       - curl
+      - wget
       - ca-certificates
+      - unzip
+      - ffmpeg
+      - nfs-common
     state: present
 
 - name: Ensure apt keyrings directory exists
