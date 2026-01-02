@@ -67,7 +67,7 @@
     name: servarr_app
   vars:
     servarr_name: prowlarr
-    servarr_binary: Prowlarr
+    servarr_binary: Prowlarr/Prowlarr
     servarr_port: 9696
     servarr_download_url: "http://prowlarr.servarr.com/v1/update/master/updatefile?os=linux&runtime=netcore&arch=x64"
     servarr_dependencies:
