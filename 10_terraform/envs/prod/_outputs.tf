@@ -4,18 +4,13 @@ locals {
     module.nas_01,
 
     module.docs_01,
-
-    module.media_mgmt_01,
-    module.media_srv_01,
-
     module.observability_01,
   ]
 
-  database_hosts = values(module.databases)
-
   all_hosts = concat(
     local.single_hosts,
-    local.database_hosts
+    values(module.databases),
+    values(module.media)
   )
 
   ansible_inventory = {
