@@ -30,8 +30,8 @@
       [Service]
       Type=simple
       User=root
-      WorkingDirectory={{ tdarr_install_dir }}/Tdarr_Node
-      ExecStart={{ tdarr_install_dir }}/Tdarr_Node/Tdarr_Node
+      WorkingDirectory={{ tdarr_install_dir }}
+      ExecStart={{ tdarr_install_dir }}/Tdarr_Node
       Restart=always
       Environment=NODE_NAME={{ tdarr_node_name }}
       Environment=SERVER_IP={{ tdarr_server_ip }}
