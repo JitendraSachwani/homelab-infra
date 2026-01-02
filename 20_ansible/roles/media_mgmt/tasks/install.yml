@@ -55,25 +55,33 @@
     dest: "{{ tdarr_install_dir }}"
     remote_src: true
 
-- role: apt_repo
+- name: Add Prowlarr repository
+  ansible.builtin.include_role:
+    name: apt_repo
   vars:
     apt_repo_name: prowlarr
     apt_repo_key_url: https://apt.prowlarr.com/prowlarr.gpg.key
     apt_repo_repo_line: "https://apt.prowlarr.com/ master main"
 
-- role: apt_repo
-  vars:
-    apt_repo_name: radarr
-    apt_repo_key_url: https://apt.radarr.video/radarr.gpg.key
-    apt_repo_repo_line: "https://apt.radarr.video/ master main"
-
-- role: apt_repo
+- name: Add Sonarr repository
+  ansible.builtin.include_role:
+    name: apt_repo
   vars:
     apt_repo_name: sonarr
     apt_repo_key_url: https://apt.sonarr.tv/sonarr.gpg.key
     apt_repo_repo_line: "https://apt.sonarr.tv/ master main"
 
-- role: apt_repo
+- name: Add Radarr repository
+  ansible.builtin.include_role:
+    name: apt_repo
+  vars:
+    apt_repo_name: radarr
+    apt_repo_key_url: https://apt.radarr.video/radarr.gpg.key
+    apt_repo_repo_line: "https://apt.radarr.video/ master main"
+
+- name: Add Lidarr repository
+  ansible.builtin.include_role:
+    name: apt_repo
   vars:
     apt_repo_name: lidarr
     apt_repo_key_url: https://apt.lidarr.audio/lidarr.gpg.key
