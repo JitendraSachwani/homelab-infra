@@ -53,14 +53,44 @@
     state: directory
     mode: "0755"
 
+- name: Fetch Tdarr versions metadata
+  ansible.builtin.uri:
+    url: https://storage.tdarr.io/versions.json
+    return_content: true
+  register: tdarr_versions
+
+- name: Determine latest Tdarr version
+  ansible.builtin.set_fact:
+    tdarr_latest_version: >-
+      {{
+        tdarr_versions.json.keys()
+        | list
+        | sort
+        | last
+      }}
+
+- name: Set Tdarr node URL
+  ansible.builtin.set_fact:
+    tdarr_node_url: >-
+      {{
+        tdarr_versions.json[tdarr_latest_version].linux_x64.Tdarr_Node
+      }}
+
+- name: Set Tdarr server URL
+  ansible.builtin.set_fact:
+    tdarr_server_url: >-
+      {{
+        tdarr_versions.json[tdarr_latest_version].linux_x64.Tdarr_Server
+      }}
+
 - name: Download Tdarr node
   ansible.builtin.get_url:
-    url: "https://github.com/HaveAGitGat/Tdarr/releases/download/{{ tdarr_version }}/Tdarr_Node_linux_x64.tar.gz"
-    dest: "/tmp/tdarr_node.tar.gz"
+    url: "{{ tdarr_node_url }}"
+    dest: /tmp/tdarr_node.zip
     mode: "0644"
 
 - name: Extract Tdarr node
   ansible.builtin.unarchive:
-    src: /tmp/tdarr_node.tar.gz
+    src: /tmp/tdarr_node.zip
     dest: "{{ tdarr_install_dir }}"
     remote_src: true
