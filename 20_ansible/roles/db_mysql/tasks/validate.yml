@@ -5,7 +5,7 @@
     timeout: 30
 
 - name: Verify MySQL responds
-  ansible.builtin.command: mysql -h {{ ansible_host }} -e "SELECT 1;"
+  ansible.builtin.command: mysql -e "SELECT 1;"
   register: mysql_test
   failed_when: mysql_test.rc != 0
   changed_when: false
