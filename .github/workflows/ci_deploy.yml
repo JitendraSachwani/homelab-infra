@@ -25,7 +25,7 @@ jobs:
         run: terraform init -backend=false
 
       - name: Terraform fmt
-        working-directory: 10_terraform/prod
+        working-directory: 10_terraform/envs/prod
         run: terraform fmt -check -recursive || (echo "Terraform files need formatting" && exit 1)
 
       - name: Terraform validate
