@@ -81,13 +81,19 @@
 # ------------------------------------------------------------
 # Media Stack
 # ------------------------------------------------------------
-- name: Configure Media Nodes
-  hosts: media
-  become: true
 
+- name: Configure Media Servers
+  hosts: media_srv
+  become: true
   roles:
-    - common
-    - media
+    - media_srv
+
+- name: Configure Media Management
+  hosts: media_mgmt
+  become: true
+  roles:
+    - media_mgmt
+
 
 
 # # ------------------------------------------------------------
