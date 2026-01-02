@@ -1,0 +1,34 @@
+- name: Ensure apt keyrings directory exists
+  ansible.builtin.file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: "0755"
+
+- name: Download {{ apt_repo_name }} GPG key
+  ansible.builtin.get_url:
+    url: "{{ apt_repo_key_url }}"
+    dest: "/tmp/{{ apt_repo_name }}.asc"
+    mode: "0644"
+
+- name: Convert {{ apt_repo_name }} GPG key to binary keyring
+  ansible.builtin.command:
+    cmd: >
+      gpg --dearmor
+      -o /etc/apt/keyrings/{{ apt_repo_name }}.gpg
+      /tmp/{{ apt_repo_name }}.asc
+    creates: "/etc/apt/keyrings/{{ apt_repo_name }}.gpg"
+
+- name: Add {{ apt_repo_name }} apt repository
+  ansible.builtin.apt_repository:
+    repo: >
+      deb [arch={{ apt_repo_arch }}
+      signed-by=/etc/apt/keyrings/{{ apt_repo_name }}.gpg]
+      {{ apt_repo_repo_line }}
+    filename: "{{ apt_repo_name }}"
+    state: present
+    update_cache: false
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+  when: apt_repo_update_cache

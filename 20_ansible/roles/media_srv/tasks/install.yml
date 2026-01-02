@@ -9,35 +9,11 @@
       - nfs-common
     state: present
 
-- name: Ensure apt keyrings directory exists
-  ansible.builtin.file:
-    path: /etc/apt/keyrings
-    state: directory
-    mode: "0755"
-
-- name: Download Jellyfin GPG key (ASCII)
-  ansible.builtin.get_url:
-    url: https://repo.jellyfin.org/jellyfin_team.gpg.key
-    dest: /tmp/jellyfin.asc
-    mode: "0644"
-
-- name: Dearmor Jellyfin GPG key
-  ansible.builtin.command:
-    cmd: gpg --dearmor -o /etc/apt/keyrings/jellyfin.gpg /tmp/jellyfin.asc
-    creates: /etc/apt/keyrings/jellyfin.gpg
-
-- name: Add Jellyfin repository
-  ansible.builtin.apt_repository:
-    repo: >
-      deb [arch=amd64 signed-by=/etc/apt/keyrings/jellyfin.gpg]
-      https://repo.jellyfin.org/ubuntu jammy main
-    filename: jellyfin
-    state: present
-    update_cache: false
-
-- name: Update apt cache
-  ansible.builtin.apt:
-    update_cache: true
+- role: apt_repo
+  vars:
+    apt_repo_name: jellyfin
+    apt_repo_key_url: https://repo.jellyfin.org/jellyfin_team.gpg.key
+    apt_repo_repo_line: "https://repo.jellyfin.org/ubuntu jammy main"
 
 - name: Install Jellyfin
   ansible.builtin.apt:

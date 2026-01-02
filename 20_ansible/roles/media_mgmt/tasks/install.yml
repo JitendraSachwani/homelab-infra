@@ -55,29 +55,29 @@
     dest: "{{ tdarr_install_dir }}"
     remote_src: true
 
-- name: Download Servarr GPG key
-  ansible.builtin.get_url:
-    url: https://apt.servarr.com/servarr.gpg.key
-    dest: /tmp/servarr.asc
-    mode: "0644"
+- role: apt_repo
+  vars:
+    apt_repo_name: prowlarr
+    apt_repo_key_url: https://apt.prowlarr.com/prowlarr.gpg.key
+    apt_repo_repo_line: "https://apt.prowlarr.com/ master main"
 
-- name: Convert Servarr GPG key to binary keyring
-  ansible.builtin.command:
-    cmd: gpg --dearmor -o /etc/apt/keyrings/servarr.gpg /tmp/servarr.asc
-    creates: /etc/apt/keyrings/servarr.gpg
+- role: apt_repo
+  vars:
+    apt_repo_name: radarr
+    apt_repo_key_url: https://apt.radarr.video/radarr.gpg.key
+    apt_repo_repo_line: "https://apt.radarr.video/ master main"
 
-- name: Add the Servarr repository
-  ansible.builtin.apt_repository:
-    repo: >
-      deb [arch=amd64 signed-by=/etc/apt/keyrings/servarr.gpg]
-      https://apt.servarr.com/ stable main
-    filename: jellyfin
-    state: present
-    update_cache: false
+- role: apt_repo
+  vars:
+    apt_repo_name: sonarr
+    apt_repo_key_url: https://apt.sonarr.tv/sonarr.gpg.key
+    apt_repo_repo_line: "https://apt.sonarr.tv/ master main"
 
-- name: Update apt cache
-  ansible.builtin.apt:
-    update_cache: true
+- role: apt_repo
+  vars:
+    apt_repo_name: lidarr
+    apt_repo_key_url: https://apt.lidarr.audio/lidarr.gpg.key
+    apt_repo_repo_line: "https://apt.lidarr.audio/ master main"
 
 - name: Install Arr applications
   ansible.builtin.apt:
@@ -85,4 +85,5 @@
       - prowlarr
       - sonarr
       - radarr
+      - lidarr
     state: present
