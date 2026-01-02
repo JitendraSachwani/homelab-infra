@@ -1,0 +1,5 @@
+- name: Enable and start Redis
+  systemd:
+    name: redis-server
+    enabled: true
+    state: started
