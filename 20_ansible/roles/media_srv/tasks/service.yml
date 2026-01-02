@@ -1,0 +1,11 @@
+- name: Enable and start Jellyfin
+  ansible.builtin.systemd:
+    name: jellyfin
+    enabled: true
+    state: started
+
+- name: Enable and start Tdarr node
+  ansible.builtin.systemd:
+    name: tdarr-node
+    enabled: true
+    state: started

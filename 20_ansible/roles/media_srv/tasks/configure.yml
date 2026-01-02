@@ -1,0 +1,42 @@
+- name: Create media mount point
+  ansible.builtin.file:
+    path: /mnt/media
+    state: directory
+    mode: "0755"
+
+# - name: Mount NAS media share
+#   ansible.builtin.mount:
+#     src: "{{ nas_ip }}:{{ nas_media_export }}"
+#     path: /mnt/media
+#     fstype: nfs
+#     opts: rw,_netdev,noatime
+#     state: mounted
+
+- name: Create Tdarr cache directory
+  ansible.builtin.file:
+    path: /var/lib/tdarr-cache
+    state: directory
+    mode: "0755"
+
+- name: Create Tdarr node systemd service
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/tdarr-node.service
+    mode: "0644"
+    content: |
+      [Unit]
+      Description=Tdarr Node
+      After=network.target
+
+      [Service]
+      Type=simple
+      User=root
+      WorkingDirectory={{ tdarr_install_dir }}/Tdarr_Node
+      ExecStart={{ tdarr_install_dir }}/Tdarr_Node/Tdarr_Node
+      Restart=always
+      Environment=NODE_NAME={{ tdarr_node_name }}
+      Environment=SERVER_IP={{ tdarr_server_ip }}
+      Environment=SERVER_PORT={{ tdarr_server_port }}
+
+      [Install]
+      WantedBy=multi-user.target
+  notify: Reload systemd

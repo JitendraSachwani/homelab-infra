@@ -1,0 +1,24 @@
+# - name: Verify NAS mount exists
+#   ansible.builtin.command: mount | grep /mnt/media
+#   changed_when: false
+
+# - name: Verify media directory is writable
+#   ansible.builtin.command: sudo -u jellyfin touch /mnt/media/.ansible_test
+#   changed_when: false
+
+# - name: Remove test file
+#   ansible.builtin.file:
+#     path: /mnt/media/.ansible_test
+#     state: absent
+
+- name: Check Jellyfin port
+  ansible.builtin.wait_for:
+    port: 8096
+    host: "{{ ansible_host }}"
+    timeout: 30
+
+- name: Check Tdarr node port
+  ansible.builtin.wait_for:
+    port: 8267
+    host: "{{ ansible_host }}"
+    timeout: 30

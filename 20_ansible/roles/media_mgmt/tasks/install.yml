@@ -1,0 +1,51 @@
+- name: Install base utilities
+  ansible.builtin.apt:
+    name:
+      - curl
+      - wget
+      - ca-certificates
+      - unzip
+      - nfs-common
+    state: present
+
+- name: Create Tdarr install directory
+  ansible.builtin.file:
+    path: "{{ tdarr_install_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Download Tdarr server
+  ansible.builtin.get_url:
+    url: "https://github.com/HaveAGitGat/Tdarr/releases/download/{{ tdarr_version }}/Tdarr_Server_linux_x64.tar.gz"
+    dest: "/tmp/tdarr_server.tar.gz"
+    mode: "0644"
+
+- name: Extract Tdarr server
+  ansible.builtin.unarchive:
+    src: /tmp/tdarr_server.tar.gz
+    dest: "{{ tdarr_install_dir }}"
+    remote_src: true
+
+- name: Add Servarr repository
+  ansible.builtin.apt_repository:
+    repo: "deb https://apt.servarr.com/ stable main"
+    filename: servarr
+    state: present
+
+- name: Add Servarr GPG key
+  ansible.builtin.get_url:
+    url: https://apt.servarr.com/servarr.gpg.key
+    dest: /etc/apt/keyrings/servarr.gpg
+    mode: "0644"
+
+- name: Update apt cache
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install Arr applications
+  ansible.builtin.apt:
+    name:
+      - prowlarr
+      - sonarr
+      - radarr
+    state: present

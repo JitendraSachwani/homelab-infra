@@ -1,0 +1,8 @@
+nas_ip: "10.0.1.10"
+nas_media_export: "/mnt/tank/media"
+
+tdarr_version: "2.00.20"
+tdarr_install_dir: "/opt/tdarr"
+tdarr_node_name: "{{ inventory_hostname }}"
+tdarr_server_ip: "10.0.5.1"   # media_mgmt later
+tdarr_server_port: 8266

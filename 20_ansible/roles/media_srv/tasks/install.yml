@@ -1,0 +1,42 @@
+- name: Install NFS client
+  ansible.builtin.apt:
+    name: nfs-common
+    state: present
+
+- name: Install base media dependencies
+  ansible.builtin.apt:
+    name:
+      - ffmpeg
+      - curl
+      - ca-certificates
+    state: present
+
+- name: Add Jellyfin repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64] https://repo.jellyfin.org/ubuntu jammy main"
+    filename: jellyfin
+    state: present
+
+- name: Install Jellyfin
+  ansible.builtin.apt:
+    name: jellyfin
+    state: present
+    update_cache: true
+
+- name: Create Tdarr install directory
+  ansible.builtin.file:
+    path: "{{ tdarr_install_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Download Tdarr node
+  ansible.builtin.get_url:
+    url: "https://github.com/HaveAGitGat/Tdarr/releases/download/{{ tdarr_version }}/Tdarr_Node_linux_x64.tar.gz"
+    dest: "/tmp/tdarr_node.tar.gz"
+    mode: "0644"
+
+- name: Extract Tdarr node
+  ansible.builtin.unarchive:
+    src: /tmp/tdarr_node.tar.gz
+    dest: "{{ tdarr_install_dir }}"
+    remote_src: true

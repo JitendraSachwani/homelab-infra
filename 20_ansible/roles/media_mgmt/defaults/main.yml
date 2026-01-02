@@ -1,0 +1,11 @@
+nas_ip: "10.0.1.10"
+nas_media_export: "/mnt/tank/media"
+
+tdarr_version: "2.00.20"
+tdarr_install_dir: "/opt/tdarr"
+tdarr_server_port: 8266
+tdarr_web_port: 8265
+
+prowlarr_port: 9696
+sonarr_port: 8989
+radarr_port: 7878

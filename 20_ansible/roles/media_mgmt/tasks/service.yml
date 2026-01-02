@@ -1,0 +1,15 @@
+- name: Enable and start Tdarr server
+  ansible.builtin.systemd:
+    name: tdarr-server
+    enabled: true
+    state: started
+
+- name: Enable and start Arr services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+    state: started
+  loop:
+    - prowlarr
+    - sonarr
+    - radarr
