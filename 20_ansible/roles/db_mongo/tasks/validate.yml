@@ -5,7 +5,7 @@
     timeout: 30
 
 - name: Verify MongoDB responds
-  ansible.builtin.command: mongosh --eval "db.runCommand({ ping: 1 })"
+  ansible.builtin.command: 'mongosh --eval "db.runCommand({ ping: 1 })"'
   register: mongo_ping
   failed_when: "'ok' not in mongo_ping.stdout"
   changed_when: false
