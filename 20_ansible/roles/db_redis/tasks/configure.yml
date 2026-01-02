@@ -1,0 +1,11 @@
+- name: Configure Redis
+  lineinfile:
+    path: /etc/redis/redis.conf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+  loop:
+    - { regexp: '^bind ', line: 'bind 127.0.0.1  {{ ansible_host }}' }
+    - { regexp: '^maxmemory ', line: 'maxmemory {{ redis_maxmemory }}' }
+    - { regexp: '^maxmemory-policy ', line: 'maxmemory-policy {{ redis_maxmemory_policy }}' }
+    - { regexp: '^protected-mode ', line: 'protected-mode yes' }
+  notify: Restart Redis

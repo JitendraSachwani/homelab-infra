@@ -1,0 +1,11 @@
+- name: Wait for Redis to be reachable
+  wait_for:
+    host: "{{ ansible_host }}"
+    port: 6379
+    timeout: 30
+
+- name: Verify Redis responds
+  command: redis-cli -h {{ ansible_host }} ping
+  register: redis_ping
+  failed_when: redis_ping.stdout != "PONG"
+  changed_when: false
