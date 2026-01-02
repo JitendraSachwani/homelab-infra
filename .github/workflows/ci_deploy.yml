@@ -20,11 +20,18 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Terraform init
+        working-directory: 10_terraform/envs/prod
+        run: terraform init -backend=false
+
       - name: Terraform fmt
-        run: terraform fmt -check
+        working-directory: 10_terraform/envs/prod
+        run: terraform fmt -check -recursive
 
       - name: Terraform validate
+        working-directory: 10_terraform/envs/prod
         run: terraform validate
+
 
   deploy:
     needs: validate
