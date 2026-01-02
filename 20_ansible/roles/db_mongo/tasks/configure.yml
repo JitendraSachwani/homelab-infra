@@ -1,0 +1,6 @@
+- name: Configure MongoDB bind IP
+  ansible.builtin.replace:
+    path: /etc/mongod.conf
+    regexp: '^  bindIp:.*'
+    replace: "  bindIp: {{ mongo_bind_ip }}"
+  notify: Restart MongoDB

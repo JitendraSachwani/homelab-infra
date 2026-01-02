@@ -1,2 +1,2 @@
 mongo_version: "6.0"
-mongo_bind_ip: "127.0.0.1"
+mongo_bind_ip: "127.0.0.1,{{ ansible_host }}"
