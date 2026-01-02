@@ -1,0 +1,19 @@
+- name: Configure MySQL
+  ansible.builtin.lineinfile:
+    path: /etc/mysql/mariadb.conf.d/50-server.cnf
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  loop:
+    - regexp: '^bind-address\s*='
+      line: "bind-address = {{ ansible_host }}"
+
+    - regexp: '^max_connections\s*='
+      line: "max_connections = {{ mysql_max_connections }}"
+
+    - regexp: '^innodb_buffer_pool_size\s*='
+      line: "innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}"
+
+    - regexp: '^skip-name-resolve'
+      line: 'skip-name-resolve'
+  notify: Restart MariaDB

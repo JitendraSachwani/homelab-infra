@@ -1,1 +1,2 @@
-mysql_bind_address: "127.0.0.1"
+mysql_max_connections: 200
+mysql_innodb_buffer_pool_size: "512M"
