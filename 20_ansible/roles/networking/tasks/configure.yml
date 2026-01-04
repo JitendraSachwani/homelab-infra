@@ -1,8 +1,13 @@
-- name: Install Pi-hole (non-interactive)
+- name: Install Pi-hole (non-interactive, static IP)
   ansible.builtin.shell: |
     curl -sSL https://install.pi-hole.net | \
-    PIHOLE_SKIP_OS_CHECK=true \
-    bash /dev/stdin --unattended
+      PIHOLE_SKIP_OS_CHECK=true \
+      PIHOLE_SKIP_STATICIP_WARNING=true \
+      PIHOLE_INTERFACE=eth0 \
+      IPv4_ADDRESS={{ ansible_default_ipv4.address }}/{{ ansible_default_ipv4.prefix }} \
+      PIHOLE_DNS_1=1.1.1.1 \
+      PIHOLE_DNS_2=8.8.8.8 \
+      bash /dev/stdin --unattended
   args:
     creates: /etc/pihole/pihole-FTL.conf
 
