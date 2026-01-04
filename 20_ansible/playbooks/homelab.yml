@@ -29,11 +29,11 @@
     - ci_runner
 
 - name: Configure Networking Services
-  hosts: pihole
+  hosts: networking
   become: true
   roles:
     - common
-    - pihole
+    - networking
 
 # ------------------------------------------------------------
 # Databases
