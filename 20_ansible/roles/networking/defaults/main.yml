@@ -1,0 +1,24 @@
+docker_data_root: /opt/docker
+
+# Pi-hole
+pihole_web_password: changeme
+pihole_dns_1: 1.1.1.1
+pihole_dns_2: 8.8.8.8
+
+# Reverse proxy
+reverse_proxy_image: caddy:latest
+
+# Newt
+newt_image: ghcr.io/fosrl/newt:latest
+newt_token: ""
+newt_hostname: ""
+
+# Tailscale
+tailscale_auth_key: ""
+tailscale_hostname: "core-networking"
+tailscale_tags: "tag:core,tag:networking"
+
+# Newt 
+newt_site_id: "{{ lookup('ansible.builtin.file', playbook_dir + '../keys/newt_site_id') | trim }}"
+newt_site_secret: "{{ lookup('ansible.builtin.file', playbook_dir + '../keys/newt_site_secret') | trim }}"
+newt_endpoint: "https://pangolin.localserver.stream"

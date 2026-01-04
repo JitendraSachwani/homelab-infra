@@ -150,7 +150,7 @@ create_vm() {
     --agent enabled=1 \
     --onboot 1 \
     --cicustom "user=${STORAGE}:snippets/iac-user-data.yaml" \
-    --ipconfig0 ip=dhcp
+    --ipconfig0 "ip=10.0.1.1/16,gw=10.0.0.1"
 
   qm cloudinit update "$VM_ID"
   qm start "$VM_ID"

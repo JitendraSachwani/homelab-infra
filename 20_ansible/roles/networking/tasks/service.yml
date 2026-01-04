@@ -1,0 +1,39 @@
+- name: Enable and start Pi-hole
+  ansible.builtin.systemd:
+    name: pihole-FTL
+    enabled: true
+    state: started
+
+- name: Enable and start Caddy
+  ansible.builtin.systemd:
+    name: caddy
+    enabled: true
+    state: started
+
+# - name: Enable and start Tailscale service
+#   ansible.builtin.systemd:
+#     name: tailscaled
+#     enabled: true
+#     state: started
+
+# - name: Check Tailscale status
+#   ansible.builtin.command: tailscale status
+#   register: tailscale_status
+#   failed_when: false
+#   changed_when: false
+
+# - name: Authenticate Tailscale
+#   ansible.builtin.command: >
+#     tailscale up
+#     --authkey={{ tailscale_auth_key }}
+#     --hostname={{ tailscale_hostname }}
+#     --advertise-tags={{ tailscale_tags }}
+#     --accept-dns=false
+#   when:
+#     - "'Logged out' in tailscale_status.stdout"
+
+- name: Enable and start Newt
+  ansible.builtin.systemd:
+    name: newt
+    enabled: true
+    state: started

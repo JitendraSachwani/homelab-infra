@@ -1,0 +1,31 @@
+- name: Install Pi-hole (non-interactive)
+  ansible.builtin.shell: |
+    curl -sSL https://install.pi-hole.net | \
+    PIHOLE_SKIP_OS_CHECK=true \
+    bash /dev/stdin --unattended
+  args:
+    creates: /etc/pihole/pihole-FTL.conf
+
+- name: Deploy Caddyfile
+  ansible.builtin.template:
+    src: caddyfile.j2
+    dest: /etc/caddy/Caddyfile
+    mode: "0644"
+
+- name: Create newt directory
+  ansible.builtin.file:
+    path: /opt/newt
+    state: directory
+    mode: "0755"
+
+- name: Download Newt binary
+  ansible.builtin.get_url:
+    url: https://github.com/fosrl/newt/releases/latest/download/newt_linux_amd64
+    dest: /opt/newt
+    mode: "0755"
+
+- name: Install newt systemd service
+  ansible.builtin.template:
+    src: newt.service.j2
+    dest: /etc/systemd/system/newt.service
+    mode: "0644"

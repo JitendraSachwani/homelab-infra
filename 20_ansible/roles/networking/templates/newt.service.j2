@@ -1,0 +1,12 @@
+[Unit]
+Description=Newt Tunnel Agent
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/opt/newt --id {{ newt_site_id }} --secret {{ newt_site_secret }} --endpoint {{ newt_endpoint }}
+Restart=always
+User=root
+
+[Install]
+WantedBy=multi-user.target

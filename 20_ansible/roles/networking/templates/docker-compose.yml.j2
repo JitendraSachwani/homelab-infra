@@ -1,0 +1,32 @@
+version: "3.9"
+
+services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    restart: unless-stopped
+    network_mode: host
+    env_file:
+      - pihole.env
+    volumes:
+      - ./pihole/etc-pihole:/etc/pihole
+      - ./pihole/etc-dnsmasq.d:/etc/dnsmasq.d
+
+  reverse-proxy:
+    image: {{ reverse_proxy_image }}
+    container_name: reverse-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - ./caddy-data:/data
+
+  newt:
+    image: {{ newt_image }}
+    container_name: newt
+    restart: unless-stopped
+    environment:
+      - NEWT_TOKEN={{ newt_token }}
+      - NEWT_HOSTNAME={{ newt_hostname }}
