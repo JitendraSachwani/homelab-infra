@@ -27,6 +27,14 @@
     name: caddy
     state: present
 
+- name: Add Tailscale repository
+  ansible.builtin.include_role:
+    name: apt_repo
+  vars:
+    apt_repo_name: tailscale
+    apt_repo_key_url: https://pkgs.tailscale.com/stable/ubuntu/jammy.noarmor.gpg
+    apt_repo_repo_line: "https://pkgs.tailscale.com/stable/ubuntu jammy main"
+
 - name: Install Tailscale
   ansible.builtin.apt:
     name: tailscale
