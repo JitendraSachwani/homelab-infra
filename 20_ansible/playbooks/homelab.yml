@@ -28,12 +28,12 @@
     - docker
     - ci_runner
 
-# - name: Configure Pi-hole
-#   hosts: pihole
-#   become: true
-#   roles:
-#     - common
-#     - pihole
+- name: Configure Networking Services
+  hosts: pihole
+  become: true
+  roles:
+    - common
+    - pihole
 
 # ------------------------------------------------------------
 # Databases
