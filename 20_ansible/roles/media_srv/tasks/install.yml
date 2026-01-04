@@ -9,7 +9,6 @@
       - nfs-common
     state: present
 
-
 - name: Add Jellyfin repository
   ansible.builtin.include_role:
     name: apt_repo

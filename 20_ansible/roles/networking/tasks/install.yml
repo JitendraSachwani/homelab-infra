@@ -14,6 +14,14 @@
       - dnsutils
     state: present
 
+- name: Add Caddy repository
+  ansible.builtin.include_role:
+    name: apt_repo
+  vars:
+    apt_repo_name: caddy
+    apt_repo_key_url: https://dl.cloudsmith.io/public/caddy/stable/gpg.key
+    apt_repo_repo_line: "https://dl.cloudsmith.io/public/caddy/stable/deb/ubuntu jammy main"
+
 - name: Install Caddy
   ansible.builtin.apt:
     name: caddy
