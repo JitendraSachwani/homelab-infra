@@ -28,12 +28,12 @@
     - docker
     - ci_runner
 
-- name: Configure Networking Services
-  hosts: networking
-  become: true
-  roles:
-    - common
-    - networking
+# - name: Configure Networking Services
+#   hosts: networking
+#   become: true
+#   roles:
+#     - common
+#     - networking
 
 # ------------------------------------------------------------
 # Databases

@@ -9,6 +9,9 @@ module "docs_01" {
   vm_id        = 40001
   ansible_role = "docs"
 
+  ipv4_address = "10.0.4.0/16"
+  ipv4_gateway = "10.0.0.1"
+
   cores     = 1
   memory_mb = 512
 

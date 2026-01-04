@@ -9,6 +9,9 @@ module "observability_01" {
   vm_id        = 30001
   ansible_role = "observability"
 
+  ipv4_address = "10.0.3.0/16"
+  ipv4_gateway = "10.0.0.1"
+
   cores     = 2
   memory_mb = 2048
 
