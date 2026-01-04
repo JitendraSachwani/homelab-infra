@@ -3,8 +3,8 @@
     curl -sSL https://install.pi-hole.net | \
       PIHOLE_SKIP_OS_CHECK=true \
       PIHOLE_SKIP_STATICIP_WARNING=true \
-      PIHOLE_INTERFACE=eth0 \
-      IPv4_ADDRESS={{ ansible_default_ipv4.address }}/{{ ansible_default_ipv4.prefix }} \
+      PIHOLE_INTERFACE={{ ansible_default_ipv4.interface }} \
+      IPv4_ADDRESS={{ ansible_default_ipv4.address }} \
       PIHOLE_DNS_1=1.1.1.1 \
       PIHOLE_DNS_2=8.8.8.8 \
       bash /dev/stdin --unattended
