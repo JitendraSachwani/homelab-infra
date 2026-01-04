@@ -5,10 +5,10 @@ module "core_networking" {
   }
 
   name         = "prod-core-networking-01"
-  vm_id        = 10001
+  vm_id        = 10401
   ansible_role = "networking"
 
-  ipv4_address = "10.0.1.5/16"
+  ipv4_address = "10.0.1.4/16"
   ipv4_gateway = "10.0.0.1"
 
   cores     = 2

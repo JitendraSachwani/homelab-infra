@@ -5,10 +5,10 @@ module "ci_runner_01" {
   }
 
   name         = "prod-ci-runner-01"
-  vm_id        = 10301
+  vm_id        = 10201
   ansible_role = "ci_runner"
 
-  ipv4_address = "10.0.1.3/16"
+  ipv4_address = "10.0.1.2/16"
   ipv4_gateway = "10.0.0.1"
 
   cores     = 2
