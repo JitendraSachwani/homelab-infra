@@ -1,7 +1,0 @@
-- name: Restart Pi-hole services
-  systemd:
-    name: "{{ item }}"
-    state: restarted
-  loop:
-    - pihole-FTL
-    - lighttpd

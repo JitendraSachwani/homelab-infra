@@ -1,7 +1,0 @@
-PIHOLE_INTERFACE={{ pihole_interface }}
-IPV4_ADDRESS={{ pihole_ip }}
-DNSMASQ_LISTENING={{ pihole_dns_listening }}
-
-{% for dns in pihole_dns_upstream %}
-PIHOLE_DNS_{{ loop.index }}={{ dns }}
-{% endfor %}

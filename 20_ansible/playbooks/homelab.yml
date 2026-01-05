@@ -35,6 +35,13 @@
     - common
     - networking
 
+- name: Configure Core Apps
+  hosts: core_apps
+  become: true
+  roles:
+    - common
+    - core_apps
+
 # ------------------------------------------------------------
 # Databases
 # ------------------------------------------------------------

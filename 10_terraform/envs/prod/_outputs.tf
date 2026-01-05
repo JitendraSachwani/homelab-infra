@@ -3,6 +3,7 @@ locals {
     module.ci_runner_01,
     module.core_nas_01,
     module.core_networking,
+    module.core_stack,
 
     module.docs_01,
     module.observability_01,
