@@ -36,11 +36,11 @@
     - networking
 
 - name: Configure Core Apps
-  hosts: core_apps
+  hosts: core_stack
   become: true
   roles:
     - common
-    - core_apps
+    - core_stack
 
 # ------------------------------------------------------------
 # Databases
