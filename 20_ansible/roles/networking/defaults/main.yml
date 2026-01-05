@@ -11,7 +11,7 @@ pihole_webpassword: "{{ lookup('ansible.builtin.file', playbook_dir + '/../../ke
 pihole_local_domain: "localserver.home"
 pihole_web_domain: "{{ ansible_hostname }}.{{ pihole_local_domain }}"
 pihole_web_acl: "" # Comma-separated list of “+/-subnets” restricting webserver access; empty means allow all. E.g. "+127.0.0.1,+[::1]" denies all except 127.0.0.1 and ::1; "+192.168.0.0/16" allows that subnet only; "+[::]/0" only IPv6.
-pihole_web_port: "80o,443os,[::]:80o,[::]:443os" # Defines web interface ports: HTTP (80), HTTPS (443), with IPv4/IPv6 support and optional fallback if ports are in use.
+pihole_web_port: "80o,8080o,443os,[::]:80o,[::]:8080o,[::]:443os" # Defines web interface ports: HTTP (80), HTTPS (443), with IPv4/IPv6 support and optional fallback if ports are in use.
 pihole_web_session_timeout: 1800 # Session timeout in seconds for the Pi-hole web interface (default 1800 = 30 minutes).
 pihole_web_boxed_layout: true # If true, the Pi-hole web interface uses a "boxed" layout.
 pihole_web_theme: "default-auto" # Web interface theme pihole_web_theme: "default-auto". One of: "default-auto", "default-light", "default-dark", "default-darker", "high-contrast", "high-contrast-dark", "lcars".
