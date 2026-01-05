@@ -1,0 +1,19 @@
+core_stack_timezone: Asia/Kolkata
+core_stack_root: /opt/core-stack
+
+# Docker images
+vaultwarden_image: vaultwarden/server:latest
+n8n_image: n8nio/n8n:latest
+mealie_image: ghcr.io/mealie-recipes/mealie:latest
+
+# Vaultwarden
+vaultwarden_domain: "https://vault.localserver.stream"
+vaultwarden_signups_allowed: false
+
+# n8n
+n8n_domain: "https://n8n.localserver.stream"
+n8n_basic_auth_user: admin
+n8n_basic_auth_password: changeme
+
+# Mealie
+mealie_domain: "https://mealie.localserver.stream"

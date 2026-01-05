@@ -1,0 +1,17 @@
+- name: Verify Vaultwarden port
+  ansible.builtin.wait_for:
+    host: 127.0.0.1
+    port: 8222
+    timeout: 30
+
+- name: Verify n8n port
+  ansible.builtin.wait_for:
+    host: 127.0.0.1
+    port: 5678
+    timeout: 30
+
+- name: Verify Mealie port
+  ansible.builtin.wait_for:
+    host: 127.0.0.1
+    port: 9925
+    timeout: 30

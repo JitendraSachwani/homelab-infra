@@ -1,0 +1,21 @@
+- name: Create core stack root
+  ansible.builtin.file:
+    path: "{{ core_stack_root }}"
+    state: directory
+    mode: "0755"
+
+- name: Create env files
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "{{ core_stack_root }}/{{ item }}"
+    mode: "0600"
+  loop:
+    - vaultwarden.env
+    - n8n.env
+    - mealie.env
+
+- name: Deploy docker-compose file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ core_stack_root }}/docker-compose.yml"
+    mode: "0644"

@@ -1,0 +1,4 @@
+- name: Start core stack
+  ansible.builtin.command:
+    cmd: docker compose up -d
+    chdir: "{{ core_stack_root }}"

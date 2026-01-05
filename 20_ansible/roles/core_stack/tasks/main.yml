@@ -1,8 +1,4 @@
-- name: Install base packages
-  ansible.builtin.apt:
-    name:
-      - curl
-      - ca-certificates
-      - gnupg
-    state: present
-    update_cache: true
+- import_tasks: install.yml
+- import_tasks: configure.yml
+- import_tasks: service.yml
+- import_tasks: validate.yml
