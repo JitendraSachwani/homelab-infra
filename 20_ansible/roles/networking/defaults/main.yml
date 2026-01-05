@@ -7,7 +7,7 @@ pihole_vip_ipv4: "10.0.1.53/16" # Floating (virtual) IPv4 for the failover betwe
 enable_ipv6_support: false
 pihole_vip_ipv6: "fe80::53/64" # Floating (virtual) IPv6 for the failover between Pi-hole nodes. You should use it as a target in your DNS settings.
 
-pihole_webpassword: "{{ lookup('ansible.builtin.file', playbook_dir + '../keys/pihole_web_password') | trim }}"
+pihole_webpassword: "{{ lookup('ansible.builtin.file', playbook_dir + '/../../keys/pihole_web_password') | trim }}"
 pihole_local_domain: "localserver.home"
 pihole_web_domain: "{{ ansible_hostname }}.{{ pihole_local_domain }}"
 pihole_web_acl: "" # Comma-separated list of “+/-subnets” restricting webserver access; empty means allow all. E.g. "+127.0.0.1,+[::1]" denies all except 127.0.0.1 and ::1; "+192.168.0.0/16" allows that subnet only; "+[::]/0" only IPv6.
@@ -95,8 +95,8 @@ pihole_updatelists_regex_whitelist_url: "https://raw.githubusercontent.com/mmott
 reverse_proxy_image: caddy:latest
 
 # Newt 
-newt_site_id: "{{ lookup('ansible.builtin.file', playbook_dir + '../keys/newt_site_id') | trim }}"
-newt_site_secret: "{{ lookup('ansible.builtin.file', playbook_dir + '../keys/newt_site_secret') | trim }}"
+newt_site_id: "{{ lookup('ansible.builtin.file', playbook_dir + '/../../keys/newt_site_id') | trim }}"
+newt_site_secret: "{{ lookup('ansible.builtin.file', playbook_dir + '/../../keys/newt_site_secret') | trim }}"
 newt_endpoint: "https://pangolin.localserver.stream"
 
 # Tailscale

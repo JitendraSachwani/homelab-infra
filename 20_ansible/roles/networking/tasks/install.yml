@@ -5,6 +5,11 @@
       - ca-certificates
       - gnupg
       - lsb-release
+      - php-cli
+      - php-sqlite3
+      - php-intl
+      - php-curl
+      - wget
     state: present
     update_cache: true
 
