@@ -177,7 +177,7 @@
 - name: Download Newt binary
   ansible.builtin.get_url:
     url: https://github.com/fosrl/newt/releases/latest/download/newt_linux_amd64
-    dest: /opt/newt
+    dest: /opt/newt/newt
     mode: "0755"
 
 - name: Install newt systemd service
