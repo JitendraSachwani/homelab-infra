@@ -7,7 +7,7 @@ market_diaries_renderer_group: docker
 
 market_diaries_renderer_app_dir: /opt/market_diaries_renderer
 market_diaries_renderer_container_name: market_diaries_renderer
-market_diaries_renderer_image: remotion/server:latest
+market_diaries_renderer_image: remotion/remotion:latest
 market_diaries_renderer_port: 3000
 
 market_diaries_renderer_cleanup_enabled: false

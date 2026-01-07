@@ -1,0 +1,47 @@
+- name: Validate NFS service is running
+  ansible.builtin.service_facts:
+
+- name: Assert nfs-kernel-server is active
+  ansible.builtin.assert:
+    that:
+      - "'nfs-kernel-server.service' in ansible_facts.services"
+      - ansible_facts.services['nfs-kernel-server.service'].state == 'running'
+    fail_msg: "NFS service is not running"
+
+- name: Validate export root exists
+  ansible.builtin.stat:
+    path: "{{ market_diaries_storage_export_root }}"
+  register: export_root_stat
+
+- name: Assert export root directory exists
+  ansible.builtin.assert:
+    that:
+      - export_root_stat.stat.exists
+      - export_root_stat.stat.isdir
+    fail_msg: "Export root directory missing"
+
+- name: Validate export directories exist
+  ansible.builtin.stat:
+    path: "{{ market_diaries_storage_export_root }}/{{ item.path }}"
+  register: export_dirs
+  loop: "{{ market_diaries_storage_exports }}"
+
+- name: Assert export directories exist
+  ansible.builtin.assert:
+    that:
+      - item.stat.exists
+      - item.stat.isdir
+    fail_msg: "Export directory missing: {{ item.item.path }}"
+  loop: "{{ export_dirs.results }}"
+
+- name: Validate NFS exports are active
+  ansible.builtin.command: exportfs -v
+  register: exportfs_output
+  changed_when: false
+
+- name: Assert expected exports are present
+  ansible.builtin.assert:
+    that:
+      - exportfs_output.stdout is search(market_diaries_storage_export_root ~ '/' ~ item.path)
+    fail_msg: "NFS export not active: {{ item.path }}"
+  loop: "{{ market_diaries_storage_exports }}"

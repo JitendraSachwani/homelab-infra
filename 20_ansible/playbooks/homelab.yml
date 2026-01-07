@@ -117,7 +117,6 @@
   become: true
   roles:
     - common
-    - docker
     - market_diaries_storage
 
 - name: Configure Market Diaries Renderer Nodes

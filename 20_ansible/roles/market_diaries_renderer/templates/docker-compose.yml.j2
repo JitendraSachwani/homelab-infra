@@ -1,9 +1,11 @@
-version: "3.8"
-
 services:
-  {{ market_diaries_renderer_container_name }}:
+  remotion:
     image: {{ market_diaries_renderer_image }}
-    container_name: {{ market_diaries_renderer_container_name }}
+    container_name: remotion
+    command: >
+      npx remotion lambda serve
+      --host 0.0.0.0
+      --port 3000
     ports:
       - "{{ market_diaries_renderer_port }}:3000"
     volumes:

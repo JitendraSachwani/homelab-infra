@@ -1,0 +1,38 @@
+---
+- name: Validate NFS mount is present
+  ansible.builtin.command: mount
+  register: mount_output
+  changed_when: false
+
+- name: Assert NFS mount is active
+  ansible.builtin.assert:
+    that:
+      - mount_output.stdout is search(market_diaries_renderer_mount_path)
+    fail_msg: "NFS mount is not active at {{ market_diaries_renderer_mount_path }}"
+
+- name: Validate Docker is running
+  ansible.builtin.service_facts:
+
+- name: Assert Docker service is active
+  ansible.builtin.assert:
+    that:
+      - "'docker.service' in ansible_facts.services"
+      - ansible_facts.services['docker.service'].state == 'running'
+    fail_msg: "Docker service is not running"
+
+- name: Validate Remotion container exists
+  ansible.builtin.command: docker ps --format '{{ "{{.Names}}" }}'
+  register: docker_ps
+  changed_when: false
+
+- name: Assert Renderer container is running
+  ansible.builtin.assert:
+    that:
+      - "'{{ market_diaries_renderer_container_name }}' in docker_ps.stdout_lines"
+    fail_msg: "Remotion container is not running"
+
+- name: Validate Remotion port is listening
+  ansible.builtin.wait_for:
+    port: "{{ market_diaries_renderer_port }}"
+    timeout: 5
+    state: started
