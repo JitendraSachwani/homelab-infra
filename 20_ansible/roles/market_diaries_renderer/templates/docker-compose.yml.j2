@@ -1,0 +1,11 @@
+version: "3.8"
+
+services:
+  {{ market_diaries_renderer_container_name }}:
+    image: {{ market_diaries_renderer_image }}
+    container_name: {{ market_diaries_renderer_container_name }}
+    ports:
+      - "{{ market_diaries_renderer_port }}:3000"
+    volumes:
+      - "{{ market_diaries_renderer_mount_path }}:/data"
+    restart: unless-stopped

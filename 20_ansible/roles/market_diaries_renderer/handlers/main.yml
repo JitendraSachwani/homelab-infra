@@ -1,0 +1,4 @@
+- name: Restart Remotion
+  ansible.builtin.command:
+    cmd: docker compose restart
+    chdir: "{{ market_diaries_renderer_app_dir }}"

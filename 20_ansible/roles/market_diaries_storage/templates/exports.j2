@@ -1,0 +1,4 @@
+# Managed by Ansible — market_diaries_storage
+{% for export in market_diaries_storage_exports %}
+{{ market_diaries_storage_export_root }}/{{ export.path }} {{ export.subnet }}({{ export.options }})
+{% endfor %}

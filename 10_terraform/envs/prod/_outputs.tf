@@ -12,7 +12,8 @@ locals {
   all_hosts = concat(
     local.single_hosts,
     values(module.databases),
-    values(module.media)
+    values(module.media),
+    values(module.market_diaries)
   )
 
   ansible_inventory = {

@@ -1,0 +1,4 @@
+- name: Start Remotion
+  ansible.builtin.command:
+    cmd: docker compose up -d
+    chdir: "{{ market_diaries_renderer_app_dir }}"

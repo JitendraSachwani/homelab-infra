@@ -1,0 +1,44 @@
+- name: Create mount directory
+  ansible.builtin.file:
+    path: "{{ market_diaries_renderer_mount_path }}"
+    state: directory
+    mode: "0755"
+
+- name: Mount NFS share
+  ansible.builtin.mount:
+    src: "{{ market_diaries_renderer_nfs_server }}:{{ market_diaries_renderer_nfs_export }}"
+    path: "{{ market_diaries_renderer_mount_path }}"
+    fstype: nfs
+    opts: defaults,_netdev
+    state: mounted
+
+- name: Create renderer user
+  ansible.builtin.user:
+    name: "{{ market_diaries_renderer_user }}"
+    groups: "{{ market_diaries_renderer_group }}"
+    append: true
+    shell: /bin/bash
+
+- name: Create app directory
+  ansible.builtin.file:
+    path: "{{ market_diaries_renderer_app_dir }}"
+    state: directory
+    owner: "{{ market_diaries_renderer_user }}"
+    group: "{{ market_diaries_renderer_group }}"
+    mode: "0755"
+
+- name: Deploy docker-compose
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ market_diaries_renderer_app_dir }}/docker-compose.yml"
+    owner: "{{ market_diaries_renderer_user }}"
+    group: "{{ market_diaries_renderer_group }}"
+    mode: "0644"
+  notify: Restart Remotion
+
+- name: Cleanup old renders
+  ansible.builtin.cron:
+    name: "Cleanup old remotion renders"
+    job: "find {{ market_diaries_renderer_mount_path }} -type f -mtime +{{ market_diaries_renderer_cleanup_days }} -delete"
+    special_time: daily
+  when: market_diaries_renderer_cleanup_enabled

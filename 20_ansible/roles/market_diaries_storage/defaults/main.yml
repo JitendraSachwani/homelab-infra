@@ -1,0 +1,10 @@
+market_diaries_storage_export_root: /srv/nfs
+market_diaries_storage_exports:
+  - name: market_diaries_storage
+    path: market_diaries_storage
+    subnet: 10.0.0.0/16
+    options: rw,sync,no_subtree_check,no_root_squash
+
+market_diaries_storage_owner: nobody
+market_diaries_storage_group: nogroup
+market_diaries_storage_mode: "0777"

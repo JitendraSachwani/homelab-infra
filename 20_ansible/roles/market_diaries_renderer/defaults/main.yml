@@ -1,0 +1,14 @@
+market_diaries_renderer_nfs_server: 10.0.6.0
+market_diaries_renderer_nfs_export: /srv/nfs/market_diaries_storage
+market_diaries_renderer_mount_path: /mnt/market_diaries_storage
+
+market_diaries_renderer_user: market_diaries_renderer
+market_diaries_renderer_group: docker
+
+market_diaries_renderer_app_dir: /opt/market_diaries_renderer
+market_diaries_renderer_container_name: market_diaries_renderer
+market_diaries_renderer_image: remotion/server:latest
+market_diaries_renderer_port: 3000
+
+market_diaries_renderer_cleanup_enabled: false
+market_diaries_renderer_cleanup_days: 30

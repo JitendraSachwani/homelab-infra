@@ -1,0 +1,5 @@
+- name: Ensure NFS server is running
+  ansible.builtin.service:
+    name: nfs-kernel-server
+    state: started
+    enabled: true

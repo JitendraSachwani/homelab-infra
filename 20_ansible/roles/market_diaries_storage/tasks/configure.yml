@@ -1,0 +1,23 @@
+- name: Create export root
+  ansible.builtin.file:
+    path: "{{ market_diaries_storage_export_root }}"
+    state: directory
+    mode: "0755"
+
+- name: Create export directories
+  ansible.builtin.file:
+    path: "{{ market_diaries_storage_export_root }}/{{ item.path }}"
+    state: directory
+    owner: "{{ market_diaries_storage_owner }}"
+    group: "{{ market_diaries_storage_group }}"
+    mode: "{{ market_diaries_storage_mode }}"
+  loop: "{{ market_diaries_storage_exports }}"
+
+- name: Configure /etc/exports
+  ansible.builtin.template:
+    src: exports.j2
+    dest: /etc/exports
+    owner: root
+    group: root
+    mode: "0644"
+  notify: Reload NFS exports

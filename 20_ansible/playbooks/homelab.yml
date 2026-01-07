@@ -99,10 +99,31 @@
   hosts: media_srv
   become: true
   roles:
+    - common
     - media_srv
 
 - name: Configure Media Management
   hosts: media_mgmt
   become: true
   roles:
+    - common
     - media_mgmt
+
+# ------------------------------------------------------------
+# Market Diaries Rendering Cluster
+# ------------------------------------------------------------
+- name: Configure Market Diaries Storage Node
+  hosts: market_diaries_storage
+  become: true
+  roles:
+    - common
+    - docker
+    - market_diaries_storage
+
+- name: Configure Market Diaries Renderer Nodes
+  hosts: market_diaries_renderer
+  become: true
+  roles:
+    - common
+    - docker
+    - market_diaries_renderer
