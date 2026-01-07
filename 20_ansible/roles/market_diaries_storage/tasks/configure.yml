@@ -20,4 +20,6 @@
     owner: root
     group: root
     mode: "0644"
-  notify: Reload NFS exports
+  notify:
+    - Reload NFS exports
+    - Restart NFS server
