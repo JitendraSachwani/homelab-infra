@@ -1,5 +1,5 @@
 locals {
-  media_vms = {
+  market_diaries_vms = {
     media_srv_01 = {
       name         = "prod-market-diaries-storage-01"
       vm_id        = 60001
@@ -23,7 +23,7 @@ locals {
 }
 
 module "market_diaries" {
-  for_each = local.media_vms
+  for_each = local.market_diaries_vms
 
   source = "../../modules/proxmox_vm"
   providers = {
