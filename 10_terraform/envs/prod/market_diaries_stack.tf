@@ -7,7 +7,7 @@ locals {
       ipv4_address = "10.0.6.0/16"
       cores        = 2
       memory_mb    = 2048
-      disk_gb      = 20
+      disk_gb      = 200
     }
 
     media_mgmt_01 = {
@@ -17,7 +17,7 @@ locals {
       ipv4_address = "10.0.6.1/16"
       cores        = 2
       memory_mb    = 2048
-      disk_gb      = 200
+      disk_gb      = 20
     }
   }
 }
