@@ -10,6 +10,6 @@ resource "oci_identity_compartment" "homelab_tf_compartment" {
 resource "oci_core_vcn" "test_vcn" {
   compartment_id = oci_identity_compartment.homelab_tf_compartment.id
   display_name   = "homelab_tf_vcn"
-  dns_label      = "tf.vcn1"
+  dns_label      = "tfvcn"
   cidr_blocks    = var.oci_vcn_cidr_blocks
 }
