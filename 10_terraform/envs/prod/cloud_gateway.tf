@@ -4,4 +4,6 @@ module "cloud_gateway" {
     oci = oci
   }
 
+  oci_tenancy_ocid = var.oci_tenancy_ocid
+
 }
