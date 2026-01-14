@@ -20,7 +20,6 @@ provider "oci" {
   tenancy_ocid     = var.oci_tenancy_ocid
   private_key_path = "../../../keys/oci_rsa_key.pem"
   region           = "ap-mumbai-1"
-  alias            = "oci_mumbai"
 }
 
 provider "proxmox" {
