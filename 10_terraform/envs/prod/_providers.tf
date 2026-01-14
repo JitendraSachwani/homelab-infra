@@ -18,7 +18,7 @@ provider "oci" {
   user_ocid        = var.oci_user_ocid
   fingerprint      = var.oci_fingerprint
   tenancy_ocid     = var.oci_tenancy_ocid
-  private_key_path = "../../../keys/oci_rsa_key.pem"
+  private_key_path = abspath("${path.module}/../../../keys/oci_rsa_key.pem")
   region           = "ap-mumbai-1"
 }
 
