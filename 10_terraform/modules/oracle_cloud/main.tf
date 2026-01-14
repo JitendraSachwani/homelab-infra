@@ -26,6 +26,6 @@ resource "oci_core_subnet" "tf_private_subnet" {
     compartment_id = oci_identity_compartment.homelab_tf_compartment.id
     vcn_id = oci_core_vcn.homelab_tf_vcn.id
     display_name = "tf_private_subnet"
-    dns_label = "tfpubsubnet"
+    dns_label = "tfprivsubnet"
     cidr_block = var.oci_private_subnet_cidr_block
 }
