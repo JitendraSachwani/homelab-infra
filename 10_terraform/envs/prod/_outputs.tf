@@ -1,7 +1,7 @@
 locals {
   single_hosts = [
-    module.ci_runner_01,
-    module.core_nas_01,
+    module.core_ci_runner_01,
+    module.core_nas,
     module.core_networking,
     module.core_stack,
 
@@ -28,4 +28,8 @@ locals {
 
 output "ansible_hosts" {
   value = local.ansible_inventory
+}
+
+output "gateway_public_ip" {
+  value = module.oracle_cloud_gateway.gateway_public_ip
 }

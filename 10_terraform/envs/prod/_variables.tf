@@ -1,3 +1,7 @@
+# -----------------------------------------------
+# General Variables
+# -----------------------------------------------
+
 variable "environment" {
   description = "Environment name"
   type        = string
@@ -5,14 +9,36 @@ variable "environment" {
 }
 
 variable "admin_ssh_public_key" {
-  type        = string
   description = "Admin SSH public key"
+  type        = string
 }
 
 variable "iac_ssh_public_key" {
-  type        = string
   description = "IaC SSH public key"
+  type        = string
 }
+
+# -----------------------------------------------
+# OCI Variables
+# -----------------------------------------------
+
+variable "oci_user_ocid" {
+  description = "OCI API User ocid"
+  type        = string
+}
+variable "oci_fingerprint" {
+  description = "OCI API fingerprint"
+  type        = string
+}
+
+variable "oci_tenancy_ocid" {
+  description = "OCI API Tenacy ocid"
+  type        = string
+}
+
+# -----------------------------------------------
+# Proxmox Variables
+# -----------------------------------------------
 
 variable "proxmox_endpoint" {
   description = "Proxmox API endpoint"

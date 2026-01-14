@@ -17,6 +17,7 @@
 keys/*
 !keys/.gitkeep
 !keys/admin_ssh_key.pub
+!keys/oci_rsa_key_public.pem
 
 # OS / Editor
 .DS_Store
