@@ -1,4 +1,4 @@
-variable "oci_tenacy_ocid" {
+variable "oci_tenancy_ocid" {
   description = "OCI API Tenacy ocid"
   type        = string
 }
