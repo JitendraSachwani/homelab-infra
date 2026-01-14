@@ -30,6 +30,6 @@ output "ansible_hosts" {
   value = local.ansible_inventory
 }
 
-output "gateway_public_ip" {
-  value = module.oracle_cloud_gateway.gateway_public_ip
-}
+# output "gateway_public_ip" {
+#   value = module.cloud_gateway.public_ip
+# }
