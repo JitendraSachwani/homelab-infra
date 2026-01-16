@@ -11,7 +11,7 @@ vaultwarden_domain: "https://vault.localserver.stream"
 vaultwarden_signups_allowed: false
 
 # n8n
-n8n_domain: "https://n8n.localserver.stream"
+n8n_domain: "http://10.0.1.5"
 n8n_basic_auth_user: admin
 n8n_basic_auth_password: changeme
 
