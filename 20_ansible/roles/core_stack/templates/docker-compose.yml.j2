@@ -10,7 +10,7 @@ services:
     volumes:
       - ./vaultwarden:/data
     ports:
-      - "127.0.0.1:8222:80"
+      - "8222:8222"
 
   n8n:
     image: {{ n8n_image }}
@@ -21,7 +21,7 @@ services:
     volumes:
       - ./n8n:/home/node/.n8n
     ports:
-      - "127.0.0.1:5678:5678"
+      - "5678:5678"
 
   mealie:
     image: {{ mealie_image }}
@@ -32,4 +32,4 @@ services:
     volumes:
       - ./mealie:/app/data
     ports:
-      - "127.0.0.1:9925:9000"
+      - "9925:9925"
