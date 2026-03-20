@@ -17,3 +17,4 @@ n8n_basic_auth_password: changeme
 
 # Mealie
 mealie_domain: "https://mealie.localserver.stream"
+mealie_api_port: 9000

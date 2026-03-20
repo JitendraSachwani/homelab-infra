@@ -32,4 +32,4 @@ services:
     volumes:
       - ./mealie:/app/data
     ports:
-      - "9000:9000"
+      - "{{ mealie_api_port }}:{{ mealie_api_port }}"
