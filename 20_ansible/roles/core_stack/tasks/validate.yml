@@ -10,5 +10,5 @@
 
 - name: Verify Mealie port
   ansible.builtin.wait_for:
-    port: 9925
+    port: 9000
     timeout: 30
