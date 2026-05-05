@@ -20,11 +20,17 @@
     state: directory
     mode: "0755"
 
+- name: Check if Tdarr Server is already installed
+  ansible.builtin.stat:
+    path: "{{ tdarr_install_dir }}/Tdarr_Server"
+  register: tdarr_binary_stat
+
 - name: Fetch Tdarr versions metadata
   ansible.builtin.uri:
     url: https://storage.tdarr.io/versions.json
     return_content: true
   register: tdarr_versions
+  when: tdarr_upgrade or not tdarr_binary_stat.stat.exists
 
 - name: Determine latest Tdarr version
   ansible.builtin.set_fact:
@@ -35,6 +41,7 @@
         | sort
         | last
       }}
+  when: tdarr_upgrade or not tdarr_binary_stat.stat.exists
 
 - name: Set Tdarr server URL
   ansible.builtin.set_fact:
@@ -42,11 +49,7 @@
       {{
         tdarr_versions.json[tdarr_latest_version].linux_x64.Tdarr_Server
       }}
-
-- name: Check if Tdarr Node is already installed
-  ansible.builtin.stat: 
-    path: "{{ tdarr_install_dir }}/Tdarr_Server"
-  register: tdarr_binary_stat
+  when: tdarr_upgrade or not tdarr_binary_stat.stat.exists
 
 - name: Download Tdarr server
   ansible.builtin.get_url:

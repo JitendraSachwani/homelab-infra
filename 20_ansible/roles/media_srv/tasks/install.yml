@@ -22,6 +22,7 @@
     name: jellyfin
     state: present
     update_cache: true
+    cache_valid_time: 3600
 
 - name: Create Tdarr install directory
   ansible.builtin.file:
@@ -29,11 +30,17 @@
     state: directory
     mode: "0755"
 
+- name: Check if Tdarr Node is already installed
+  ansible.builtin.stat:
+    path: "{{ tdarr_install_dir }}/Tdarr_Node"
+  register: tdarr_binary_stat
+
 - name: Fetch Tdarr versions metadata
   ansible.builtin.uri:
     url: https://storage.tdarr.io/versions.json
     return_content: true
   register: tdarr_versions
+  when: tdarr_upgrade or not tdarr_binary_stat.stat.exists
 
 - name: Determine latest Tdarr version
   ansible.builtin.set_fact:
@@ -44,6 +51,7 @@
         | sort
         | last
       }}
+  when: tdarr_upgrade or not tdarr_binary_stat.stat.exists
 
 - name: Set Tdarr node URL
   ansible.builtin.set_fact:
@@ -51,11 +59,7 @@
       {{
         tdarr_versions.json[tdarr_latest_version].linux_x64.Tdarr_Node
       }}
-
-- name: Check if Tdarr Node is already installed
-  ansible.builtin.stat: 
-    path: "{{ tdarr_install_dir }}/Tdarr_Node"
-  register: tdarr_binary_stat
+  when: tdarr_upgrade or not tdarr_binary_stat.stat.exists
 
 - name: Download Tdarr node
   ansible.builtin.get_url:

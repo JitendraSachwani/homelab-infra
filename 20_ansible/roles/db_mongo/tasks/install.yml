@@ -6,6 +6,7 @@
       - curl
     state: present
     update_cache: true
+    cache_valid_time: 3600
 
 - name: Ensure apt keyrings directory exists
   ansible.builtin.file:
@@ -35,6 +36,7 @@
 - name: Update apt cache
   ansible.builtin.apt:
     update_cache: true
+    cache_valid_time: 3600
 
 - name: Install MongoDB
   ansible.builtin.apt:

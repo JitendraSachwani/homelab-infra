@@ -9,6 +9,8 @@
 
 # Ansible
 *.retry
+20_ansible/.fact_cache/*
+!20_ansible/.fact_cache/.gitkeep
 20_ansible/inventories/prod/*
 20_ansible/inventories/prod/.gitkeep
 

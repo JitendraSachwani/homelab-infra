@@ -12,6 +12,7 @@
       - wget
     state: present
     update_cache: true
+    cache_valid_time: 3600
 
 - name: Install Pi-hole dependencies
   ansible.builtin.apt:

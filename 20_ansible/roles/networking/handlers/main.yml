@@ -1,0 +1,15 @@
+- name: Restart systemd-resolved
+  ansible.builtin.systemd:
+    name: systemd-resolved
+    state: restarted
+
+- name: Restart pihole-FTL
+  ansible.builtin.systemd:
+    name: pihole-FTL
+    state: restarted
+
+- name: Restart newt
+  ansible.builtin.systemd:
+    name: newt
+    daemon_reload: true
+    state: restarted

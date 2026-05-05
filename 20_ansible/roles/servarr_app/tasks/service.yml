@@ -3,10 +3,12 @@
     src: servarr.service.j2
     dest: "/etc/systemd/system/{{ servarr_name }}.service"
     mode: "0644"
+  register: servarr_service_unit
 
-- name: Reload systemd
+- name: Reload systemd for {{ servarr_name }}
   ansible.builtin.systemd:
     daemon_reload: true
+  when: servarr_service_unit.changed
 
 - name: Enable and start {{ servarr_name }}
   ansible.builtin.systemd:

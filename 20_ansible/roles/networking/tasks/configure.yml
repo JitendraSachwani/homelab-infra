@@ -31,12 +31,7 @@
     line: 'DNSStubListener=no'
     state: present
   when: resolved_conf_status.stat.exists
-
-- name: Restart systemd-resolved
-  ansible.builtin.systemd:
-    name: systemd-resolved
-    state: restarted
-  when: resolved_conf_status.stat.exists
+  notify: Restart systemd-resolved
 
 - name: Remove /etc/resolv.conf
   ansible.builtin.file:
@@ -56,6 +51,7 @@
     src: pihole.toml.j2
     dest: /etc/pihole/pihole.toml
     mode: "0644"
+  notify: Restart pihole-FTL
 
 - name: Check if PiHole versions file exists
   ansible.builtin.stat:
@@ -115,15 +111,19 @@
   ansible.builtin.command: pihole setpassword {{ pihole_webpassword }}
   changed_when: false
 
-- name: Wait 10 seconds before restarting pihole-FTL
-  ansible.builtin.pause:
-    seconds: 10
-
 - name: Create pihole-updatelists.conf
   ansible.builtin.template:
     dest: /etc/pihole-updatelists.conf
     src: pihole-updatelists.conf.j2
     mode: "0755"
+  register: pihole_updatelists_config
+  when: enable_pihole_updatelists
+
+- name: Check if pihole-updatelists is installed
+  ansible.builtin.stat:
+    path: /usr/local/sbin/pihole-updatelists
+  register: pihole_updatelists_stat
+  when: enable_pihole_updatelists
 
 - name: Install pihole-updatelists
   ansible.builtin.shell: "wget -O - https://raw.githubusercontent.com/jacklul/pihole-updatelists/master/install.sh | bash"
@@ -131,36 +131,58 @@
   environment:
     PATH: "/usr/local/bin:{{ ansible_env.PATH }}"
   register: install_status
-  changed_when: false
+  when: enable_pihole_updatelists and (pihole_updatelists_stat is defined and not pihole_updatelists_stat.stat.exists)
 
 - name: Display pihole-updatelists installation process
   ansible.builtin.debug:
     var: install_status.stdout_lines
+  when: enable_pihole_updatelists and (install_status is defined and install_status.stdout_lines is defined)
 
 - name: Remove the specified lines
   ansible.builtin.replace:
     path: /usr/local/sbin/pihole-updatelists
     regexp: "(^ {8}print 'root privileges required' \\. PHP_EOL;\\n^ {8}exit\\(1\\);)"
     replace: "        print ' ';"
-  when: ansible_os_family == "RedHat"
+  when:
+    - enable_pihole_updatelists
+    - ansible_os_family == "RedHat"
+
+- name: Decide whether to refresh Pi-hole lists
+  ansible.builtin.set_fact:
+    pihole_refresh_lists: >-
+      {{
+        enable_pihole_updatelists and (
+          pihole_update_lists_on_deploy or
+          (install_status is defined and install_status.changed) or
+          (pihole_updatelists_config is defined and pihole_updatelists_config.changed)
+        )
+      }}
 
 - name: Update lists
   ansible.builtin.command: /usr/local/sbin/pihole-updatelists
   register: updatelists_process_status
   changed_when: false
+  when: pihole_refresh_lists
 
 - name: Display update lists process
   ansible.builtin.debug:
     var: updatelists_process_status.stdout_lines
+  when:
+    - pihole_refresh_lists
+    - updatelists_process_status.stdout_lines is defined
 
 - name: Update Pi-hole Gravity
   ansible.builtin.command: pihole updateGravity
   register: gravity_process_status
   changed_when: false
+  when: pihole_update_gravity_on_deploy or pihole_refresh_lists
 
 - name: Display Pi-hole Gravity update process
   ansible.builtin.debug:
     var: gravity_process_status.stdout_lines
+  when:
+    - pihole_update_gravity_on_deploy or pihole_refresh_lists
+    - gravity_process_status.stdout_lines is defined
 
 - name: Deploy Caddyfile
   ansible.builtin.template:
@@ -174,14 +196,21 @@
     state: directory
     mode: "0755"
 
+- name: Check if Newt binary is installed
+  ansible.builtin.stat:
+    path: /opt/newt/newt
+  register: newt_binary_stat
+
 - name: Download Newt binary
   ansible.builtin.get_url:
     url: https://github.com/fosrl/newt/releases/latest/download/newt_linux_amd64
     dest: /opt/newt/newt
     mode: "0755"
+  when: newt_upgrade or not newt_binary_stat.stat.exists
 
 - name: Install newt systemd service
   ansible.builtin.template:
     src: newt.service.j2
     dest: /etc/systemd/system/newt.service
     mode: "0644"
+  notify: Restart newt
