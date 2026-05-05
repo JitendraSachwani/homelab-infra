@@ -1,5 +1,5 @@
-nas_ip: "10.0.1.10"
-nas_media_export: "/mnt/tank/media"
+nas_ip: "10.0.0.20"
+nas_media_export: "/media"
 
 tdarr_install_dir: "/opt/tdarr"
 tdarr_node_name: "{{ inventory_hostname }}"
