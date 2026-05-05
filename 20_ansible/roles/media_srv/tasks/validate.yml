@@ -1,15 +1,7 @@
-# - name: Verify NAS mount exists
-#   ansible.builtin.command: mount | grep /mnt/media
-#   changed_when: false
-
-# - name: Verify media directory is writable
-#   ansible.builtin.command: sudo -u jellyfin touch /mnt/media/.ansible_test
-#   changed_when: false
-
-# - name: Remove test file
-#   ansible.builtin.file:
-#     path: /mnt/media/.ansible_test
-#     state: absent
+- name: Verify mount exists
+  command: mountpoint -q /mnt/media
+  register: mount_check
+  failed_when: mount_check.rc != 0
 
 - name: Check Jellyfin port
   ansible.builtin.wait_for:
