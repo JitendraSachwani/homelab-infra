@@ -33,7 +33,7 @@ jobs:
         run: terraform validate
 
 
-  deploy:
+  terraform:
     needs: validate
     if: github.event_name == 'push'
     runs-on: [self-hosted, linux, prod]
@@ -43,8 +43,33 @@ jobs:
       cancel-in-progress: false
 
     steps:
-      - name: Trigger prod deploy
+      - name: Terraform plan
         run: |
           ssh -i /home/ci-runner/.ssh/iac_deploy \
               -o StrictHostKeyChecking=no \
-              iac@10.0.1.1
+              iac@10.0.1.1 \
+              terraform-plan ${{ github.sha }}
+
+      - name: Terraform apply
+        run: |
+          ssh -i /home/ci-runner/.ssh/iac_deploy \
+              -o StrictHostKeyChecking=no \
+              iac@10.0.1.1 \
+              terraform-apply ${{ github.sha }}
+
+  ansible_deploy:
+    needs: terraform
+    if: github.event_name == 'push'
+    runs-on: [self-hosted, linux, prod]
+
+    concurrency:
+      group: homelab-prod-deploy
+      cancel-in-progress: false
+
+    steps:
+      - name: Ansible deploy
+        run: |
+          ssh -i /home/ci-runner/.ssh/iac_deploy \
+              -o StrictHostKeyChecking=no \
+              iac@10.0.1.1 \
+              ansible-deploy ${{ github.sha }}
