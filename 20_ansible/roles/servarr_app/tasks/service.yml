@@ -25,7 +25,6 @@
   ansible.builtin.wait_for:
     path: "{{ servarr_config_file }}"
     timeout: 30
-  when: servarr_api_key | length > 0
 
 - name: Ensure {{ servarr_name }} API key is configured
   ansible.builtin.lineinfile:
@@ -40,14 +39,30 @@
   no_log: true
   when: servarr_api_key | length > 0
 
-- name: Restart {{ servarr_name }} after API key change
+- name: Set {{ servarr_name }} to external authentication
+  # Auth is delegated to an external OAuth provider such as Authentik.
+  ansible.builtin.lineinfile:
+    path: "{{ servarr_config_file }}"
+    regexp: '^\s*<AuthenticationMethod>.*</AuthenticationMethod>'
+    insertafter: '<Config>'
+    line: "  <AuthenticationMethod>External</AuthenticationMethod>"
+    owner: "{{ servarr_name }}"
+    group: "{{ servarr_name }}"
+    mode: "0644"
+  register: servarr_authentication_method_config
+
+- name: Restart {{ servarr_name }} after config change
   ansible.builtin.systemd:
     name: "{{ servarr_name }}"
     state: restarted
-  when: servarr_api_key | length > 0 and servarr_api_key_config.changed
+  when: >
+    (servarr_api_key_config is defined and servarr_api_key_config.changed) or
+    (servarr_authentication_method_config is defined and servarr_authentication_method_config.changed)
 
-- name: Wait for {{ servarr_name }} after API key change
+- name: Wait for {{ servarr_name }} after config change
   ansible.builtin.wait_for:
     port: "{{ servarr_port }}"
     timeout: 30
-  when: servarr_api_key | length > 0 and servarr_api_key_config.changed
+  when: >
+    (servarr_api_key_config is defined and servarr_api_key_config.changed) or
+    (servarr_authentication_method_config is defined and servarr_authentication_method_config.changed)
