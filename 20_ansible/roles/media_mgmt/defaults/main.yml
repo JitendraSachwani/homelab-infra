@@ -6,3 +6,5 @@ tdarr_install_dir: "/opt/tdarr"
 tdarr_server_port: 8266
 tdarr_web_port: 8265
 tdarr_upgrade: false
+
+media_mgmt_servarr_api_key: "{{ lookup('ansible.builtin.file', playbook_dir + '/../../keys/servarr_api_key') | trim }}"

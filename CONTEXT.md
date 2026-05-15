@@ -166,6 +166,8 @@ Validation should fail clearly when an important dependency is missing.
 - Prefer secret injection outside Terraform.
 - If a task needs a secret, document the expected variable name and where it should come from.
 - Do not hard-code secrets in playbooks, defaults, Terraform variables, templates, or scripts.
+- Parent roles should load secrets from `keys/` or another approved secret source, then pass them explicitly into reusable child roles.
+- Reusable roles should expose safe empty defaults for optional secret inputs so they can be included without forcing secret management.
 
 ## Scripts
 
