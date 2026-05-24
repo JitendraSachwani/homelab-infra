@@ -79,7 +79,7 @@ Do not include the environment in Terraform resource names when the environment 
 
 VMIDs are explicitly assigned by Terraform. Do not rely on Proxmox auto-assignment.
 
-VMID format:
+Most VMIDs use this format:
 
 ```text
 CCCII
@@ -87,6 +87,8 @@ CCCII
 
 - `CCC` is the category.
 - `II` is the two-digit index.
+
+Dedicated application stacks may use extended high-number VMIDs when they need to live outside the shared category bands. Keep extended IDs within Proxmox's 9-digit VMID limit.
 
 Current category ranges:
 
@@ -101,6 +103,8 @@ Current category ranges:
 | `700xx`       | Reserved                    |
 | `800xx`       | Misc / Experiments          |
 | `900xx-999xx` | Templates only              |
+| `1001001xx`   | Market Diaries Storage      |
+| `1001002xx`   | Market Diaries Renderers    |
 
 ## Terraform Rules
 

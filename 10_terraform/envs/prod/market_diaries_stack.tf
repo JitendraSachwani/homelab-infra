@@ -2,9 +2,9 @@ locals {
   market_diaries_vms = {
     media_srv_01 = {
       name         = "prod-market-diaries-storage-01"
-      vm_id        = 60001
+      vm_id        = 100100101
       ansible_role = "market_diaries_storage"
-      ipv4_address = "10.0.6.0/16"
+      ipv4_address = "10.0.10.1/16"
       cores        = 2
       memory_mb    = 2048
       disk_gb      = 200
@@ -12,9 +12,9 @@ locals {
 
     media_mgmt_01 = {
       name         = "prod-market-diaries-renderer-01"
-      vm_id        = 60101
+      vm_id        = 100100201
       ansible_role = "market_diaries_renderer"
-      ipv4_address = "10.0.6.1/16"
+      ipv4_address = "10.0.10.2/16"
       cores        = 2
       memory_mb    = 2048
       disk_gb      = 20

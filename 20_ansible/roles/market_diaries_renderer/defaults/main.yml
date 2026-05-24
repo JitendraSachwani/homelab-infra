@@ -1,4 +1,4 @@
-market_diaries_renderer_nfs_server: 10.0.6.0
+market_diaries_renderer_nfs_server: 10.0.10.1
 market_diaries_renderer_nfs_export: /srv/nfs/market_diaries_storage
 market_diaries_renderer_mount_path: /mnt/market_diaries_storage
 

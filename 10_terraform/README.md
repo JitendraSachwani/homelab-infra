@@ -49,7 +49,7 @@ Rules:
 
 ## Proxmox VMID Allocation
 
-VMID format is a 5-digit number where the first three digits represent the category and the last two digits represent the index.
+Most VMIDs use a 5-digit number where the first three digits represent the category and the last two digits represent the index.
 
 ```
 CCC II
@@ -58,6 +58,7 @@ CCC II
 ```
 
 VMIDs are explicitly assigned by Terraform and never auto-generated.
+Dedicated application stacks may use an extended high-number range when they need to live outside the shared category bands. Keep extended IDs within Proxmox's 9-digit VMID limit.
 
 VMID ranges:
 ---
@@ -73,20 +74,24 @@ VMID ranges:
 | 700xx       | Reserved                    | Reserved for a future category           |
 | 800xx       | Misc / Experiments          | Experiments, temporary services          |
 | 900xx–999xx | Templates                   | VM templates only                        |
+| 1001001xx   | Market Diaries Storage      | Dedicated market diaries storage nodes   |
+| 1001002xx   | Market Diaries Renderers    | Dedicated market diaries renderer nodes  |
 ---
 
 Examples:
 ---
 
-| VM Name            | VMID  | Meaning             |
-| ------------------ | ----- | ------------------- |
-| prod-iac-01        | 10001 | Core IaC controller |
-| prod-db-01         | 20001 | First database VM   |
-| prod-monitoring-01 | 30001 | Monitoring stack    |
-| prod-docs-01       | 40001 | Knowledge base      |
-| prod-media-02      | 50002 | Second media VM     |
-| prod-proj-mgmt-01  | 60001 | Project management  |
-| dev-test-01        | 80001 | Misc / experimental |
+| VM Name                         | VMID      | Meaning                 |
+| ------------------------------- | --------- | ----------------------- |
+| prod-iac-01                     | 10001     | Core IaC controller     |
+| prod-db-01                      | 20001     | First database VM       |
+| prod-monitoring-01              | 30001     | Monitoring stack        |
+| prod-docs-01                    | 40001     | Knowledge base          |
+| prod-media-02                   | 50002     | Second media VM         |
+| prod-proj-mgmt-01               | 60001     | Project management      |
+| dev-test-01                     | 80001     | Misc / experimental     |
+| prod-market-diaries-storage-01  | 100100101 | Market diaries storage  |
+| prod-market-diaries-renderer-01 | 100100201 | Market diaries renderer |
 
 
 ---
