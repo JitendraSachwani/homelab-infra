@@ -1,0 +1,8 @@
+proj_mgmt_root: /opt/plane-selfhost
+proj_mgmt_app_dir: "{{ proj_mgmt_root }}/plane-app"
+proj_mgmt_setup_url: https://github.com/makeplane/plane/releases/latest/download/setup.sh
+proj_mgmt_http_port: 8080
+proj_mgmt_https_port: 4430
+proj_mgmt_web_url: "http://{{ ansible_host }}:{{ proj_mgmt_http_port }}"
+proj_mgmt_cors_allowed_origins: "{{ proj_mgmt_web_url }}"
+proj_mgmt_upgrade: false

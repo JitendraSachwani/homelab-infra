@@ -90,15 +90,17 @@ CCCII
 
 Current category ranges:
 
-| Range       | Category                    |
-| ----------- | --------------------------- |
-| `100xx`     | Core / Control / Networking |
-| `200xx`     | Databases                   |
-| `300xx`     | Monitoring                  |
-| `400xx`     | Docs / Wikis                |
-| `500xx`     | Media                       |
-| `600xx`     | Misc / Experiments          |
-| `900xx-999xx` | Templates only            |
+| Range         | Category                    |
+| ------------- | --------------------------- |
+| `100xx`       | Core / Control / Networking |
+| `200xx`       | Databases                   |
+| `300xx`       | Monitoring                  |
+| `400xx`       | Knowledge                   |
+| `500xx`       | Media                       |
+| `600xx`       | Project Management          |
+| `700xx`       | Reserved                    |
+| `800xx`       | Misc / Experiments          |
+| `900xx-999xx` | Templates only              |
 
 ## Terraform Rules
 
@@ -202,6 +204,7 @@ When working in this repo:
 - Make operational changes repeatable through Terraform, Ansible, or documented scripts.
 - Before adding a new service, decide whether Terraform, Ansible, or both need changes.
 - Before changing production resources, consider whether the change affects state, identity, storage, networking, or secrets.
+- At the end of every response after repo changes, include a suggested commit message for the changes since the last commit.
 
 ## Golden Rules
 

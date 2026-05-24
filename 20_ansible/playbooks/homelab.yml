@@ -81,7 +81,7 @@
 #     - monitoring
 
 # # ------------------------------------------------------------
-# # Docs / Wikis
+# # Knowledge
 # # ------------------------------------------------------------
 # - name: Configure Documentation Nodes
 #   hosts: docs
@@ -89,6 +89,17 @@
 #   roles:
 #     - common
 #     - docs
+
+# ------------------------------------------------------------
+# Project Management
+# ------------------------------------------------------------
+- name: Configure Project Management
+  hosts: proj_mgmt
+  become: true
+  roles:
+    - common
+    - docker
+    - proj_mgmt
 
 
 # ------------------------------------------------------------

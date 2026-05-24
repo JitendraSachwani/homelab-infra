@@ -1,0 +1,35 @@
+- name: Install Plane setup dependencies
+  ansible.builtin.apt:
+    name:
+      - curl
+      - ca-certificates
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Create Plane root directory
+  ansible.builtin.file:
+    path: "{{ proj_mgmt_root }}"
+    state: directory
+    mode: "0755"
+
+- name: Download Plane setup script
+  ansible.builtin.get_url:
+    url: "{{ proj_mgmt_setup_url }}"
+    dest: "{{ proj_mgmt_root }}/setup.sh"
+    mode: "0755"
+    force: "{{ proj_mgmt_upgrade }}"
+
+- name: Check if Plane compose bundle exists
+  ansible.builtin.stat:
+    path: "{{ proj_mgmt_app_dir }}/docker-compose.yaml"
+  register: proj_mgmt_compose_stat
+
+- name: Generate Plane compose bundle
+  ansible.builtin.shell: |
+    set -e
+    printf '1\n8\n' | ./setup.sh
+  args:
+    chdir: "{{ proj_mgmt_root }}"
+    executable: /bin/bash
+  when: proj_mgmt_upgrade or not proj_mgmt_compose_stat.stat.exists

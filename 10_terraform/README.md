@@ -67,9 +67,11 @@ VMID ranges:
 | 100xx       | Core / Control / Networking | IaC controller, DNS, gateway, infra glue |
 | 200xx       | Databases                   | Postgres, MySQL, Redis, etc              |
 | 300xx       | Monitoring                  | Prometheus, Grafana, Loki                |
-| 400xx       | Docs / Wikis                | WikiJS, BookStack, internal docs         |
+| 400xx       | Knowledge                   | Docs, wikis, runbooks, knowledge bases   |
 | 500xx       | Media                       | Jellyfin, *arr stack, downloads          |
-| 600xx       | Misc                        | Experiments, temporary services          |
+| 600xx       | Project Management          | Plane, roadmaps, task/project tools      |
+| 700xx       | Reserved                    | Reserved for a future category           |
+| 800xx       | Misc / Experiments          | Experiments, temporary services          |
 | 900xx–999xx | Templates                   | VM templates only                        |
 ---
 
@@ -81,9 +83,10 @@ Examples:
 | prod-iac-01        | 10001 | Core IaC controller |
 | prod-db-01         | 20001 | First database VM   |
 | prod-monitoring-01 | 30001 | Monitoring stack    |
-| prod-docs-01       | 40001 | Wiki                |
+| prod-docs-01       | 40001 | Knowledge base      |
 | prod-media-02      | 50002 | Second media VM     |
-| dev-test-01        | 60001 | Misc / experimental |
+| prod-proj-mgmt-01  | 60001 | Project management  |
+| dev-test-01        | 80001 | Misc / experimental |
 
 
 ---

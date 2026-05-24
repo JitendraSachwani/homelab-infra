@@ -4,6 +4,7 @@ locals {
     module.core_nas,
     module.core_networking,
     module.core_stack,
+    module.proj_mgmt,
 
     module.docs_01,
     module.observability_01,

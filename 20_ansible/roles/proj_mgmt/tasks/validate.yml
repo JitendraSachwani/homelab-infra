@@ -1,0 +1,5 @@
+- name: Verify Plane web port
+  ansible.builtin.wait_for:
+    port: "{{ proj_mgmt_http_port }}"
+    host: "{{ ansible_host }}"
+    timeout: 60

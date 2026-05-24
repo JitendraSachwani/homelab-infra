@@ -1,0 +1,6 @@
+- name: Start Plane
+  ansible.builtin.command:
+    cmd: docker compose --env-file plane.env -f docker-compose.yaml up -d
+    chdir: "{{ proj_mgmt_app_dir }}"
+  register: proj_mgmt_compose_up
+  changed_when: "'Started' in proj_mgmt_compose_up.stdout or 'Created' in proj_mgmt_compose_up.stdout or 'Recreated' in proj_mgmt_compose_up.stdout"

@@ -1,0 +1,12 @@
+- name: Configure Plane environment
+  ansible.builtin.lineinfile:
+    path: "{{ proj_mgmt_app_dir }}/plane.env"
+    regexp: "^{{ item.key }}="
+    line: "{{ item.key }}={{ item.value }}"
+    mode: "0600"
+  loop:
+    - { key: LISTEN_HTTP_PORT, value: "{{ proj_mgmt_http_port }}" }
+    - { key: LISTEN_HTTPS_PORT, value: "{{ proj_mgmt_https_port }}" }
+    - { key: WEB_URL, value: "{{ proj_mgmt_web_url }}" }
+    - { key: CORS_ALLOWED_ORIGINS, value: "{{ proj_mgmt_cors_allowed_origins }}" }
+  register: proj_mgmt_env_config
