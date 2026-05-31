@@ -1,0 +1,15 @@
+cloud_gateway_root: /opt/pangolin
+
+pangolin_image: docker.io/fosrl/pangolin:latest
+gerbil_image: docker.io/fosrl/gerbil:latest
+traefik_image: docker.io/traefik:v3.6
+
+pangolin_base_domain: localserver.stream
+pangolin_dashboard_domain: "pangolin.{{ pangolin_base_domain }}"
+pangolin_dashboard_url: "https://{{ pangolin_dashboard_domain }}"
+pangolin_letsencrypt_email: "admin@{{ pangolin_base_domain }}"
+pangolin_server_secret: "{{ lookup('ansible.builtin.file', playbook_dir + '/../../keys/pangolin_server_secret', errors='ignore') | trim }}"
+pangolin_require_email_verification: false
+pangolin_disable_signup_without_invite: true
+pangolin_disable_user_create_org: false
+pangolin_allow_raw_resources: true

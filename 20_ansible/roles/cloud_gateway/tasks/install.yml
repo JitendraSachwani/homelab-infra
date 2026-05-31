@@ -1,0 +1,29 @@
+- name: Install Pangolin host dependencies
+  ansible.builtin.apt:
+    name:
+      - curl
+      - ca-certificates
+    state: present
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: Create Pangolin directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "0755"
+  loop:
+    - "{{ cloud_gateway_root }}"
+    - "{{ cloud_gateway_root }}/config"
+    - "{{ cloud_gateway_root }}/config/db"
+    - "{{ cloud_gateway_root }}/config/letsencrypt"
+    - "{{ cloud_gateway_root }}/config/traefik"
+    - "{{ cloud_gateway_root }}/config/traefik/logs"
+
+- name: Create Let's Encrypt storage file
+  ansible.builtin.file:
+    path: "{{ cloud_gateway_root }}/config/letsencrypt/acme.json"
+    state: touch
+    mode: "0600"
+    modification_time: preserve
+    access_time: preserve

@@ -20,3 +20,62 @@ variable "oci_private_subnet_cidr_block" {
   type        = string
   default     = "10.0.1.0/24"
 }
+
+variable "gateway_name" {
+  description = "Cloud gateway instance display name"
+  type        = string
+  default     = "prod-cloud-gateway-01"
+}
+
+variable "gateway_ansible_role" {
+  description = "Ansible role/group name for inventory generation"
+  type        = string
+  default     = "cloud_gateway"
+}
+
+variable "gateway_shape" {
+  description = "OCI compute shape for the cloud gateway"
+  type        = string
+  default     = "VM.Standard.A1.Flex"
+}
+
+variable "gateway_ocpus" {
+  description = "OCPUs for flexible OCI shapes"
+  type        = number
+  default     = 1
+}
+
+variable "gateway_memory_gb" {
+  description = "Memory in GB for flexible OCI shapes"
+  type        = number
+  default     = 6
+}
+
+variable "gateway_image_ocid" {
+  description = "OCI image OCID for the cloud gateway instance. Leave empty to use the latest matching Ubuntu image."
+  type        = string
+  default     = ""
+}
+
+variable "gateway_image_operating_system" {
+  description = "Operating system name used when gateway_image_ocid is empty"
+  type        = string
+  default     = "Canonical Ubuntu"
+}
+
+variable "gateway_image_operating_system_version" {
+  description = "Operating system version used when gateway_image_ocid is empty"
+  type        = string
+  default     = "22.04"
+}
+
+variable "gateway_ssh_public_key" {
+  description = "SSH public key allowed for the iac user on the cloud gateway"
+  type        = string
+}
+
+variable "gateway_ssh_allowed_cidrs" {
+  description = "CIDRs allowed to SSH into the cloud gateway"
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+}

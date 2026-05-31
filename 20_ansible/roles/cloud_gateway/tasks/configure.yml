@@ -1,0 +1,29 @@
+- name: Require Pangolin server secret
+  ansible.builtin.assert:
+    that:
+      - pangolin_server_secret | length >= 32
+    fail_msg: "Create keys/pangolin_server_secret with a strong 32+ character secret before deploying Pangolin."
+
+- name: Deploy Pangolin compose file
+  ansible.builtin.template:
+    src: docker-compose.yml.j2
+    dest: "{{ cloud_gateway_root }}/docker-compose.yml"
+    mode: "0644"
+
+- name: Deploy Pangolin app config
+  ansible.builtin.template:
+    src: config.yml.j2
+    dest: "{{ cloud_gateway_root }}/config/config.yml"
+    mode: "0600"
+
+- name: Deploy Traefik static config
+  ansible.builtin.template:
+    src: traefik_config.yml.j2
+    dest: "{{ cloud_gateway_root }}/config/traefik/traefik_config.yml"
+    mode: "0644"
+
+- name: Deploy Traefik dynamic config
+  ansible.builtin.template:
+    src: dynamic_config.yml.j2
+    dest: "{{ cloud_gateway_root }}/config/traefik/dynamic_config.yml"
+    mode: "0644"

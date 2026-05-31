@@ -1,0 +1,6 @@
+- name: Start Pangolin gateway stack
+  ansible.builtin.command:
+    cmd: docker compose up -d
+    chdir: "{{ cloud_gateway_root }}"
+  register: cloud_gateway_compose_up
+  changed_when: "'Started' in cloud_gateway_compose_up.stdout or 'Created' in cloud_gateway_compose_up.stdout or 'Recreated' in cloud_gateway_compose_up.stdout"

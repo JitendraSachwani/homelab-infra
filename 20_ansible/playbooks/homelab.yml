@@ -28,6 +28,14 @@
     - docker
     - ci_runner
 
+- name: Configure Cloud Gateway
+  hosts: cloud_gateway
+  become: true
+  roles:
+    - common
+    - docker
+    - cloud_gateway
+
 - name: Configure Networking Services
   hosts: networking
   become: true

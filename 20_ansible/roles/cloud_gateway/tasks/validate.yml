@@ -1,0 +1,19 @@
+- name: Verify Pangolin containers are running
+  ansible.builtin.command:
+    cmd: docker compose ps --services --filter status=running
+    chdir: "{{ cloud_gateway_root }}"
+  register: cloud_gateway_running_services
+  changed_when: false
+
+- name: Assert Pangolin gateway services are running
+  ansible.builtin.assert:
+    that:
+      - "'pangolin' in cloud_gateway_running_services.stdout_lines"
+      - "'gerbil' in cloud_gateway_running_services.stdout_lines"
+      - "'traefik' in cloud_gateway_running_services.stdout_lines"
+
+- name: Verify Pangolin HTTPS port
+  ansible.builtin.wait_for:
+    host: 127.0.0.1
+    port: 443
+    timeout: 60

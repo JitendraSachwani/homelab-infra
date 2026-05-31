@@ -1,0 +1,15 @@
+#cloud-config
+users:
+  - default
+  - name: iac
+    groups: sudo
+    shell: /bin/bash
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - ${gateway_ssh_public_key}
+
+package_update: true
+packages:
+  - python3
+
+ssh_pwauth: false

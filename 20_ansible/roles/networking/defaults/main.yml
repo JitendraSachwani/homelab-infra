@@ -100,7 +100,7 @@ reverse_proxy_image: caddy:latest
 newt_upgrade: false
 newt_site_id: "{{ lookup('ansible.builtin.file', playbook_dir + '/../../keys/newt_site_id') | trim }}"
 newt_site_secret: "{{ lookup('ansible.builtin.file', playbook_dir + '/../../keys/newt_site_secret') | trim }}"
-newt_endpoint: "https://pangolin.localserver.stream"
+newt_endpoint: "https://pangolin.localserver.stream" # Must match cloud_gateway's Pangolin dashboard URL.
 
 # Tailscale
 tailscale_auth_key: ""
