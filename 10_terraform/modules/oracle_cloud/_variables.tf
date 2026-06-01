@@ -21,13 +21,21 @@ variable "gateway_shape" {
 variable "gateway_ocpus" {
   description = "OCPUs for flexible OCI shapes"
   type        = number
-  default     = 1
 }
 
 variable "gateway_memory_gb" {
   description = "Memory in GB for flexible OCI shapes"
   type        = number
-  default     = 6
+}
+
+variable "iac_ssh_public_key" {
+  description = "SSH public key allowed for the iac user on the cloud gateway"
+  type        = string
+}
+
+variable "admin_ssh_public_key" {
+  description = "SSH public key allowed for the admin user"
+  type        = string
 }
 
 variable "oci_vcn_cidr_blocks" {
@@ -64,11 +72,6 @@ variable "gateway_image_operating_system_version" {
   description = "Operating system version used when gateway_image_ocid is empty"
   type        = string
   default     = "22.04"
-}
-
-variable "gateway_ssh_public_key" {
-  description = "SSH public key allowed for the iac user on the cloud gateway"
-  type        = string
 }
 
 variable "gateway_ssh_allowed_cidrs" {

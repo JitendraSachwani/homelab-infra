@@ -154,7 +154,8 @@ resource "oci_core_instance" "gateway" {
 
   metadata = {
     user_data = base64encode(templatefile("${path.module}/cloud_init.yaml.tftpl", {
-      gateway_ssh_public_key = var.gateway_ssh_public_key
+      iac_ssh_public_key = var.iac_ssh_public_key
+      admin_ssh_public_key = var.admin_ssh_public_key
     }))
   }
 

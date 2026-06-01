@@ -15,6 +15,8 @@ module "cloud_gateway" {
   # gateway_ocpus     = 1
   # gateway_memory_gb = 6
 
-  gateway_ssh_public_key = var.iac_ssh_public_key
-  gateway_ansible_role   = "cloud_gateway"
+  iac_ssh_public_key   = var.iac_ssh_public_key
+  admin_ssh_public_key = var.admin_ssh_public_key
+
+  gateway_ansible_role = "cloud_gateway"
 }
