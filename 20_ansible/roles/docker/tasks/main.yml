@@ -37,6 +37,7 @@
     repo: "{{ docker_apt_repo }}"
     state: present
     filename: docker
+    update_cache: true
 
 - name: Install Docker packages
   apt:
