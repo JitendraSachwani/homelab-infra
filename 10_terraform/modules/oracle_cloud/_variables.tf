@@ -3,6 +3,33 @@ variable "oci_tenancy_ocid" {
   type        = string
 }
 
+variable "gateway_name" {
+  description = "Cloud gateway instance display name"
+  type        = string
+}
+
+variable "gateway_ansible_role" {
+  description = "Ansible role/group name for inventory generation"
+  type        = string
+}
+
+variable "gateway_shape" {
+  description = "OCI compute shape for the cloud gateway"
+  type        = string
+}
+
+variable "gateway_ocpus" {
+  description = "OCPUs for flexible OCI shapes"
+  type        = number
+  default     = 1
+}
+
+variable "gateway_memory_gb" {
+  description = "Memory in GB for flexible OCI shapes"
+  type        = number
+  default     = 6
+}
+
 variable "oci_vcn_cidr_blocks" {
   description = "The list of one or more IPv4 CIDR blocks for the VCN. Note: cidr_blocks update must be restricted to one operation at a time (either add/remove or modify one single cidr_block) or the operation will be declined. new cidr_block to be added must be placed at the end of the list."
   type        = list(string)
@@ -19,36 +46,6 @@ variable "oci_private_subnet_cidr_block" {
   description = "The CIDR for the Private Subnet of the vcn."
   type        = string
   default     = "10.0.1.0/24"
-}
-
-variable "gateway_name" {
-  description = "Cloud gateway instance display name"
-  type        = string
-  default     = "prod-cloud-gateway-01"
-}
-
-variable "gateway_ansible_role" {
-  description = "Ansible role/group name for inventory generation"
-  type        = string
-  default     = "cloud_gateway"
-}
-
-variable "gateway_shape" {
-  description = "OCI compute shape for the cloud gateway"
-  type        = string
-  default     = "VM.Standard.E2.1.Micro"
-}
-
-variable "gateway_ocpus" {
-  description = "OCPUs for flexible OCI shapes"
-  type        = number
-  default     = 1
-}
-
-variable "gateway_memory_gb" {
-  description = "Memory in GB for flexible OCI shapes"
-  type        = number
-  default     = 6
 }
 
 variable "gateway_image_ocid" {

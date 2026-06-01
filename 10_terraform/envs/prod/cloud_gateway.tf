@@ -6,6 +6,15 @@ module "cloud_gateway" {
 
   oci_tenancy_ocid = var.oci_tenancy_ocid
   gateway_name     = "prod-cloud-gateway-01"
+  
+  gateway_shape     = "VM.Standard.E2.1.Micro"
+  gateway_ocpus     = 1
+  gateway_memory_gb = 1
+
+  # gateway_shape     = "VM.Standard.A1.Flex"
+  # gateway_ocpus     = 1
+  # gateway_memory_gb = 6
 
   gateway_ssh_public_key = var.iac_ssh_public_key
+  gateway_ansible_role   = "cloud_gateway"
 }
