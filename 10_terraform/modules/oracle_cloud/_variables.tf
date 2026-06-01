@@ -36,7 +36,7 @@ variable "gateway_ansible_role" {
 variable "gateway_shape" {
   description = "OCI compute shape for the cloud gateway"
   type        = string
-  default     = "VM.Standard.A1.Flex"
+  default     = "VM.Standard.E2.1.Micro"
 }
 
 variable "gateway_ocpus" {
