@@ -97,7 +97,7 @@ pihole_updatelists_regex_whitelist_url: "https://raw.githubusercontent.com/mmott
 reverse_proxy_image: caddy:latest
 
 # Newt 
-newt_upgrade: false
+newt_upgrade: true
 newt_site_id: "{{ lookup('ansible.builtin.file', playbook_dir + '/../../keys/newt_site_id') | trim }}"
 newt_site_secret: "{{ lookup('ansible.builtin.file', playbook_dir + '/../../keys/newt_site_secret') | trim }}"
 newt_endpoint: "https://pangolin.localserver.stream" # Must match cloud_gateway's Pangolin dashboard URL.
