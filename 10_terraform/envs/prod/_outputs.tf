@@ -4,6 +4,7 @@ locals {
     module.core_nas,
     module.core_networking,
     module.core_stack,
+    module.media_stack,
     module.proj_mgmt,
 
     module.docs_01,
@@ -14,7 +15,6 @@ locals {
     local.single_hosts,
     [module.cloud_gateway.gateway_host],
     values(module.databases),
-    values(module.media),
     values(module.market_diaries)
   )
 
