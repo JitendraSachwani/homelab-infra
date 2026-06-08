@@ -114,19 +114,13 @@
 # Media Stack
 # ------------------------------------------------------------
 
-- name: Configure Media Servers
+- name: Configure Media Stack
   hosts: media_srv
   become: true
   roles:
     - common
-    - media_srv
-
-- name: Configure Media Management
-  hosts: media_mgmt
-  become: true
-  roles:
-    - common
-    - media_mgmt
+    - docker
+    - media_stack
 
 # ------------------------------------------------------------
 # Market Diaries Rendering Cluster
