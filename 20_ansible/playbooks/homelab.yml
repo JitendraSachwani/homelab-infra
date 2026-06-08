@@ -115,7 +115,7 @@
 # ------------------------------------------------------------
 
 - name: Configure Media Stack
-  hosts: media_srv
+  hosts: media_stack
   become: true
   roles:
     - common
