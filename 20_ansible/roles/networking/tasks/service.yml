@@ -4,11 +4,11 @@
     enabled: true
     state: started
 
-- name: Enable and start Caddy
-  ansible.builtin.systemd:
-    name: caddy
-    enabled: true
-    state: started
+# - name: Enable and start Caddy
+#   ansible.builtin.systemd:
+#     name: caddy
+#     enabled: true
+#     state: started
 
 # - name: Enable and start Tailscale service
 #   ansible.builtin.systemd:
