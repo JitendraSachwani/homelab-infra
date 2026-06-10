@@ -18,7 +18,7 @@
     state: directory
     mode: "{{ data_dir_mode }}"
   loop:
-    - "{{ downloads_root }}"
+    - "{{ torrents_root }}"
     - "{{ usenet_root }}"
     - "{{ usenet_root }}/incomplete"
     - "{{ usenet_root }}/complete"
