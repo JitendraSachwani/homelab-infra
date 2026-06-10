@@ -43,7 +43,7 @@
     - common
     - networking
 
-- name: Configure Core Apps
+- name: Configure Core Stack
   hosts: core_stack
   become: true
   roles:

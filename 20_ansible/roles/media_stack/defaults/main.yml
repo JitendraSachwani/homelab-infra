@@ -1,6 +1,49 @@
 nas_ip: "10.0.0.20"
 nas_media_export: "/media"
 
+nas_mount_fstype: nfs
+nas_mount_opts: rw,_netdev,noatime,nfsvers=4
+
+data_root: /mnt/data
+torrents_root: "{{ data_root }}/torrents"
+usenet_root: "{{ data_root }}/usenet"
+library_root: "{{ data_root }}/media"
+media_categories:
+  - movies
+  - music
+  - tv
+data_dir_mode: "0775"
+
+media_stack_dir: /opt/media-stack
+
+servarr_apps:
+  - name: sonarr
+    port: 8989
+    image: lscr.io/linuxserver/sonarr:latest
+    config_file: "{{ media_stack_dir }}/config/sonarr/config.xml"
+
+  - name: radarr
+    port: 7878
+    image: lscr.io/linuxserver/radarr:latest
+    config_file: "{{ media_stack_dir }}/config/radarr/config.xml"
+
+  - name: lidarr
+    port: 8686
+    image: lscr.io/linuxserver/lidarr:latest
+    config_file: "{{ media_stack_dir }}/config/lidarr/config.xml"
+
+  - name: prowlarr
+    port: 9696
+    image: lscr.io/linuxserver/prowlarr:latest
+    config_file: "{{ media_stack_dir }}/config/prowlarr/config.xml"
+
+timezone: Asia/Kolkata
+media_uid: 1000
+media_gid: 1000
+
+servarr_api_key: "{{ lookup('ansible.builtin.file', playbook_dir + '/../../keys/servarr_api_key') | trim }}"
+
+
 tdarr_install_dir: "/opt/tdarr"
 tdarr_node_name: "{{ inventory_hostname }}"
 tdarr_server_ip: "10.0.5.1"

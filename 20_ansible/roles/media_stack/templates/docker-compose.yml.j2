@@ -1,0 +1,49 @@
+services:
+{% for app in servarr_apps %}
+  {{ app.name }}:
+    image: {{ app.image }}
+    container_name: {{ app.name }}
+    restart: unless-stopped
+    env_file:
+      - ./env/{{ app.name }}.env
+    volumes:
+      - ./config/{{ app.name }}:/config
+      - {{ data_root }}:/data
+    ports:
+      - "{{ app.port }}:{{ app.port }}"
+{% endfor %}
+  
+
+services:
+  vaultwarden:
+    image: {{ vaultwarden_image }}
+    container_name: vaultwarden
+    user: "1000:1000"
+    restart: unless-stopped
+    env_file: vaultwarden.env
+    volumes:
+      - ./vaultwarden:/data
+    ports:
+      - "8222:8222"
+
+  n8n:
+    image: {{ n8n_image }}
+    container_name: n8n
+    user: "1000:1000"
+    restart: unless-stopped
+    env_file: n8n.env
+    volumes:
+      - ./n8n:/home/node/.n8n
+    ports:
+      - "5678:5678"
+
+  mealie:
+    image: {{ mealie_image }}
+    container_name: mealie
+    user: "1000:1000"
+    restart: unless-stopped
+    env_file: mealie.env
+    volumes:
+      - ./mealie:/app/data
+    ports:
+      - "{{ mealie_api_port }}:{{ mealie_api_port }}"

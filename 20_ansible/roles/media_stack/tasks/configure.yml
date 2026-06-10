@@ -1,16 +1,99 @@
 - name: Create media mount point
   ansible.builtin.file:
-    path: /mnt/media
+    path: "{{ data_root }}"
     state: directory
-    mode: "0755"
+    mode: "{{ data_dir_mode }}"
 
 - name: Mount NAS media share
   ansible.builtin.mount:
     src: "{{ nas_ip }}:{{ nas_media_export }}"
-    path: /mnt/media
-    fstype: nfs
-    opts: rw,_netdev,noatime,nfsvers=4
+    path: "{{ data_root }}"
+    fstype: "{{ nas_mount_fstype }}"
+    opts: "{{ nas_mount_opts }}"
     state: mounted
+
+- name: Create top-level media directories
+  ansible.builtin.file:
+    path: "{{ item }}"
+    state: directory
+    mode: "{{ data_dir_mode }}"
+  loop:
+    - "{{ downloads_root }}"
+    - "{{ usenet_root }}"
+    - "{{ usenet_root }}/incomplete"
+    - "{{ usenet_root }}/complete"
+    - "{{ library_root }}"
+
+- name: Create torrent directories
+  ansible.builtin.file:
+    path: "{{ torrents_root }}/{{ item }}"
+    state: directory
+    mode: "{{ data_dir_mode }}"
+  loop: "{{ media_categories }}"
+
+- name: Create usenet category directories
+  ansible.builtin.file:
+    path: "{{ usenet_root }}/complete/{{ item }}"
+    state: directory
+    mode: "{{ data_dir_mode }}"
+  loop: "{{ media_categories }}"
+
+- name: Create media library directories
+  ansible.builtin.file:
+    path: "{{ library_root }}/{{ item }}"
+    state: directory
+    mode: "{{ data_dir_mode }}"
+  loop: "{{ media_categories }}"
+
+
+- name: Create media stack directory
+  ansible.builtin.file:
+    path: "{{ media_stack_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Create config directories
+  ansible.builtin.file:
+    path: "{{ media_stack_dir }}/config/{{ item.name }}"
+    state: directory
+    mode: "0755"
+  loop: "{{ servarr_apps }}"
+
+- name: Create env directory
+  ansible.builtin.file:
+    path: "{{ media_stack_dir }}/env"
+    state: directory
+    mode: "0755"
+
+- name: Render compose file
+  ansible.builtin.template:
+    src: compose.yml.j2
+    dest: "{{ media_stack_dir }}/compose.yml"
+    mode: "0644"
+
+- name: Render env files
+  ansible.builtin.template:
+    src: arr.env.j2
+    dest: "{{ media_stack_dir }}/env/{{ item.name }}.env"
+    mode: "0644"
+  loop: "{{ servarr_apps }}"
+
+- name: Ensure media stack is running
+  ansible.builtin.command:
+    cmd: docker compose up -d
+    chdir: "{{ media_stack_dir }}"
+  register: compose_up
+
+- name: Show compose output
+  ansible.builtin.debug:
+    var: compose_up.stdout_lines
+  when: compose_up.stdout != ""
+
+- name: Configure Servarr applications
+  include_tasks: configure_servarr.yml
+  loop: "{{ servarr_apps }}"
+  loop_control:
+    label: "{{ item.name }}"
 
 # - name: Create Tdarr cache directory
 #   ansible.builtin.file:

@@ -4,6 +4,17 @@
     enabled: true
     state: started
 
+- name: Ensure media stack is running
+  ansible.builtin.command:
+    cmd: docker compose up -d
+    chdir: "{{ media_stack_dir }}"
+  register: compose_up
+
+- name: Show compose output
+  ansible.builtin.debug:
+    var: compose_up.stdout_lines
+  when: compose_up.stdout != ""
+
 # - name: Enable and start Tdarr node
 #   ansible.builtin.systemd:
 #     name: tdarr-node

@@ -1,0 +1,38 @@
+- name: Wait for {{ item.name }}
+  wait_for:
+    port: "{{ item.port }}"
+    timeout: 60
+
+- name: Wait for config.xml
+  wait_for:
+    path: "{{ item.config_file }}"
+    timeout: 60
+
+- name: Configure API key
+  lineinfile:
+    path: "{{ item.config_file }}"
+    regexp: '^\s*<ApiKey>.*</ApiKey>'
+    insertafter: '<Config>'
+    line: "  <ApiKey>{{ servarr_api_key }}</ApiKey>"
+  register: api_key_config
+  no_log: true
+
+- name: Configure external auth
+  lineinfile:
+    path: "{{ item.config_file }}"
+    regexp: '^\s*<AuthenticationMethod>.*</AuthenticationMethod>'
+    insertafter: '<Config>'
+    line: '  <AuthenticationMethod>External</AuthenticationMethod>'
+  register: auth_config
+
+- name: Restart {{ item.name }}
+  command:
+    cmd: docker compose restart {{ item.name }}
+    chdir: "{{ media_stack_dir }}"
+  when: api_key_config.changed or auth_config.changed
+
+- name: Wait for {{ item.name }} after restart
+  wait_for:
+    port: "{{ item.port }}"
+    timeout: 60
+  when: api_key_config.changed or auth_config.changed
