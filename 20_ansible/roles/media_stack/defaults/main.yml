@@ -59,6 +59,20 @@ media_gid: 1000
 
 servarr_api_key: "{{ lookup('ansible.builtin.file', playbook_dir + '/../../keys/servarr_api_key') | trim }}"
 
+qbittorrent_image: lscr.io/linuxserver/qbittorrent:latest
+qbittorrent_port: 8080
+qbittorrent_bittorrent_port: 6881
+qbittorrent_url: http://qbittorrent:8080
+qbittorrent_admin_username: admin
+qbittorrent_admin_password: >-
+  {{
+    lookup(
+      'ansible.builtin.file',
+      playbook_dir + '/../../keys/qbittorrent_admin_pass'
+    ) | trim
+  }}
+
+
 tdarr_install_dir: "/opt/tdarr"
 tdarr_node_name: "{{ inventory_hostname }}"
 tdarr_server_ip: "10.0.5.1"

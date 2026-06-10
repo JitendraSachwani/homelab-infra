@@ -12,3 +12,16 @@ services:
     ports:
       - "{{ app.port }}:{{ app.port }}"
 {% endfor %}
+  qbittorrent:
+    image: {{ qbittorrent_image }}
+    container_name: qbittorrent
+    restart: unless-stopped
+    env_file:
+      - ./env/qbittorrent.env
+    ports:
+      - "{{ qbittorrent_port }}:{{ qbittorrent_port }}"
+      - "{{ qbittorrent_bittorrent_port }}:{{ qbittorrent_bittorrent_port }}"
+      - "{{ qbittorrent_bittorrent_port }}:{{ qbittorrent_bittorrent_port }}/udp"
+    volumes:
+      - ./config/qbittorrent:/config
+      - {{ data_root }}:/data
