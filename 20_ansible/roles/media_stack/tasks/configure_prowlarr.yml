@@ -1,0 +1,44 @@
+---
+- name: Get existing Prowlarr applications
+  ansible.builtin.uri:
+    url: http://localhost:9696/api/v1/applications
+    method: GET
+    headers:
+      X-Api-Key: "{{ servarr_api_key }}"
+  register: prowlarr_existing_applications
+  no_log: true
+
+- name: Configure Prowlarr applications
+  ansible.builtin.uri:
+    url: http://localhost:9696/api/v1/applications
+    method: POST
+    headers:
+      X-Api-Key: "{{ servarr_api_key }}"
+    body_format: json
+    body:
+      name: "{{ item.display_name }}"
+      syncLevel: fullSync
+      enable: true
+      implementation: "{{ item.display_name }}"
+      configContract: "{{ item.display_name }}Settings"
+      fields:
+        - name: prowlarrUrl
+          value: http://prowlarr:9696
+
+        - name: baseUrl
+          value: "{{ item.url }}"
+
+        - name: apiKey
+          value: "{{ servarr_api_key }}"
+      tags: []
+    status_code:
+      - 201
+  loop: "{{ servarr_apps | selectattr('prowlarr_application') | list }}"
+  when: >
+    item.display_name not in
+    (
+      prowlarr_existing_applications.json
+      | map(attribute='name')
+      | list
+    )
+  no_log: true

@@ -18,31 +18,46 @@ media_stack_dir: /opt/media-stack
 
 servarr_apps:
   - name: sonarr
-    port: 8989
+    display_name: Sonarr
     image: lscr.io/linuxserver/sonarr:latest
+    port: 8989
+    url: http://sonarr:8989
     config_file: "{{ media_stack_dir }}/config/sonarr/config.xml"
+    prowlarr_application: true
+    recyclarr_supported: true
 
   - name: radarr
-    port: 7878
+    display_name: Radarr
     image: lscr.io/linuxserver/radarr:latest
+    port: 7878
+    url: http://radarr:7878
     config_file: "{{ media_stack_dir }}/config/radarr/config.xml"
+    prowlarr_application: true
+    recyclarr_supported: true
 
   - name: lidarr
-    port: 8686
+    display_name: Lidarr
     image: lscr.io/linuxserver/lidarr:latest
+    port: 8686
+    url: http://lidarr:8686
     config_file: "{{ media_stack_dir }}/config/lidarr/config.xml"
+    prowlarr_application: true
+    recyclarr_supported: false
 
   - name: prowlarr
-    port: 9696
+    display_name: Prowlarr
     image: lscr.io/linuxserver/prowlarr:latest
+    port: 9696
+    url: http://prowlarr:9696
     config_file: "{{ media_stack_dir }}/config/prowlarr/config.xml"
+    prowlarr_application: false
+    recyclarr_supported: false
 
 timezone: Asia/Kolkata
 media_uid: 1000
 media_gid: 1000
 
 servarr_api_key: "{{ lookup('ansible.builtin.file', playbook_dir + '/../../keys/servarr_api_key') | trim }}"
-
 
 tdarr_install_dir: "/opt/tdarr"
 tdarr_node_name: "{{ inventory_hostname }}"

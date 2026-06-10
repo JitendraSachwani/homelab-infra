@@ -95,6 +95,9 @@
   loop_control:
     label: "{{ item.name }}"
 
+- name: Configure Prowlarr
+  ansible.builtin.import_tasks: configure_prowlarr.yml
+
 # - name: Create Tdarr cache directory
 #   ansible.builtin.file:
 #     path: /var/lib/tdarr-cache

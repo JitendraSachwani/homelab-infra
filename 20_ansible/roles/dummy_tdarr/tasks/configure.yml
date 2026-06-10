@@ -1,17 +1,3 @@
-- name: Create media mount point
-  ansible.builtin.file:
-    path: /mnt/media
-    state: directory
-    mode: "0755"
-
-# - name: Mount NAS media share
-#   ansible.builtin.mount:
-#     src: "{{ nas_ip }}:{{ nas_media_export }}"
-#     path: /mnt/media
-#     fstype: nfs
-#     opts: rw,_netdev,noatime
-#     state: mounted
-
 - name: Create Tdarr server systemd service
   ansible.builtin.copy:
     dest: /etc/systemd/system/tdarr-server.service
