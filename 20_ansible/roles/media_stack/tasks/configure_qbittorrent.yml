@@ -47,7 +47,7 @@
 
 - name: Wait for qBittorrent
   ansible.builtin.wait_for:
-    port: "{{ qbittorrent_webui_port }}"
+    port: "{{ qbittorrent_port }}"
     timeout: 60
   when: 
     - qbittorrent_api_key_config.changed or 
