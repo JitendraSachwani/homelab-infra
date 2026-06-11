@@ -9,6 +9,11 @@
     path: "{{ media_stack_dir }}/config/qbittorrent/qBittorrent/qBittorrent.conf"
     timeout: 60
 
+- name: Stop qBittorrent
+  command:
+    cmd: docker compose stop qbittorrent
+    chdir: "{{ media_stack_dir }}"
+
 - name: Configure qBittorrent API key
   ansible.builtin.lineinfile:
     path: "{{ qbittorrent_config_file }}"
@@ -36,9 +41,9 @@
   loop: "{{ qbittorrent_settings }}"
   register: qbittorrent_config
 
-- name: Restart qBittorrent
+- name: Start qBittorrent
   ansible.builtin.command:
-    cmd: docker compose restart qbittorrent
+    cmd: docker compose start qbittorrent
     chdir: "{{ media_stack_dir }}"
   when: 
     - qbittorrent_api_key_config.changed or 
