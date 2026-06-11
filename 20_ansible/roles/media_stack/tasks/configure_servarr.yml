@@ -153,22 +153,12 @@
           value: "{{ qbittorrent_port }}"
         - name: useSsl
           value: false
-        - name: apiKey
-          value: "{{ servarr_api_key }}"
         - name: username
           value: ""
         - name: password
           value: ""
         - name: "{{ item.download_client_category_field }}"
           value: "{{ item.download_client_category }}"
-        - name: initialState
-          value: 0
-        - name: sequentialOrder
-          value: false
-        - name: firstAndLast
-          value: false
-        - name: contentLayout
-          value: 0
     status_code:
       - 200
       - 201
