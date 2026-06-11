@@ -181,4 +181,4 @@
         | map(attribute='name')
         | list
       )
-  no_log: true
+  # no_log: true
