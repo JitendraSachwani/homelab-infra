@@ -31,6 +31,9 @@ servarr_apps:
     naming_config_key: "renameMovies"
     prowlarr_application: true
     recyclarr_supported: true
+    download_client_supported: true
+    download_client_category_field: "movieCategory"
+    download_client_category: "movies"
 
   - name: sonarr
     display_name: Sonarr
@@ -46,6 +49,9 @@ servarr_apps:
     naming_config_key: "renameEpisodes"
     prowlarr_application: true
     recyclarr_supported: true
+    download_client_supported: true
+    download_client_category_field: "tvCategory"
+    download_client_category: "tv"
 
   - name: lidarr
     display_name: Lidarr
@@ -61,6 +67,9 @@ servarr_apps:
     naming_config_key: "renameTracks"
     prowlarr_application: true
     recyclarr_supported: false
+    download_client_supported: true
+    download_client_category_field: "musicCategory"
+    download_client_category: "music"
 
   - name: prowlarr
     display_name: Prowlarr
@@ -74,6 +83,7 @@ servarr_apps:
     naming_config_supported: false
     prowlarr_application: false
     recyclarr_supported: false
+    download_client_supported: false
 
 timezone: Asia/Kolkata
 media_uid: 1000

@@ -120,3 +120,65 @@
     - item.naming_config_supported
     - naming_config.json[item.naming_config_key] is defined
     - not naming_config.json[item.naming_config_key]
+
+- name: Get {{ item.name }} download clients
+  ansible.builtin.uri:
+    url: "http://localhost:{{ item.port }}/api/{{ item.api_version }}/downloadclient"
+    method: GET
+    headers:
+      X-Api-Key: "{{ servarr_api_key }}"
+  register: download_clients
+  when: item.download_client_supported
+
+- name: Configure qBittorrent download client for {{ item.name }}
+  ansible.builtin.uri:
+    url: "http://localhost:{{ item.port }}/api/{{ item.api_version }}/downloadclient"
+    method: POST
+    headers:
+      X-Api-Key: "{{ servarr_api_key }}"
+    body_format: json
+    body:
+      enable: true
+      protocol: torrent
+      priority: 1
+      removeCompletedDownloads: true
+      removeFailedDownloads: true
+      name: qBittorrent
+      implementation: QBittorrent
+      configContract: QBittorrentSettings
+      fields:
+        - name: host
+          value: qbittorrent
+        - name: port
+          value: {{ qbittorrent_port }}
+        - name: useSsl
+          value: false
+        - name: apiKey
+          value: "{{ qbittorrent_api_key }}"
+        - name: username
+          value: ""
+        - name: password
+          value: ""
+        - name: "{{ item.download_client_category_field }}"
+          value: "{{ item.download_client_category }}"
+        - name: initialState
+          value: 0
+        - name: sequentialOrder
+          value: false
+        - name: firstAndLast
+          value: false
+        - name: contentLayout
+          value: 0
+    status_code:
+      - 200
+      - 201
+  when:
+    - item.download_client_supported
+    - >
+      'qBittorrent' not in
+      (
+        download_clients.json
+        | map(attribute='name')
+        | list
+      )
+  no_log: true
