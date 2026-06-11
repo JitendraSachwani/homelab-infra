@@ -17,7 +17,7 @@
     insertafter: '^\[Preferences\]'
     line: "WebUI\\APIKey={{ servarr_api_key }}"
   register: qbittorrent_api_key_config
-  # no_log: true
+  no_log: true
 
 - name: Configure qBittorrent password
   ansible.builtin.lineinfile:
@@ -26,7 +26,7 @@
     insertafter: '^\[Preferences\]'
     line: 'WebUI\Password_PBKDF2={{ qbittorrent_admin_pass_hash }}'
   register: qbittorrent_password_config
-  # no_log: true
+  no_log: true
 
 - name: Configure qBittorrent settings
   ansible.builtin.lineinfile:
@@ -35,15 +35,22 @@
     insertafter: "^\\[{{ item.section }}\\]$"
     line: "{{ item.key }}={{ item.value }}"
   loop: "{{ qbittorrent_settings }}"
+  register: qbittorrent_config
 
 - name: Restart qBittorrent
   ansible.builtin.command:
     cmd: docker compose restart qbittorrent
     chdir: "{{ media_stack_dir }}"
-  when: qbittorrent_config.changed
+  when: 
+    - qbittorrent_api_key_config.changed or 
+      qbittorrent_password_config.changed or 
+      qbittorrent_config.changed
 
 - name: Wait for qBittorrent
   ansible.builtin.wait_for:
     port: "{{ qbittorrent_webui_port }}"
     timeout: 60
-  when: qbittorrent_config.changed
+  when: 
+    - qbittorrent_api_key_config.changed or 
+      qbittorrent_password_config.changed or 
+      qbittorrent_config.changed
