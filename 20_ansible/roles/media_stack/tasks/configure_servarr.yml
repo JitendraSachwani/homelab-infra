@@ -36,3 +36,29 @@
     port: "{{ item.port }}"
     timeout: 60
   when: api_key_config.changed or auth_config.changed
+
+- name: Get {{ item.name }} root folders
+  ansible.builtin.uri:
+    url: "http://localhost:{{ item.port }}/api/v3/rootfolder"
+    method: GET
+    headers:
+      X-Api-Key: "{{ servarr_api_key }}"
+  register: root_folders
+
+- name: Create {{ item.name }} root folder
+  ansible.builtin.uri:
+    url: "http://localhost:{{ item.port }}/api/v3/rootfolder"
+    method: POST
+    headers:
+      X-Api-Key: "{{ servarr_api_key }}"
+    body_format: json
+    body:
+      path: "{{ item.root_folder }}"
+    status_code: 201
+  when: >
+    item.root_folder not in
+    (
+      root_folders.json
+      | map(attribute='path')
+      | list
+    )

@@ -10,28 +10,30 @@ usenet_root: "{{ data_root }}/usenet"
 library_root: "{{ data_root }}/media"
 media_categories:
   - movies
-  - music
   - tv
+  - music
 data_dir_mode: "0775"
 
 media_stack_dir: /opt/media-stack
 
 servarr_apps:
-  - name: sonarr
-    display_name: Sonarr
-    image: lscr.io/linuxserver/sonarr:latest
-    port: 8989
-    url: http://sonarr:8989
-    config_file: "{{ media_stack_dir }}/config/sonarr/config.xml"
-    prowlarr_application: true
-    recyclarr_supported: true
-
   - name: radarr
     display_name: Radarr
     image: lscr.io/linuxserver/radarr:latest
     port: 7878
     url: http://radarr:7878
     config_file: "{{ media_stack_dir }}/config/radarr/config.xml"
+    root_folder: "{{ library_root }}/movies"
+    prowlarr_application: true
+    recyclarr_supported: true
+
+  - name: sonarr
+    display_name: Sonarr
+    image: lscr.io/linuxserver/sonarr:latest
+    port: 8989
+    url: http://sonarr:8989
+    config_file: "{{ media_stack_dir }}/config/sonarr/config.xml"
+    root_folder: "{{ library_root }}/tv"
     prowlarr_application: true
     recyclarr_supported: true
 
@@ -41,6 +43,7 @@ servarr_apps:
     port: 8686
     url: http://lidarr:8686
     config_file: "{{ media_stack_dir }}/config/lidarr/config.xml"
+    root_folder: "{{ library_root }}/music"
     prowlarr_application: true
     recyclarr_supported: false
 
@@ -69,6 +72,13 @@ qbittorrent_admin_password: >-
     lookup(
       'ansible.builtin.file',
       playbook_dir + '/../../keys/qbittorrent_admin_pass'
+    ) | trim
+  }}
+qbittorrent_api_key: >-
+  {{
+    lookup(
+      'ansible.builtin.file',
+      playbook_dir + '/../../keys/qbittorrent_api_key'
     ) | trim
   }}
 
