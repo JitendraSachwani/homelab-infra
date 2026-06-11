@@ -118,7 +118,7 @@ qbittorrent_settings:
 
   - section: BitTorrent
     key: Session\DefaultSavePath
-    value: "{{ torrents_root }}"
+    value: "/data/torrents"
 
   - section: BitTorrent
     key: Session\DisableAutoTMMByDefault
