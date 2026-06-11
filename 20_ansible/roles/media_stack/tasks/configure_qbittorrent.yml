@@ -17,7 +17,7 @@
     insertafter: '^\[Preferences\]'
     line: "WebUI\\APIKey={{ servarr_api_key }}"
   register: qbittorrent_api_key_config
-  no_log: true
+  # no_log: true
 
 - name: Configure qBittorrent password
   ansible.builtin.lineinfile:
@@ -25,8 +25,8 @@
     regexp: '^WebUI\\Password_PBKDF2='
     insertafter: '^\[Preferences\]'
     line: 'WebUI\Password_PBKDF2={{ qbittorrent_password_hash }}'
-  no_log: true
   register: qbittorrent_password_config
+  # no_log: true
 
 - name: Configure qBittorrent settings
   ansible.builtin.lineinfile:
