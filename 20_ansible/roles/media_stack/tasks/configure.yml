@@ -117,21 +117,15 @@
     var: compose_up.stdout_lines
   when: compose_up.stdout != ""
 
-- name: Wait for qBittorrent
-  ansible.builtin.wait_for:
-    port: "{{ qbittorrent_port }}"
-    timeout: 60
-
-- name: Wait for qBittorrent config
-  ansible.builtin.wait_for:
-    path: "{{ media_stack_dir }}/config/qbittorrent/qBittorrent/qBittorrent.conf"
-    timeout: 60
 
 - name: Configure Servarr applications
   include_tasks: configure_servarr.yml
   loop: "{{ servarr_apps }}"
   loop_control:
     label: "{{ item.name }}"
+
+- name: Configure qBittorrent
+  ansible.builtin.import_tasks: configure_qbittorrent.yml
 
 - name: Configure Prowlarr
   ansible.builtin.import_tasks: configure_prowlarr.yml

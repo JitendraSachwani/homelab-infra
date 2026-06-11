@@ -86,20 +86,124 @@ qbittorrent_port: 8080
 qbittorrent_bittorrent_port: 6881
 qbittorrent_url: http://qbittorrent:8080
 qbittorrent_admin_username: admin
-qbittorrent_admin_password: >-
+qbittorrent_admin_pass: >-
   {{
     lookup(
       'ansible.builtin.file',
       playbook_dir + '/../../keys/qbittorrent_admin_pass'
     ) | trim
   }}
-qbittorrent_api_key: >-
+qbittorrent_admin_pass_hash: >-
   {{
     lookup(
       'ansible.builtin.file',
-      playbook_dir + '/../../keys/qbittorrent_api_key'
+      playbook_dir + '/../../keys/qbittorrent_admin_pass_hash'
     ) | trim
   }}
+qbittorrent_settings:
+  - section: BitTorrent
+    key: Session\TorrentContentLayout
+    value: Original
+
+  - section: BitTorrent
+    key: Session\DefaultSavePath
+    value: "{{ torrents_root }}"
+
+  - section: BitTorrent
+    key: Session\DisableAutoTMMByDefault
+    value: false
+  - section: BitTorrent
+    key: Session\DisableAutoTMMTriggers\CategoryChanged
+    value: false
+  - section: BitTorrent
+    key: Session\DisableAutoTMMTriggers\CategorySavePathChanged
+    value: false
+  - section: BitTorrent
+    key: Session\DisableAutoTMMTriggers\DefaultSavePathChanged
+    value: false
+
+  - section: BitTorrent
+    key: Session\TempPathEnabled
+    value: false
+
+  - section: BitTorrent
+    key: ExcludedFileNamesEnabled
+    value: true
+  - section: BitTorrent
+    key: Session\ExcludedFileNames
+    value: "*.rar, *.r[0-9]*"
+
+  - section: BitTorrent
+    key: Session\BTProtocol
+    value: TCP
+  - section: BitTorrent
+    key: Session\Port
+    value: "{{ qbittorrent_bittorrent_port }}"
+
+  - section: BitTorrent
+    key: Session\MaxConnections
+    value: 300
+  - section: BitTorrent
+    key: Session\MaxConnectionsPerTorrent
+    value: 70
+  - section: BitTorrent
+    key: Session\MaxUploads
+    value: 15
+  - section: BitTorrent
+    key: Session\MaxUploadsPerTorrent
+    value: 4
+
+  - section: BitTorrent
+    key: Session\GlobalDLSpeedLimit
+    value: 28000
+  - section: BitTorrent
+    key: Session\GlobalUPSpeedLimit
+    value: 3000
+
+  - section: BitTorrent
+    key: Session\IgnoreLimitsOnLAN
+    value: false
+  - section: BitTorrent
+    key: Session\IncludeOverheadInLimits
+    value: false
+  - section: BitTorrent
+    key: Session\uTPRateLimited
+    value: true
+
+  - section: BitTorrent
+    key: Session\DHTEnabled
+    value: true
+  - section: BitTorrent
+    key: Session\PeXEnabled
+    value: true
+  - section: BitTorrent
+    key: Session\LSDEnabled
+    value: true
+  - section: BitTorrent
+    key: Session\Encryption
+    value: 0
+  - section: BitTorrent
+    key: Session\AnonymousModeEnabled
+    value: false
+
+  - section: BitTorrent
+    key: Session\GlobalMaxInactiveSeedingMinutes
+    value: -1
+  - section: BitTorrent
+    key: Session\GlobalMaxRatio
+    value: -1
+  - section: BitTorrent
+    key: Session\GlobalMaxSeedingMinutes
+    value: -1
+
+  - section: Network
+    key: PortForwardingEnabled
+    value: false
+
+  - section: Core
+    key: AutoDeleteAddedTorrentFile
+    value: IfAdded
+
 
 
 tdarr_install_dir: "/opt/tdarr"
