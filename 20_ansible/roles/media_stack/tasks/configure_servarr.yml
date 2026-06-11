@@ -112,6 +112,7 @@
             (item.naming_config_key): true
           })
       }}
+    status_code: 202 
   when:
     - item.naming_config_supported
     - naming_config.json[item.naming_config_key] is defined
