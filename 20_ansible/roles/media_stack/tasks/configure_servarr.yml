@@ -150,7 +150,7 @@
         - name: host
           value: qbittorrent
         - name: port
-          value: {{ qbittorrent_port }}
+          value: "{{ qbittorrent_port }}"
         - name: useSsl
           value: false
         - name: apiKey
