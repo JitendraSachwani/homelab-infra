@@ -85,6 +85,7 @@ qbittorrent_image: lscr.io/linuxserver/qbittorrent:latest
 qbittorrent_port: 8080
 qbittorrent_bittorrent_port: 6881
 qbittorrent_url: http://qbittorrent:8080
+qbittorrent_config_file: "{{ media_stack_dir }}/config/qbittorrent/qBittorrent/qBittorrent.conf"
 qbittorrent_admin_username: admin
 qbittorrent_admin_pass: >-
   {{
