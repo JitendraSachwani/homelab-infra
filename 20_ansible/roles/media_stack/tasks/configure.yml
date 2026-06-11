@@ -16,6 +16,8 @@
   ansible.builtin.file:
     path: "{{ item }}"
     state: directory
+    owner: "{{ media_uid }}"
+    group: "{{ media_gid }}"
     mode: "{{ data_dir_mode }}"
   loop:
     - "{{ torrents_root }}"
@@ -28,6 +30,8 @@
   ansible.builtin.file:
     path: "{{ torrents_root }}/{{ item }}"
     state: directory
+    owner: "{{ media_uid }}"
+    group: "{{ media_gid }}"
     mode: "{{ data_dir_mode }}"
   loop: "{{ media_categories }}"
 
@@ -35,6 +39,8 @@
   ansible.builtin.file:
     path: "{{ usenet_root }}/complete/{{ item }}"
     state: directory
+    owner: "{{ media_uid }}"
+    group: "{{ media_gid }}"
     mode: "{{ data_dir_mode }}"
   loop: "{{ media_categories }}"
 
@@ -42,6 +48,8 @@
   ansible.builtin.file:
     path: "{{ library_root }}/{{ item }}"
     state: directory
+    owner: "{{ media_uid }}"
+    group: "{{ media_gid }}"
     mode: "{{ data_dir_mode }}"
   loop: "{{ media_categories }}"
 
@@ -50,12 +58,16 @@
   ansible.builtin.file:
     path: "{{ media_stack_dir }}"
     state: directory
+    owner: "{{ media_uid }}"
+    group: "{{ media_gid }}"
     mode: "0755"
 
 - name: Create config directories
   ansible.builtin.file:
     path: "{{ media_stack_dir }}/config/{{ item.name }}"
     state: directory
+    owner: "{{ media_uid }}"
+    group: "{{ media_gid }}"
     mode: "0755"
   loop: "{{ servarr_apps }}"
 
@@ -63,12 +75,16 @@
   ansible.builtin.file:
     path: "{{ media_stack_dir }}/config/qbittorrent"
     state: directory
+    owner: "{{ media_uid }}"
+    group: "{{ media_gid }}"
     mode: "0755"
 
 - name: Create env directory
   ansible.builtin.file:
     path: "{{ media_stack_dir }}/env"
     state: directory
+    owner: "{{ media_uid }}"
+    group: "{{ media_gid }}"
     mode: "0755"
 
 - name: Render compose file

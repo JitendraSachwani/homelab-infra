@@ -23,7 +23,7 @@ servarr_apps:
     port: 7878
     url: http://radarr:7878
     config_file: "{{ media_stack_dir }}/config/radarr/config.xml"
-    root_folder: "{{ library_root }}/movies"
+    root_folder: "/data/media/movies"
     prowlarr_application: true
     recyclarr_supported: true
 
@@ -33,7 +33,7 @@ servarr_apps:
     port: 8989
     url: http://sonarr:8989
     config_file: "{{ media_stack_dir }}/config/sonarr/config.xml"
-    root_folder: "{{ library_root }}/tv"
+    root_folder: "/data/media/tv"
     prowlarr_application: true
     recyclarr_supported: true
 
@@ -43,7 +43,7 @@ servarr_apps:
     port: 8686
     url: http://lidarr:8686
     config_file: "{{ media_stack_dir }}/config/lidarr/config.xml"
-    root_folder: "{{ library_root }}/music"
+    root_folder: "/data/media/music"
     prowlarr_application: true
     recyclarr_supported: false
 
