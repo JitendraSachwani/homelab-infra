@@ -39,15 +39,16 @@
 
 - name: Get {{ item.name }} root folders
   ansible.builtin.uri:
-    url: "http://localhost:{{ item.port }}/api/v3/rootfolder"
+    url: "http://localhost:{{ item.port }}/api/{{ item.api_version }}/rootfolder"
     method: GET
     headers:
       X-Api-Key: "{{ servarr_api_key }}"
+  when: item.root_folder_supported
   register: root_folders
 
 - name: Create {{ item.name }} root folder
   ansible.builtin.uri:
-    url: "http://localhost:{{ item.port }}/api/v3/rootfolder"
+    url: "http://localhost:{{ item.port }}/api/{{ item.api_version }}/rootfolder"
     method: POST
     headers:
       X-Api-Key: "{{ servarr_api_key }}"
@@ -55,10 +56,63 @@
     body:
       path: "{{ item.root_folder }}"
     status_code: 201
-  when: >
-    item.root_folder not in
-    (
-      root_folders.json
-      | map(attribute='path')
-      | list
-    )
+  when: 
+    - item.root_folder_supported
+    - root_folders.json | length == 0
+    - root_folders.json | map(attribute='path') | list | length == 0
+
+- name: Get {{ item.name }} media management config
+  ansible.builtin.uri:
+    url: "http://localhost:{{ item.port }}/api/{{ item.api_version }}/config/mediamanagement"
+    method: GET
+    headers:
+      X-Api-Key: "{{ servarr_api_key }}"
+  when: item.media_management_supported
+  register: media_management
+
+- name: Enable hardlinks for {{ item.name }}
+  ansible.builtin.uri:
+    url: "http://localhost:{{ item.port }}/api/{{ item.api_version }}/config/mediamanagement"
+    method: PUT
+    headers:
+      X-Api-Key: "{{ servarr_api_key }}"
+    body_format: json
+    body: >-
+      {{
+        media_management.json
+        | combine({
+            'copyUsingHardlinks': true
+          })
+      }}
+  when:
+    - item.media_management_supported
+    - media_management.json.copyUsingHardlinks is defined
+    - not media_management.json.copyUsingHardlinks
+
+- name: Get {{ item.name }} naming config
+  ansible.builtin.uri:
+    url: "http://localhost:{{ item.port }}/api/{{ item.api_version }}/config/naming"
+    method: GET
+    headers:
+      X-Api-Key: "{{ servarr_api_key }}"
+  when: item.naming_config_supported
+  register: naming_config
+
+- name: Enable {{ item.name }} media renaming
+  ansible.builtin.uri:
+    url: "http://localhost:{{ item.port }}/api/{{ item.api_version }}/config/naming"
+    method: PUT
+    headers:
+      X-Api-Key: "{{ servarr_api_key }}"
+    body_format: json
+    body: >-
+      {{
+        naming_config.json
+        | combine({
+            (item.naming_config_key): true
+          })
+      }}
+  when:
+    - item.naming_config_supported
+    - naming_config.json[item.naming_config_key] is defined
+    - not naming_config.json[item.naming_config_key]

@@ -23,7 +23,12 @@ servarr_apps:
     port: 7878
     url: http://radarr:7878
     config_file: "{{ media_stack_dir }}/config/radarr/config.xml"
+    api_version: v3
+    root_folder_supported: true
     root_folder: "/data/media/movies"
+    media_management_supported: true
+    naming_config_supported: true
+    naming_config_key: "renameMovies"
     prowlarr_application: true
     recyclarr_supported: true
 
@@ -33,7 +38,12 @@ servarr_apps:
     port: 8989
     url: http://sonarr:8989
     config_file: "{{ media_stack_dir }}/config/sonarr/config.xml"
+    api_version: v3
+    root_folder_supported: true
     root_folder: "/data/media/tv"
+    media_management_supported: true
+    naming_config_supported: true
+    naming_config_key: "renameEpisodes"
     prowlarr_application: true
     recyclarr_supported: true
 
@@ -43,7 +53,12 @@ servarr_apps:
     port: 8686
     url: http://lidarr:8686
     config_file: "{{ media_stack_dir }}/config/lidarr/config.xml"
+    api_version: v1
+    root_folder_supported: true
     root_folder: "/data/media/music"
+    media_management_supported: true
+    naming_config_supported: true
+    naming_config_key: "renameTracks"
     prowlarr_application: true
     recyclarr_supported: false
 
@@ -53,6 +68,10 @@ servarr_apps:
     port: 9696
     url: http://prowlarr:9696
     config_file: "{{ media_stack_dir }}/config/prowlarr/config.xml"
+    api_version: v1
+    root_folder_supported: false
+    media_management_supported: false
+    naming_config_supported: false
     prowlarr_application: false
     recyclarr_supported: false
 
