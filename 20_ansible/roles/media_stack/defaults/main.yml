@@ -54,7 +54,7 @@ servarr_apps:
     url: http://lidarr:8686
     config_file: "{{ media_stack_dir }}/config/lidarr/config.xml"
     api_version: v1
-    root_folder_supported: true
+    root_folder_supported: false # TODO: Enable when Lidarr supports root folders in API
     root_folder: "/data/media/music"
     media_management_supported: true
     naming_config_supported: true
