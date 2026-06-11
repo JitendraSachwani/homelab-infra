@@ -154,7 +154,7 @@
         - name: useSsl
           value: false
         - name: apiKey
-          value: "{{ qbittorrent_api_key }}"
+          value: "{{ servarr_api_key }}"
         - name: username
           value: ""
         - name: password
@@ -181,3 +181,4 @@
         | map(attribute='name')
         | list
       )
+  no_log: true
