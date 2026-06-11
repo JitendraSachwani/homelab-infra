@@ -24,7 +24,7 @@
     path: "{{ qbittorrent_config_file }}"
     regexp: '^WebUI\\Password_PBKDF2='
     insertafter: '^\[Preferences\]'
-    line: 'WebUI\Password_PBKDF2={{ qbittorrent_password_hash }}'
+    line: 'WebUI\Password_PBKDF2={{ qbittorrent_admin_pass_hash }}'
   register: qbittorrent_password_config
   # no_log: true
 
